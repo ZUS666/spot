@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% block html_body %}
+
+<p>{% trans "Завершите регистрацию с помощью кода подтверждения" %}</p>
+
+<p>{% blocktrans %} {{ confirmation_code }} {% endblocktrans %}</p>
+
+<p>{% trans "Thanks for using our site!" %}</p>
+
+<p>{% blocktrans %}The {{ site_name }} team (тут надо будет вытащить доменное имя){% endblocktrans %}</p>
+
+{% endblock html_body %}
