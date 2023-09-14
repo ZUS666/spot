@@ -3,8 +3,9 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
-
 from phonenumber_field import modelfields
+
+from .validators import TelegramUsernameValidator
 
 
 class MyUserManager(BaseUserManager):
@@ -61,7 +62,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField('Фамилия', max_length=150)
     email = models.EmailField('Электронная почта', unique=True)
     phone = modelfields.PhoneNumberField('Телефон', region='RU', unique=True)
-    telegram = models.CharField('telegram', max_length=32, blank=True)
+    telegram = models.CharField(
+        'telegram',
+        max_length=32,
+        validators=[TelegramUsernameValidator],
+        blank=True
+    )
     is_staff = models.BooleanField(
         'Стафф статус',
         default=False,

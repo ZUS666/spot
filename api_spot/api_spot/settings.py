@@ -107,6 +107,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 DEFAULT_FROM_EMAIL = 'fake@mail.com'
 
+TIMEOUT_CACHED_CODE = 15 * 16
+LEN_CONFIRMATION_CODE = 6
+
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # EMAIL_HOST = 'smtp.gmail.com'
