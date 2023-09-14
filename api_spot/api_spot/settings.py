@@ -44,7 +44,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMPLATES_DIR],
-        'APP_DIRS': False,
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -110,6 +110,7 @@ DEFAULT_FROM_EMAIL = 'fake@mail.com'
 
 TIMEOUT_CACHED_CODE = 15 * 16
 LEN_CONFIRMATION_CODE = 6
+COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

@@ -19,7 +19,9 @@ def registration_email(confirmation_code, user_email):
     """
     Формирует и отправляет письмо с кодом подтверждения.
     """
-    data = {'confirmation_code': confirmation_code}
+    data = {
+        'confirmation_code': confirmation_code,
+        'company_name': settings.COMPANY_NAME}
     html_body = render_to_string(REGISTRATION_TEMPLATE, data)
     msg = EmailMultiAlternatives(
         subject=SUBJECT_EMAIL_REGISTRATION,
