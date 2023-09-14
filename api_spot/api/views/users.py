@@ -11,7 +11,8 @@ from rest_framework.views import APIView
 from ..serializers.users import (UserMeSerializer, UserSerializer,
                                  SendConfirmationCodeSerializer,
                                  ActivationUserSerializer)
-from ..services.users import cache_and_send_confirmation_code
+from ..services.users import (cache_and_send_confirmation_code,
+                              finish_activation_email)
 
 User = get_user_model()
 
@@ -45,6 +46,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if confirmation_code == cache.get(user.id):
             user.is_active = True
             user.save()
+            finish_activation_email(user.email)
             return Response(
                 {'message': 'Электронная почта верифицирована'},
                 status=status.HTTP_202_ACCEPTED
@@ -95,5 +97,5 @@ class SendCodeAPIView(APIView):
         user = get_object_or_404(User, email=email)
         cache_and_send_confirmation_code(user)
         return Response(
-            {'message': 'activation code sent to email'}
+            {'message': 'Код активации отправлен на почту'}
         )
