@@ -21,8 +21,6 @@ def send_templated_mail(user_email, subject, template, add_dict=None):
     data = {'company_name': settings.COMPANY_NAME}
     if add_dict:
         data = {**add_dict, **data}
-    # else:
-        # data = default_data
     html_body = render_to_string(template, data)
     msg = EmailMultiAlternatives(
         subject=subject,
