@@ -18,6 +18,9 @@ def create_confirmation_code():
 
 
 def send_templated_mail(user_email, subject, template, add_dict=None):
+    """
+    Формирует и отправляет эл. письмо.
+    """
     data = {'company_name': settings.COMPANY_NAME}
     if add_dict:
         data = {**add_dict, **data}
@@ -31,6 +34,9 @@ def send_templated_mail(user_email, subject, template, add_dict=None):
 
 
 def registration_email(confirmation_code, user_email):
+    """
+    Вызывает отправку эл. письма с кодом подтверждения.
+    """
     data = {'confirmation_code': confirmation_code}
     send_templated_mail(
         user_email,
@@ -50,6 +56,9 @@ def cache_and_send_confirmation_code(user):
 
 
 def finish_activation_email(user_email):
+    """
+    Вызывает отправку эл. письма о завершении регистрации.
+    """
     send_templated_mail(
         user_email,
         SUBJECT_EMAIL_FINISH_ACTIOVATION,
