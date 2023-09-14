@@ -99,3 +99,15 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# Constant values for spot models
+# price
+MIN_VALUE = 1
+ZERO = 0
+# location
+LAT_MIN = -90
+LAT_MAX = 90
+LAT_MSG_ERROR = 'Широта должна быть в диапазоне от -90 до 90'
+LONG_MIN = -180
+LONG_MAX = 180
+LONG_MSG_ERROR = 'Долгота должна быть в диапазоне от -180 до 180'
