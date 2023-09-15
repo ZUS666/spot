@@ -4,11 +4,11 @@ from rest_framework.relations import StringRelatedField
 from spots.models.order import Order
 
 
-class ReservationSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     """Сериализатор для брони."""
-    spot = StringRelatedField(source='spot.name', read_only=True)
-    name = StringRelatedField(source='user.first_name', read_only=True)
-    surname = StringRelatedField(source='user.last_name', read_only=True)
+    spot = StringRelatedField(source="spot.name", read_only=True)
+    name = StringRelatedField(source="user.first_name", read_only=True)
+    surname = StringRelatedField(source="user.last_name", read_only=True)
     duration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -22,3 +22,23 @@ class ReservationSerializer(serializers.ModelSerializer):
     def get_duration(self, obj):
         time = obj.end_date - obj.start_date
         return f"{time.total_seconds()} в секундах"
+
+    def validate(self, data):
+        """Проверка на повтор."""
+        spot_id = self.context.get("spot_id")
+        start_date = data.get("start_date")
+        end_date = data.get("end_date")
+
+        if end_date < start_date:
+            raise serializers.ValidationError(
+                {"start_date": "Начало брони позже конца"})
+        qs = Order.objects.filter(
+            spot=spot_id,
+            start_date__lt=end_date,
+            end_date__gt=start_date
+        )
+        if qs.exists():
+            raise serializers.ValidationError({
+                "Spot": ("Данный коворкинг уже забронирован", ),
+            })
+        return data

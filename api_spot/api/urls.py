@@ -2,6 +2,8 @@ from django.urls import include, path
 from rest_framework import routers
 
 from api.views.review import ReviewGetViewSet, ReviewCreateViewSet
+from api.views.order import OrderViewSet, OrderGetViewSet
+from api.views.favorite import FavoriteViewSet
 
 app_name = 'api'
 
@@ -18,16 +20,21 @@ router_v1.register(
     basename='get_reviews'
 )
 
-# router_v1.register(
-#     r'locations/(?P<location_id>\d+)/favorite',
-#     FavoriteViewSet,
-#     basename='favorite'
-# )
-# router_v1.register(
-#     r'/spots/(?P<spot_id>\d+)/order',
-#     ReservationViewSet,
-#     basename='reservation'
-# )
+router_v1.register(
+    r'locations/(?P<location_id>\d+)/favorite',
+    FavoriteViewSet,
+    basename='favorite'
+)
+router_v1.register(
+    r'spots/(?P<spot_id>\d+)/order',
+    OrderViewSet,
+    basename='order'
+)
+router_v1.register(
+    'orders',
+    OrderGetViewSet,
+    basename='get_orders'
+)
 
 urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
