@@ -11,8 +11,9 @@ class Review(models.Model):
     """Класс для отзывов"""
     user = models.ForeignKey(
         User,
+        blank=True, null=True,
         verbose_name="Автор",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="reviews"
     )
     booked_spot = models.ForeignKey(

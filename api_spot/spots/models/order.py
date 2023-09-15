@@ -9,10 +9,10 @@ from spots.models.spot import Spot
 User = get_user_model()
 
 
-FREE = "Free"
+BOOKED = "Booked"
 LOCK = "Lock"
-RESERVATION_STATUS_CHOICES = [
-    (FREE, "Free"),
+ORDER_STATUS_CHOICES = [
+    (BOOKED, "Booked"),
     (LOCK, "Lock")
 ]
 
@@ -23,18 +23,18 @@ class Order(models.Model):
         Spot,
         verbose_name="Коворкинг",
         on_delete=models.CASCADE,
-        related_name="order"
+        related_name="orders"
     )
     user = models.ForeignKey(
         User,
         verbose_name="Автор",
         on_delete=models.CASCADE,
-        related_name="order"
+        related_name="orders"
     )
     status = models.TextField(
         max_length=10,
-        choices=RESERVATION_STATUS_CHOICES,
-        default=FREE,
+        choices=ORDER_STATUS_CHOICES,
+        default=BOOKED,
     )
     start_date = models.DateTimeField(
         verbose_name="Начало брони",
@@ -64,7 +64,7 @@ class Order(models.Model):
             raise ValidationError(
                 {'start_date': "Начало брони не может быть меньше конца"})
         qs = self.__class__._default_manager.filter(
-            coworking=self.coworking,
+            spot=self.spot,
             start_date__lt=self.end_date,
             end_date__gt=self.start_date
         )
