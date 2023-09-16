@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from spots.models.review import Review
-from spots.models.order import Order
-from spots.models.spot import Spot
 from spots.models.favorite import Favorite
 from spots.models.location import Location
+from spots.models.order import Order
+from spots.models.review import Review
+from spots.models.spot import Spot
 
 
 @admin.register(Location)

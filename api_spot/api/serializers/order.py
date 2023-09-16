@@ -1,21 +1,28 @@
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
 
+from api.fields import GetSpot
 from spots.models.order import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
     """Сериализатор для брони."""
-    spot = StringRelatedField(source="spot.name", read_only=True)
-    name = StringRelatedField(source="user.first_name", read_only=True)
-    surname = StringRelatedField(source="user.last_name", read_only=True)
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    spot = serializers.HiddenField(
+        default=GetSpot()
+    )
+    spot_name = StringRelatedField(source="spot.name", read_only=True)
+    first_name = StringRelatedField(source="user.first_name", read_only=True)
+    last_name = StringRelatedField(source="user.last_name", read_only=True)
     duration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         """Класс мета для модели Review."""
         model = Order
         fields = (
-            "spot", "name", "surname",
+            "spot", "user", "spot_name", "first_name", "last_name",
             "start_date", "end_date", "duration"
         )
 
@@ -26,7 +33,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""
-        spot_id = self.context.get("spot_id")
+        spot = data.get("spot")
         start_date = data.get("start_date")
         end_date = data.get("end_date")
 
@@ -35,7 +42,7 @@ class OrderSerializer(serializers.ModelSerializer):
                 {"start_date": "Начало брони позже конца"})
 
         qs = Order.objects.filter(
-            spot=spot_id,
+            spot=spot,
             start_date__lt=end_date,
             end_date__gt=start_date
         )

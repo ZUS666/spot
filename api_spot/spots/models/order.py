@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
-from django.db.models import Q, F
+from django.db import models
+from django.db.models import F, Q
 
 from spots.models.spot import Spot
 

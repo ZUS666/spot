@@ -1,9 +1,9 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from api.views.review import ReviewGetViewSet, ReviewCreateViewSet
-from api.views.order import OrderViewSet, OrderGetViewSet
 from api.views.favorite import FavoriteViewSet
+from api.views.order import OrderGetViewSet, OrderViewSet
+from api.views.review import ReviewCreateViewSet, ReviewGetViewSet
 
 app_name = 'api'
 

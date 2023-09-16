@@ -1,12 +1,11 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 
 User = get_user_model()
 
 
 class Location(models.Model):
     """Класс для cпотов"""
-    street = models.CharField(
+    street = models.TextField(
         "Название улицы",
-        max_length=20,
     )

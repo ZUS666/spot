@@ -2,10 +2,9 @@ from django.shortcuts import get_object_or_404
 
 from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
 from api.serializers.review import ReviewSerializer
-
 from spots.models.order import Order
-from spots.models.spot import Spot
 from spots.models.review import Review
+from spots.models.spot import Spot
 
 
 class ReviewCreateViewSet(CreateDestroyViewSet):
