@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
+from django.db.models import Q, F
 
 from spots.models.spot import Spot
 
@@ -44,15 +45,6 @@ class Order(models.Model):
     )
     bill = models.TextField()
 
-    class Meta:
-        """Класс Meta для Order описание метаданных."""
-        verbose_name = "Заказ"
-        verbose_name_plural = "Заказы"
-        ordering = ('start_date',)
-
-    def __str__(self) -> str:
-        return f'{self.user} {self.spot}'
-
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
         if not (
@@ -60,9 +52,6 @@ class Order(models.Model):
             and isinstance(self.end_date, datetime)
         ):
             raise ValidationError("")
-        if self.end_date < self.start_date:
-            raise ValidationError(
-                {'start_date': "Начало брони не может быть меньше конца"})
         qs = self.__class__._default_manager.filter(
             spot=self.spot,
             start_date__lt=self.end_date,
@@ -72,3 +61,23 @@ class Order(models.Model):
             raise ValidationError({
                 NON_FIELD_ERRORS: ['Данный коворкинг уже забронирован', ],
             })
+
+    def clean(self):
+        if self.end_date < self.start_date:
+            raise ValidationError('Start should be before end')
+        return super().clean()
+
+    class Meta:
+        """Класс Meta для Order описание метаданных."""
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
+        ordering = ('start_date',)
+        constraints = [
+            models.CheckConstraint(
+                check=Q(start_date__lte=F('end_date')),
+                name='start_before_end'
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return f'{self.user} {self.spot}'

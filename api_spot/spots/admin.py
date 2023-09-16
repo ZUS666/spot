@@ -3,7 +3,25 @@ from django.contrib import admin
 from spots.models.review import Review
 from spots.models.order import Order
 from spots.models.spot import Spot
+from spots.models.favorite import Favorite
+from spots.models.location import Location
 
+
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "street"
+    )
+
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "location"
+    )
 
 @admin.register(Spot)
 class SpotAdmin(admin.ModelAdmin):

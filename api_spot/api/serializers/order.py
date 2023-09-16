@@ -20,11 +20,12 @@ class OrderSerializer(serializers.ModelSerializer):
         )
 
     def get_duration(self, obj):
+        """Получение продолжительность брони."""
         time = obj.end_date - obj.start_date
-        return f"{time.total_seconds()} в секундах"
+        return f"{round((time.total_seconds() / 3600), 3)} в часах"
 
     def validate(self, data):
-        """Проверка на повтор."""
+        """Проверка на пересечение с другими бронями."""
         spot_id = self.context.get("spot_id")
         start_date = data.get("start_date")
         end_date = data.get("end_date")
@@ -32,6 +33,7 @@ class OrderSerializer(serializers.ModelSerializer):
         if end_date < start_date:
             raise serializers.ValidationError(
                 {"start_date": "Начало брони позже конца"})
+
         qs = Order.objects.filter(
             spot=spot_id,
             start_date__lt=end_date,

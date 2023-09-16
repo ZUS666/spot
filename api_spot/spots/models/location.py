@@ -6,6 +6,7 @@ User = get_user_model()
 
 class Location(models.Model):
     """Класс для cпотов"""
-    street = models.TextField(
-        "Название коворкинга"
+    street = models.CharField(
+        "Название улицы",
+        max_length=20,
     )

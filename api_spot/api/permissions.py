@@ -1,7 +1,7 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
-class IsReadOnly(BasePermission):
+class IsOwnerOrReadOnly(BasePermission):
     """Перминш для моделей Review."""
     def has_permission(self, request, view):
         """GET-запрос не требует авторизации."""
