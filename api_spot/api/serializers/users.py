@@ -37,7 +37,6 @@ class UserSerializer(serializers.ModelSerializer):
         """
         self.fields.pop('re_password')
         re_password = attrs.pop('re_password')
-        attrs = super().validate(attrs)
         password = attrs['password']
         if re_password == password:
             user = User(**attrs)
@@ -120,7 +119,6 @@ class ChangePasswordSerializer(serializers.Serializer):
         соответсвии с настройками валидции пароля (AUTH_PASSWORD_VALIDATORS).
         """
         re_password = attrs.pop('re_password')
-        attrs = super().validate(attrs)
         password = attrs['password']
         user = self.context['request'].user
         if re_password == password:
@@ -147,7 +145,6 @@ class ResetPasswordSerializer(serializers.Serializer):
         соответсвии с настройками валидции пароля (AUTH_PASSWORD_VALIDATORS).
         """
         re_password = attrs.pop('re_password')
-        attrs = super().validate(attrs)
         password = attrs['password']
         if re_password == password:
             validate_password(password, User(email=attrs['email']))
