@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'django_filters',
     'djoser',
     'phonenumbers',
-  
+
     'users',
     'spots',
     'api',
