@@ -8,6 +8,6 @@ router_api_v1 = DefaultRouter()
 router_api_v1.register(r'users', UserViewSet, basename='users')
 
 urlpatterns = [
-    path("v1/", include(router_api_v1.urls)),
+    path('v1/', include(router_api_v1.urls)),
     path('v1/auth/', include('djoser.urls.authtoken')),
 ]
