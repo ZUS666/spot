@@ -75,8 +75,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = serializer.validated_data.get('user')
         user.set_password(password)
         user.save(update_fields=['password'])
-        # надо ли разлогинить пользователя после смены пароля?
-        # надо ли отправить письмо на почту?
+        user.auth_token.delete()
         return Response(
             {'message': 'Пароль изменен'}, status=status.HTTP_200_OK
         )
