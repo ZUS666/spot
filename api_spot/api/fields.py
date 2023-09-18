@@ -11,7 +11,7 @@ class GetLocation(serializers.CurrentUserDefault):
         return get_object_or_404(
             Location,
             id=int(
-                serializer_field.context.get("view").kwargs.get("location_id")
+                serializer_field.context.get('view').kwargs.get('location_id')
             )
         )
 
@@ -22,6 +22,6 @@ class GetSpot(serializers.CurrentUserDefault):
         return get_object_or_404(
             Spot,
             id=int(
-                serializer_field.context.get("view").kwargs.get("spot_id")
+                serializer_field.context.get('view').kwargs.get('spot_id')
             )
         )

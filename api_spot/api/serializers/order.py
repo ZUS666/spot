@@ -13,33 +13,33 @@ class OrderSerializer(serializers.ModelSerializer):
     spot = serializers.HiddenField(
         default=GetSpot()
     )
-    spot_name = StringRelatedField(source="spot.name", read_only=True)
-    first_name = StringRelatedField(source="user.first_name", read_only=True)
-    last_name = StringRelatedField(source="user.last_name", read_only=True)
+    spot_name = StringRelatedField(source='spot.name', read_only=True)
+    first_name = StringRelatedField(source='user.first_name', read_only=True)
+    last_name = StringRelatedField(source='user.last_name', read_only=True)
     duration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        """Класс мета для модели Review."""
+        """Класс мета для модели Order."""
         model = Order
         fields = (
-            "spot", "user", "spot_name", "first_name", "last_name",
-            "start_date", "end_date", "duration"
+            'spot', 'user', 'spot_name', 'first_name', 'last_name',
+            'start_date', 'end_date', 'duration'
         )
 
     def get_duration(self, obj):
         """Получение продолжительность брони."""
         time = obj.end_date - obj.start_date
-        return f"{round((time.total_seconds() / 3600), 3)} в часах"
+        return f'{round((time.total_seconds() / 3600), 3)} в часах'
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""
-        spot = data.get("spot")
-        start_date = data.get("start_date")
-        end_date = data.get("end_date")
+        spot = data.get('spot')
+        start_date = data.get('start_date')
+        end_date = data.get('end_date')
 
         if end_date < start_date:
             raise serializers.ValidationError(
-                {"start_date": "Начало брони позже конца"})
+                {'start_date': 'Начало брони позже конца'})
 
         qs = Order.objects.filter(
             spot=spot,
@@ -48,6 +48,6 @@ class OrderSerializer(serializers.ModelSerializer):
         )
         if qs.exists():
             raise serializers.ValidationError({
-                "Spot": ("Данный коворкинг уже забронирован", ),
+                'Spot': 'Данный коворкинг уже забронирован',
             })
         return data

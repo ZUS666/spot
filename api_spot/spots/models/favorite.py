@@ -10,18 +10,18 @@ class Favorite(models.Model):
     """Класс избранного"""
     user = models.ForeignKey(
         User,
-        verbose_name="Автор",
+        verbose_name='Автор',
         on_delete=models.CASCADE,
-        related_name="favorites"
+        related_name='favorites'
     )
     location = models.ForeignKey(
         Location,
-        verbose_name="Коворкинг",
+        verbose_name='Коворкинг',
         on_delete=models.CASCADE,
-        related_name="favorites"
+        related_name='favorites'
     )
     pub_date = models.DateTimeField(
-        verbose_name="Дата создания",
+        verbose_name='Дата создания',
         auto_now_add=True
     )
 
@@ -32,8 +32,8 @@ class Favorite(models.Model):
         ordering = ('pub_date',)
         constraints = (
             models.UniqueConstraint(
-                fields=("user", "location"),
-                name="unique_user_location_favorite"
+                fields=('user', 'location'),
+                name='unique_user_location_favorite'
             ),
         )
 

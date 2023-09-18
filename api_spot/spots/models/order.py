@@ -10,40 +10,40 @@ from spots.models.spot import Spot
 User = get_user_model()
 
 
-BOOKED = "Booked"
-LOCK = "Lock"
-ORDER_STATUS_CHOICES = [
-    (BOOKED, "Booked"),
-    (LOCK, "Lock")
-]
+BOOKED = 'Booked'
+LOCK = 'Lock'
+ORDER_STATUS_CHOICES = (
+    (BOOKED, BOOKED),
+    (LOCK, LOCK)
+)
 
 
 class Order(models.Model):
     """Класс заказа"""
     spot = models.ForeignKey(
         Spot,
-        verbose_name="Коворкинг",
+        verbose_name='Коворкинг',
         on_delete=models.CASCADE,
-        related_name="orders"
+        related_name='orders'
     )
     user = models.ForeignKey(
         User,
-        verbose_name="Автор",
+        verbose_name='Автор',
         on_delete=models.CASCADE,
-        related_name="orders"
+        related_name='orders'
     )
-    status = models.TextField(
+    status = models.CharField(
         max_length=10,
         choices=ORDER_STATUS_CHOICES,
         default=BOOKED,
     )
     start_date = models.DateTimeField(
-        verbose_name="Начало брони",
+        verbose_name='Начало брони',
     )
     end_date = models.DateTimeField(
-        verbose_name="Конец брони",
+        verbose_name='Конец брони',
     )
-    bill = models.TextField()
+    bill = models.IntegerField('итоговый счет')
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
@@ -69,8 +69,8 @@ class Order(models.Model):
 
     class Meta:
         """Класс Meta для Order описание метаданных."""
-        verbose_name = "Заказ"
-        verbose_name_plural = "Заказы"
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
         ordering = ('start_date',)
         constraints = [
             models.CheckConstraint(

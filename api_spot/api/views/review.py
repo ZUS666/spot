@@ -9,6 +9,7 @@ from spots.models.spot import Spot
 
 class ReviewCreateViewSet(CreateDestroyViewSet):
     """Вьюсет модели отзывов для создания и удаления."""
+    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
     def get_order(self):

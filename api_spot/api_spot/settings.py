@@ -95,7 +95,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'users.user'
+AUTH_USER_MODEL = 'users.user'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

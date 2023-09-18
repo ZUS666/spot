@@ -7,5 +7,5 @@ User = get_user_model()
 class Location(models.Model):
     """Класс для cпотов"""
     street = models.TextField(
-        "Название улицы",
+        'Название улицы',
     )

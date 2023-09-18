@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
+from spots.constants import MAX_EVALUATION, MIN_EVALUATION
 from spots.models.order import Order
 
 User = get_user_model()
@@ -12,19 +13,22 @@ class Review(models.Model):
     user = models.ForeignKey(
         User,
         blank=True, null=True,
-        verbose_name="Автор",
+        verbose_name='Автор',
         on_delete=models.SET_NULL,
-        related_name="reviews"
+        related_name='reviews'
     )
     booked_spot = models.ForeignKey(
         Order,
-        verbose_name="Заказ",
+        verbose_name='Заказ',
         on_delete=models.CASCADE,
-        related_name="reviews"
+        related_name='reviews'
     )
     raiting = models.PositiveSmallIntegerField(
         "Оценка отзыва",
-        validators=(MinValueValidator(1), MaxValueValidator(5)),
+        validators=(
+            MinValueValidator(MIN_EVALUATION),
+            MaxValueValidator(MAX_EVALUATION)
+        ),
     )
     description = models.TextField(
         "Текст отзыва",

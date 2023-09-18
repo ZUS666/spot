@@ -14,16 +14,16 @@ class FavoriteSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault()
     )
     street = StringRelatedField(
-        source="location.street", read_only=True
+        source='location.street', read_only=True
     )
 
     class Meta:
         model = Favorite
-        fields = ("location", "user", "street", "pub_date", )
+        fields = ('location', 'user', 'street', 'pub_date', )
         validators = (
             serializers.UniqueTogetherValidator(
                 queryset=model.objects.all(),
                 fields=('location', 'user'),
-                message="Уже есть в избранном"
+                message='Уже есть в избранном'
             ),
         )
