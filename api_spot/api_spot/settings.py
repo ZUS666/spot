@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'phonenumbers',
     'users',
     'spots',
     'api',
@@ -37,10 +38,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'api_spot.urls'
 
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -93,11 +96,12 @@ AUTH_USER_MODEL = 'users.user'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'NON_FIELD_ERRORS_KEY': 'error'
 }
 
 # Constant values for spot models
@@ -111,3 +115,19 @@ LAT_MSG_ERROR = 'Широта должна быть в диапазоне от -
 LONG_MIN = -180
 LONG_MAX = 180
 LONG_MSG_ERROR = 'Долгота должна быть в диапазоне от -180 до 180'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+DEFAULT_FROM_EMAIL = 'fake@mail.com'
+
+TIMEOUT_CACHED_CODE = 15 * 16
+LEN_CONFIRMATION_CODE = 6
+COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'your_adress@gmail.com'
+# EMAIL_HOST_PASSWORD = 'password'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
