@@ -18,7 +18,7 @@ class MyUserManager(BaseUserManager):
         """
         if not email:
             raise ValueError('Электронная почта обязательна')
-        email = self.normalize_email(email)
+        email = self.normalize_email(email).lower()
         user = self.model(email=email, phone=phone, **extra_fields)
         user.password = make_password(password)
         user.save(using=self._db)
