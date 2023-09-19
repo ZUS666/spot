@@ -1,5 +1,4 @@
 import os
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -17,10 +16,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'djoser',
     'phonenumbers',
+
     'users',
     'spots',
     'api',
@@ -83,6 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
+DATETIME_FORMAT = "%Y-%m-%d%H:%M:%S"
 
 USE_I18N = True
 

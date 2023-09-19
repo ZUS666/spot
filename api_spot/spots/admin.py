@@ -6,6 +6,11 @@ from spots.models import (
     Price,
 )
 from spots.models.location import Image
+from spots.models.favorite import Favorite
+from spots.models.location import Location
+from spots.models.order import Order
+from spots.models.review import Review
+from spots.models.spot import Spot
 
 
 @admin.register(Category)
@@ -44,3 +49,42 @@ class LocationAdmin(admin.ModelAdmin):
 class PriceAdmin(admin.ModelAdmin):
     list_display = ('price', 'discount', 'description')
     # search_fields = ('spot', )
+
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "location"
+    )
+
+@admin.register(Spot)
+class SpotAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name"
+    )
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "booked_spot",
+        "pub_date",
+    )
+    readonly_fields = ('pub_date',)
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = (
+        "pk",
+        "spot",
+        "user",
+        "start_date",
+        "end_date"
+    )
+    empty_value_display = "-пусто)))-"
+
