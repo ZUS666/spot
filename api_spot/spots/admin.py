@@ -4,12 +4,12 @@ from spots.models import (
     Category,
     Location,
     Price,
+    Favorite,
+    Review,
+    Order
 )
 from spots.models.location import Image
-from spots.models.favorite import Favorite
 from spots.models.location import Location
-from spots.models.order import Order
-from spots.models.review import Review
 from spots.models.spot import Spot
 
 
@@ -59,6 +59,7 @@ class FavoriteAdmin(admin.ModelAdmin):
         "location"
     )
 
+
 @admin.register(Spot)
 class SpotAdmin(admin.ModelAdmin):
     list_display = (
@@ -83,8 +84,7 @@ class OrderAdmin(admin.ModelAdmin):
         "pk",
         "spot",
         "user",
-        "start_date",
-        "end_date"
+        # "start_date",
+        # "end_date"
     )
     empty_value_display = "-пусто)))-"
-

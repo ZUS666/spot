@@ -20,7 +20,7 @@ class Favorite(models.Model):
         on_delete=models.CASCADE,
         related_name='favorites'
     )
-    pub_date = models.DateTimeField(
+    pub_date = models.DateField(
         verbose_name='Дата создания',
         auto_now_add=True
     )
