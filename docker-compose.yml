@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+
+  web:
+    build: .
+    restart: always
+    volumes:
+      - static_value:/api_spot/static/
+      - media_value:/api_spot/media
+    ports:
+     - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+  
+  celery:
+    build: .
+    command: celery -A api_spot worker --loglevel=info
+    volumes:
+      - app:/app
+    environment:
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    env_file:
+      - .env
+    depends_on:
+      - web
+      - redis
+
+  redis:
+    image: redis:7-alpine
+  
+volumes:
+  static_value:
+  media_value:
+  postgres_data:
+  app:

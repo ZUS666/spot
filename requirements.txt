@@ -1,6 +1,7 @@
 Django==4.2.5
 django-filter==23.2
 django-phonenumber-field==7.1.0
+django-phonenumbers
 djangorestframework==3.14.0
 djoser==2.2.0
 gunicorn==21.2.0
