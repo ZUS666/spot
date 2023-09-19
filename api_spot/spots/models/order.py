@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from multiselectfield import MultiSelectField
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 
 from spots.models.spot import Spot
 import spots.constants as constants
@@ -32,9 +33,23 @@ class Order(models.Model):
     )
     time = MultiSelectField(
         choices=constants.TIME_CHOICES,
-        max_length=12 * 6
+        max_length=constants.MAX_LENGTH_CHOICES
     )
     bill = models.IntegerField('итоговый счет')
+
+    def validate_unique(self, *args, **kwargs):
+        super(Order, self).validate_unique(*args, **kwargs)
+        qs = self.__class__._default_manager.filter(
+            spot=self.spot,
+            date=self.date,
+        ).values_list('time', flat=True)
+        for time in qs:
+            intersection = set(time).intersection(self.time)
+            if intersection:
+                raise ValidationError({
+                    NON_FIELD_ERRORS: 'Данный коворкинг ужe'
+                                      'забронирован на это время'
+                })
 
     class Meta:
         """Класс Meta для Order описание метаданных."""

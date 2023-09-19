@@ -24,3 +24,4 @@ TIME_CHOICES = tuple([
     )
     for x in range(8, 20)
 ])
+MAX_LENGTH_CHOICES = 12 * 6

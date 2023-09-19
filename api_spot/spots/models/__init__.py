@@ -8,3 +8,6 @@ from .review import Review # noqa
 Category
 Location
 Price
+Favorite
+Order
+Review
