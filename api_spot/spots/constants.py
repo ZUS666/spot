@@ -2,6 +2,7 @@ import datetime
 
 MIN_EVALUATION = 1
 MAX_EVALUATION = 5
+MAX_LENGTH_STATUS = 16
 MAX_LENGTH_DESC = 100
 WAIT_PAY = 'Ожидается оплата'
 PAID = 'Оплачено'

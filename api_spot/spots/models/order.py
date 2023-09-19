@@ -4,7 +4,7 @@ from django.db import models
 from multiselectfield import MultiSelectField
 
 from spots.models.spot import Spot
-from spots.constants import ORDER_STATUS_CHOICES, WAIT_PAY, TIME_CHOICES
+import spots.constants as constants
 
 User = get_user_model()
 
@@ -24,9 +24,9 @@ class Order(models.Model):
         related_name='orders'
     )
     status = models.CharField(
-        max_length=16,
-        choices=ORDER_STATUS_CHOICES,
-        default=WAIT_PAY,
+        max_length=constants.MAX_LENGTH_STATUS,
+        choices=constants.ORDER_STATUS_CHOICES,
+        default=constants.WAIT_PAY,
     )
     count_people = models.IntegerField(
         'Количество людей',
@@ -36,8 +36,8 @@ class Order(models.Model):
         verbose_name='Дата заказа'
     )
     time = MultiSelectField(
-        choices=TIME_CHOICES,
-        max_length=len(TIME_CHOICES)
+        choices=constants.TIME_CHOICES,
+        max_length=len(constants.TIME_CHOICES)
     )
     bill = models.IntegerField('итоговый счет')
 

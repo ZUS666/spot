@@ -84,7 +84,5 @@ class OrderAdmin(admin.ModelAdmin):
         "pk",
         "spot",
         "user",
-        # "start_date",
-        # "end_date"
     )
     empty_value_display = "-пусто)))-"
