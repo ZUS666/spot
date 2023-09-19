@@ -10,12 +10,6 @@ from spots.constants import (
 
 
 class Price(models.Model):
-    # spot = models.ForeignKey(
-    #     'spots.Spot',
-    #     on_delete=models.CASCADE,
-    #     related_name='prices',
-    #     verbose_name='Место',
-    # )
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
