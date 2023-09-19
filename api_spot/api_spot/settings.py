@@ -16,8 +16,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'djoser',
     'phonenumbers',
 
@@ -83,6 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
+DATETIME_FORMAT = "%Y-%m-%d%H:%M:%S"
 
 USE_I18N = True
 
@@ -104,6 +107,18 @@ REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'error'
 }
 
+# Constant values for spot models
+# price
+MIN_VALUE = 1
+ZERO = 0
+# location
+LAT_MIN = -90
+LAT_MAX = 90
+LAT_MSG_ERROR = 'Широта должна быть в диапазоне от -90 до 90'
+LONG_MIN = -180
+LONG_MAX = 180
+LONG_MSG_ERROR = 'Долгота должна быть в диапазоне от -180 до 180'
+
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 DEFAULT_FROM_EMAIL = 'fake@mail.com'
@@ -119,3 +134,6 @@ COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 # EMAIL_HOST_PASSWORD = 'password'
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
