@@ -20,16 +20,11 @@ class Favorite(models.Model):
         on_delete=models.CASCADE,
         related_name='favorites'
     )
-    pub_date = models.DateField(
-        verbose_name='Дата создания',
-        auto_now_add=True
-    )
 
     class Meta:
         """Класс Meta для Favorite описание метаданных."""
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
-        ordering = ('pub_date',)
         constraints = (
             models.UniqueConstraint(
                 fields=('user', 'location'),

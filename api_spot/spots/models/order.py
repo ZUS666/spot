@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MaxValueValidator
 from django.db import models
 from multiselectfield import MultiSelectField
 
@@ -28,16 +27,12 @@ class Order(models.Model):
         choices=constants.ORDER_STATUS_CHOICES,
         default=constants.WAIT_PAY,
     )
-    count_people = models.IntegerField(
-        'Количество людей',
-        # validators=(MaxValueValidator(spot.max_count),)
-    )
     date = models.DateField(
         verbose_name='Дата заказа'
     )
     time = MultiSelectField(
         choices=constants.TIME_CHOICES,
-        max_length=len(constants.TIME_CHOICES)
+        max_length=12 * 6
     )
     bill = models.IntegerField('итоговый счет')
 

@@ -6,12 +6,18 @@ from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer
 from spots.models.order import Order
+from api.tasks import change_status_task
 
 
 class OrderViewSet(CreateDestroyViewSet):
+    """Вьюсет для заказов."""
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (IsOwnerOrReadOnly,)
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        change_status_task.delay(instance.id)
 
 
 class OrderGetViewSet(RetrieveListViewSet):

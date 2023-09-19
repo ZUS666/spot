@@ -19,7 +19,7 @@ MINUTES = 'minutes'
 TIME_CHOICES = tuple([
     (
         datetime.time(x).isoformat(MINUTES),
-        f'{datetime.time(x).isoformat(MINUTES)} -'
+        f'{datetime.time(x).isoformat(MINUTES)}-'
         f'{datetime.time(x + 1).isoformat(MINUTES)}'
     )
     for x in range(8, 20)
