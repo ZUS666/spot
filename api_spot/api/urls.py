@@ -42,6 +42,5 @@ router_api_v1.register(
 
 urlpatterns = [
     path('v1/', include(router_api_v1.urls)),
-    path("v1/activation/", SendCodeAPIView.as_view()),
     path('v1/auth/', include('djoser.urls.authtoken')),
 ]
