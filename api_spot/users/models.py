@@ -5,7 +5,7 @@ from django.db import models
 from django.utils import timezone
 from phonenumber_field import modelfields
 
-from .validators import TelegramUsernameValidator
+from .validators import validate_birth_day
 
 
 class MyUserManager(BaseUserManager):
@@ -18,7 +18,7 @@ class MyUserManager(BaseUserManager):
         """
         if not email:
             raise ValueError('Электронная почта обязательна')
-        email = self.normalize_email(email)
+        email = self.normalize_email(email).lower()
         user = self.model(email=email, phone=phone, **extra_fields)
         user.password = make_password(password)
         user.save(using=self._db)
@@ -62,11 +62,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField('Фамилия', max_length=150)
     email = models.EmailField('Электронная почта', unique=True)
     phone = modelfields.PhoneNumberField('Телефон', region='RU', unique=True)
-    telegram = models.CharField(
-        'telegram',
-        max_length=32,
-        validators=[TelegramUsernameValidator],
-        blank=True
+    birth_date = models.DateField(
+        'Дата рождения',
+        blank=True,
+        null=True,
+        validators=[validate_birth_day]
     )
     is_staff = models.BooleanField(
         'Стафф статус',

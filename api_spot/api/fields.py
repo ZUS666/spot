@@ -1,8 +1,9 @@
+
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from spots.models import Location, Order
-from spots.models.spot import Spot
+from spots.models import Location, Order, Spot
+
 
 
 class GetLocation(serializers.CurrentUserDefault):
@@ -25,7 +26,7 @@ class GetSpot(serializers.CurrentUserDefault):
                 serializer_field.context.get('view').kwargs.get('spot_id')
             )
         )
-
+ 
 
 class GetOrder(serializers.CurrentUserDefault):
     """Получение Order из view."""
@@ -36,3 +37,8 @@ class GetOrder(serializers.CurrentUserDefault):
                 serializer_field.context.get('view').kwargs.get('order_id')
             )
         )
+
+class LowercaseEmailField(serializers.EmailField):
+    def to_internal_value(self, data):
+        result = super().to_internal_value(data)
+        return result.lower()
