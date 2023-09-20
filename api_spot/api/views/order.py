@@ -33,4 +33,6 @@ class OrderGetViewSet(RetrieveListViewSet):
 
     def get_queryset(self):
         """Получение выборки с отзывами текущего коворкинга."""
-        return super().get_queryset().filter(user=self.request.user)
+        if self.request.user.is_authenticated:
+            return super().get_queryset().filter(user=self.request.user)
+        return super().get_queryset()

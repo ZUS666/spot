@@ -14,27 +14,21 @@ class ReviewCreateViewSet(CreateDestroyViewSet):
 
     def get_order(self):
         """Получение текущего объекта (заказа)."""
-        return get_object_or_404(Order, pk=self.kwargs.get("order_id"))
+        return get_object_or_404(Order, pk=self.kwargs.get('order_id'))
 
     def get_queryset(self):
         """Получение выборки с отзывами текущей брони."""
         return self.get_order().reviews.all()
 
-    def perform_create(self, serializer):
-        """Создание отзыва для текущего брони."""
-        serializer.save(
-            user=self.request.user,
-            booked_spot=self.get_order()
-        )
-
 
 class ReviewGetViewSet(RetrieveListViewSet):
     """Вьюсет модели отзывов для получения."""
+    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
     def get_spot(self):
         """Получение текущего объекта ()."""
-        return get_object_or_404(Spot, pk=self.kwargs.get("spot_id"))
+        return get_object_or_404(Spot, pk=self.kwargs.get('spot_id'))
 
     def get_queryset(self):
         """Получение выборки с отзывами текущего спота."""
