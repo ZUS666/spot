@@ -15,6 +15,7 @@ from ..constants import (FINISH_ACTIVATION_TEMAPLATE,
                          SUBJECT_EMAIL_FINISH_RESET_PASSWORD,
                          SUBJECT_EMAIL_REGISTRATION,
                          SUBJECT_EMAIL_RESET_PASSWORD)
+from ..tasks import send_mail_task
 
 User = get_user_model()
 
@@ -57,7 +58,7 @@ def registration_email(confirmation_code, user_email):
     Вызывает отправку эл. письма с кодом подтверждения.
     """
     data = {'confirmation_code': confirmation_code}
-    send_templated_mail(
+    send_mail_task.delay(
         user_email,
         SUBJECT_EMAIL_REGISTRATION,
         REGISTRATION_TEMPLATE,
@@ -69,7 +70,7 @@ def finish_activation_email(user_email):
     """
     Вызывает отправку эл. письма о завершении регистрации.
     """
-    send_templated_mail(
+    send_mail_task.delay(
         user_email,
         SUBJECT_EMAIL_FINISH_ACTIVATION,
         FINISH_ACTIVATION_TEMAPLATE,
@@ -78,7 +79,7 @@ def finish_activation_email(user_email):
 
 def reset_password_email(confirmation_code, user_email):
     data = {'confirmation_code': confirmation_code}
-    send_templated_mail(
+    send_mail_task.delay(
         user_email,
         SUBJECT_EMAIL_RESET_PASSWORD,
         RESET_PASSWORD_TEMPLATE,
@@ -90,7 +91,7 @@ def finish_reset_password_email(user_email):
     """
     Вызывает отправку эл. письма о завершении сброса пароля.
     """
-    send_templated_mail(
+    send_mail_task.delay(
         user_email,
         SUBJECT_EMAIL_FINISH_RESET_PASSWORD,
         FINISH_RESET_PASSWORD_TEMPLATE,
