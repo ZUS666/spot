@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views.users import SendCodeAPIView, UserViewSet
+from .views.users import UserViewSet
 
 from api.views.favorite import FavoriteViewSet
 from api.views.order import OrderGetViewSet, OrderViewSet
