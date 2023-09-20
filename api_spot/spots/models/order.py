@@ -1,6 +1,7 @@
+import datetime
+
 from django.contrib.auth import get_user_model
 from django.db import models
-from multiselectfield import MultiSelectField
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 
 from spots.models.spot import Spot
@@ -31,25 +32,38 @@ class Order(models.Model):
     date = models.DateField(
         verbose_name='Дата заказа'
     )
-    time = MultiSelectField(
-        choices=constants.TIME_CHOICES,
-        max_length=constants.MAX_LENGTH_CHOICES
+    start_time = models.TimeField(
+        verbose_name='Время начала брони'
     )
-    bill = models.IntegerField('итоговый счет')
+    end_time = models.TimeField(
+        verbose_name='Время конца брони'
+    )
+    bill = models.IntegerField(
+        'итоговый счет'
+    )
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
+        if not (
+            isinstance(self.start_time, datetime.time)
+            and isinstance(self.end_time, datetime.time)
+        ):
+            raise ValidationError("")
         qs = self.__class__._default_manager.filter(
             spot=self.spot,
             date=self.date,
-        ).values_list('time', flat=True)
-        for time in qs:
-            intersection = set(time).intersection(self.time)
-            if intersection:
-                raise ValidationError({
-                    NON_FIELD_ERRORS: 'Данный коворкинг ужe'
-                                      'забронирован на это время'
-                })
+            start_time__lt=self.end_time,
+            end_time__gt=self.start_time
+        )
+        if qs.exists():
+            raise ValidationError({
+                NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
+            })
+
+    def clean(self):
+        if self.end_time < self.start_time:
+            raise ValidationError('Начало брони должно быть раньше конца')
+        return super().clean()
 
     class Meta:
         """Класс Meta для Order описание метаданных."""

@@ -1,5 +1,3 @@
-import datetime
-
 MIN_EVALUATION = 1
 MAX_EVALUATION = 5
 MAX_LENGTH_STATUS = 16
@@ -15,13 +13,3 @@ ORDER_STATUS_CHOICES = (
     (ORDER, ORDER),
     (NOT_PAID, NOT_PAID)
 )
-MINUTES = 'minutes'
-TIME_CHOICES = tuple([
-    (
-        datetime.time(x).isoformat(MINUTES),
-        f'{datetime.time(x).isoformat(MINUTES)}-'
-        f'{datetime.time(x + 1).isoformat(MINUTES)}'
-    )
-    for x in range(8, 20)
-])
-MAX_LENGTH_CHOICES = 12 * 6
