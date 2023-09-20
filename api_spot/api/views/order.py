@@ -6,8 +6,8 @@ from rest_framework.pagination import PageNumberPagination
 from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer
-from spots.models.order import Order
 from api.tasks import change_status_task
+from spots.models.order import Order
 
 
 class OrderViewSet(CreateDestroyViewSet):

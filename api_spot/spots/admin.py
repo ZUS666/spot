@@ -1,20 +1,7 @@
 from django.contrib import admin
 
-from .models import (
-    Category,
-    Equipment,
-    Favorite,
-    Image,
-    Location,
-    Order,
-    Price,
-    Favorite,
-    Review,
-    Order
-)
-from spots.models.location import Image
-from spots.models.spot import Spot
-
+from .models import (Category, Equipment, Favorite, Image, Location, Order,
+                     Price, Review, Spot)
 
 
 @admin.register(Category)
@@ -58,7 +45,6 @@ class PriceAdmin(admin.ModelAdmin):
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'location')
-
 
 
 @admin.register(Spot)

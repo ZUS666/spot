@@ -1,12 +1,8 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from spots.constants import (
-    DISCOUNT_NEGATIVE_MESSAGE,
-    PRICE_NEGATIVE_OR_ZERO_MESSAGE,
-    MIN_VALUE,
-    ZERO,
-)
+from spots.constants import (DISCOUNT_NEGATIVE_MESSAGE, MIN_VALUE,
+                             PRICE_NEGATIVE_OR_ZERO_MESSAGE, ZERO)
 
 
 class Price(models.Model):
