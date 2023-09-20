@@ -1,3 +1,4 @@
+from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
@@ -17,7 +18,9 @@ class OrderViewSet(CreateDestroyViewSet):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        change_status_task.delay(instance.id)
+        change_status_task.apply_async(
+            args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
+        )
 
 
 class OrderGetViewSet(RetrieveListViewSet):
