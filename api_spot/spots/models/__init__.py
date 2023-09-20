@@ -1,13 +1,21 @@
 from .category import Category
+from .equipment import Equipment
+from .extra_photo import Image
+from .favorite import Favorite
 from .location import Location
+from .order import Order
 from .price import Price
-from .favorite import Favorite # noqa
-from .order import Order # noqa
-from .review import Review # noqa
+from .review import Review
+from .spot import Spot
+
 
 Category
-Location
-Price
+Equipment
 Favorite
+Image
+Location
 Order
+Price
 Review
+Spot
+
