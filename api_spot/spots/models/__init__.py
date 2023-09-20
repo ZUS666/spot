@@ -1,6 +1,6 @@
 from .category import Category
 from .equipment import Equipment
-from .extra_photo import Image
+from .extra_photo import ExtraPhoto
 from .favorite import Favorite
 from .location import Location
 from .order import Order
@@ -11,7 +11,7 @@ from .spot import Spot
 Category
 Equipment
 Favorite
-Image
+ExtraPhoto
 Location
 Order
 Price
