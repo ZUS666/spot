@@ -12,7 +12,6 @@ from .models import (
     Review,
     Order
 )
-from spots.models.location import Image
 from spots.models.spot import Spot
 
 
