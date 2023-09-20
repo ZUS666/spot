@@ -1,29 +1,15 @@
-from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
-class Image(models.Model):
-    location = models.ForeignKey(
-        'Location',
-        related_name='location_image',
-        on_delete=models.CASCADE,
-    )
-    image = models.ImageField(
-        blank=False,
-        upload_to='images/',
-        verbose_name='Фото',
-        help_text='Фото места',
-    )
-    description = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name='Описание',
-    )
-
-    class Meta:
-        verbose_name = 'Фотография'
-        verbose_name_plural = 'Фотографии'
+from spots.constants import (
+    LAT_MAX,
+    LAT_MIN,
+    LAT_MSG_ERROR,
+    LONG_MAX,
+    LONG_MIN,
+    LONG_MSG_ERROR,
+)
 
 
 class Location(models.Model):
@@ -48,12 +34,12 @@ class Location(models.Model):
         verbose_name='Широта',
         validators=[
             MinValueValidator(
-                limit_value=settings.LAT_MIN,
-                message=settings.LAT_MSG_ERROR,
+                limit_value=LAT_MIN,
+                message=LAT_MSG_ERROR,
             ),
             MaxValueValidator(
-                limit_value=settings.LAT_MAX,
-                message=settings.LAT_MSG_ERROR,
+                limit_value=LAT_MAX,
+                message=LAT_MSG_ERROR,
             ),
         ],
     )
@@ -63,20 +49,31 @@ class Location(models.Model):
         verbose_name='Долгота',
         validators=[
             MinValueValidator(
-                limit_value=settings.LONG_MIN,
-                message=settings.LONG_MSG_ERROR,
+                limit_value=LONG_MIN,
+                message=LONG_MSG_ERROR,
             ),
             MaxValueValidator(
-                limit_value=settings.LONG_MAX,
-                message=settings.LONG_MSG_ERROR,
+                limit_value=LONG_MAX,
+                message=LONG_MSG_ERROR,
             ),
         ],
     )
     images = models.ManyToManyField(
-        Image,
+        'spots.Image',
         related_name='locations',
         verbose_name='Изображения',
         blank=True,
+    )
+    plan_photo = models.ImageField(
+        upload_to='images/plans/',
+        verbose_name='План',
+        help_text='План коворкинга',
+        blank=True,
+    )
+    description = models.TextField(
+        max_length=500,
+        blank=True,
+        verbose_name='Описание',
     )
 
     class Meta:

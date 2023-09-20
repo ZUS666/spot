@@ -1,9 +1,11 @@
+celery
 Django==4.2.5
 django-filter==23.2
 django-phonenumber-field[phonenumberslite]==7.1.0
 djangorestframework==3.14.0
 djoser==2.2.0
 gunicorn==21.2.0
+phonenumbers==8.13.20
 Pillow==10.0.0
 psycopg2-binary==2.9.7
 python-dotenv==1.0.0

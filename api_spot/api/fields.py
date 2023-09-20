@@ -1,3 +1,4 @@
+
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
@@ -25,3 +26,10 @@ class GetSpot(serializers.CurrentUserDefault):
                 serializer_field.context.get('view').kwargs.get('spot_id')
             )
         )
+ 
+
+class LowercaseEmailField(serializers.EmailField):
+    def to_internal_value(self, data):
+        result = super().to_internal_value(data)
+        return result.lower()
+

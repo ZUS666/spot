@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from spots.models.location import Location
 
 User = get_user_model()
 
@@ -15,7 +14,7 @@ class Favorite(models.Model):
         related_name='favorites'
     )
     location = models.ForeignKey(
-        Location,
+        'spots.Location',
         verbose_name='Коворкинг',
         on_delete=models.CASCADE,
         related_name='favorites'
