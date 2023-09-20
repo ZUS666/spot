@@ -22,9 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'email',
-            'phone',
             'first_name',
-            'birth_date',
             'last_name',
             'password',
             're_password',
