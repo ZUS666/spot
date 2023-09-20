@@ -1,16 +1,7 @@
 from django.contrib import admin
 
-from .models import (
-    Category,
-    Equipment,
-    Favorite,
-    Image,
-    Location,
-    Order,
-    Price,
-    Review,
-    Spot,
-)
+from .models import (Category, Equipment, Favorite, Image, Location, Order,
+                     Price, Review, Spot)
 
 
 @admin.register(Category)
@@ -73,10 +64,16 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'spot', 'user', 'start_date', 'end_date')
+    list_display = (
+        "pk",
+        "spot",
+        "user",
+    )
+    empty_value_display = "-пусто)))-"
+    list_display = ('pk', 'spot', 'user', 'start_time', 'end_time')
     empty_value_display = '-пусто)))-'
 
 
 @admin.register(Equipment)
-class OrderAdmin(admin.ModelAdmin):
+class EquipmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'pk', 'description')

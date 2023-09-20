@@ -1,26 +1,21 @@
+from celery import shared_task
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-# from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404
 
-# from time import sleep
-from celery import shared_task
-
-# from spots.models.order import Order, LOCK, PAID
-# from api.constants import TIME_CHANGE_STATUS
+from spots.constants import NOT_PAID, PAID
+from spots.models.order import Order
 
 
-# @shared_task()
-# def change_status_task(order_id):
-#     """Таска изменения статуса после n секнуд."""
-#     sleep(TIME_CHANGE_STATUS)
-#     order = get_object_or_404(Order, pk=order_id)
-#     if order.status != PAID:
-#         order.status = LOCK
-#         order.save()
-#         print("Status changed")
-#     print("KEKwait")
-
+@shared_task()
+def change_status_task(order_id):
+    """Таска изменения статуса после n секнуд."""
+    order = get_object_or_404(Order, pk=order_id)
+    if order.status != PAID:
+        order.status = NOT_PAID
+        order.save()
+        print("Status changed")
 
 @shared_task()
 def send_mail_task(user_email, subject, template, add_dict=None):

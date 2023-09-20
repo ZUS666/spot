@@ -19,7 +19,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Favorite
-        fields = ('location', 'user', 'street', 'pub_date', )
+        fields = ('location', 'user', 'street',)
         validators = (
             serializers.UniqueTogetherValidator(
                 queryset=model.objects.all(),
