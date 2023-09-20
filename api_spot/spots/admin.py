@@ -8,9 +8,13 @@ from .models import (
     Location,
     Order,
     Price,
+    Favorite,
     Review,
-    Spot,
+    Order
 )
+from spots.models.location import Image
+from spots.models.spot import Spot
+
 
 
 @admin.register(Category)
@@ -56,6 +60,7 @@ class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'location')
 
 
+
 @admin.register(Spot)
 class SpotAdmin(admin.ModelAdmin):
     list_display = ('name', 'id', 'location', 'category', 'description')
@@ -73,10 +78,16 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'spot', 'user', 'start_date', 'end_date')
+    list_display = (
+        "pk",
+        "spot",
+        "user",
+    )
+    empty_value_display = "-пусто)))-"
+    list_display = ('pk', 'spot', 'user', 'start_time', 'end_time')
     empty_value_display = '-пусто)))-'
 
 
 @admin.register(Equipment)
-class OrderAdmin(admin.ModelAdmin):
+class EquipmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'pk', 'description')

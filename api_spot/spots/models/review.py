@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from spots.constants import MAX_EVALUATION, MIN_EVALUATION
+import spots.constants as constants
 from spots.models.order import Order
 
 User = get_user_model()
@@ -26,15 +26,15 @@ class Review(models.Model):
     raiting = models.PositiveSmallIntegerField(
         "Оценка отзыва",
         validators=(
-            MinValueValidator(MIN_EVALUATION),
-            MaxValueValidator(MAX_EVALUATION)
+            MinValueValidator(constants.MIN_EVALUATION),
+            MaxValueValidator(constants.MAX_EVALUATION)
         ),
     )
     description = models.TextField(
         "Текст отзыва",
-        max_length=100
+        max_length=constants.MAX_LENGTH_DESC
     )
-    pub_date = models.DateTimeField(
+    pub_date = models.DateField(
         verbose_name="Дата создания",
         auto_now_add=True
     )

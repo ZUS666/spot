@@ -8,6 +8,7 @@ from .price import Price
 from .review import Review
 from .spot import Spot
 
+
 Category
 Equipment
 Favorite
@@ -17,3 +18,4 @@ Order
 Price
 Review
 Spot
+

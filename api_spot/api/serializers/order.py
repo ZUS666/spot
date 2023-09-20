@@ -14,40 +14,34 @@ class OrderSerializer(serializers.ModelSerializer):
         default=GetSpot()
     )
     spot_name = StringRelatedField(source='spot.name', read_only=True)
-    first_name = StringRelatedField(source='user.first_name', read_only=True)
-    last_name = StringRelatedField(source='user.last_name', read_only=True)
-    duration = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         """Класс мета для модели Order."""
         model = Order
         fields = (
-            'spot', 'user', 'spot_name', 'first_name', 'last_name',
-            'start_date', 'end_date', 'duration'
+            'spot', 'user', 'spot_name',
+            'date', 'start_time', 'end_time', 'bill'
         )
-
-    def get_duration(self, obj):
-        """Получение продолжительность брони."""
-        time = obj.end_date - obj.start_date
-        return f'{round((time.total_seconds() / 3600), 3)} в часах'
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""
         spot = data.get('spot')
-        start_date = data.get('start_date')
-        end_date = data.get('end_date')
+        date = data.get('date')
+        start_time = data.get('start_time')
+        end_time = data.get('end_time')
 
-        if end_date < start_date:
+        if end_time < start_time:
             raise serializers.ValidationError(
                 {'start_date': 'Начало брони позже конца'})
 
         qs = Order.objects.filter(
             spot=spot,
-            start_date__lt=end_date,
-            end_date__gt=start_date
+            date=date,
+            start_time__lt=end_time,
+            end_time__gt=start_time
         )
         if qs.exists():
             raise serializers.ValidationError({
-                'Spot': 'Данный коворкинг уже забронирован',
+                'Spot': 'Данное время уже частиточно уже забранировано',
             })
         return data

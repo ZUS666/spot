@@ -1,21 +1,13 @@
-from datetime import datetime
+import datetime
 
 from django.contrib.auth import get_user_model
-from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models
-from django.db.models import F, Q
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 
 from spots.models.spot import Spot
+import spots.constants as constants
 
 User = get_user_model()
-
-
-BOOKED = 'Booked'
-LOCK = 'Lock'
-ORDER_STATUS_CHOICES = (
-    (BOOKED, BOOKED),
-    (LOCK, LOCK)
-)
 
 
 class Order(models.Model):
@@ -33,51 +25,50 @@ class Order(models.Model):
         related_name='orders'
     )
     status = models.CharField(
-        max_length=10,
-        choices=ORDER_STATUS_CHOICES,
-        default=BOOKED,
+        max_length=constants.MAX_LENGTH_STATUS,
+        choices=constants.ORDER_STATUS_CHOICES,
+        default=constants.WAIT_PAY,
     )
-    start_date = models.DateTimeField(
-        verbose_name='Начало брони',
+    date = models.DateField(
+        verbose_name='Дата заказа'
     )
-    end_date = models.DateTimeField(
-        verbose_name='Конец брони',
+    start_time = models.TimeField(
+        verbose_name='Время начала брони'
     )
-    bill = models.IntegerField('итоговый счет')
+    end_time = models.TimeField(
+        verbose_name='Время конца брони'
+    )
+    bill = models.IntegerField(
+        'итоговый счет'
+    )
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
         if not (
-            isinstance(self.start_date, datetime)
-            and isinstance(self.end_date, datetime)
+            isinstance(self.start_time, datetime.time)
+            and isinstance(self.end_time, datetime.time)
         ):
             raise ValidationError("")
         qs = self.__class__._default_manager.filter(
             spot=self.spot,
-            start_date__lt=self.end_date,
-            end_date__gt=self.start_date
+            date=self.date,
+            start_time__lt=self.end_time,
+            end_time__gt=self.start_time
         )
         if qs.exists():
             raise ValidationError({
-                NON_FIELD_ERRORS: ['Данный коворкинг уже забронирован', ],
+                NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
             })
 
     def clean(self):
-        if self.end_date < self.start_date:
-            raise ValidationError('Start should be before end')
+        if self.end_time < self.start_time:
+            raise ValidationError('Начало брони должно быть раньше конца')
         return super().clean()
 
     class Meta:
         """Класс Meta для Order описание метаданных."""
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-        ordering = ('start_date',)
-        constraints = [
-            models.CheckConstraint(
-                check=Q(start_date__lte=F('end_date')),
-                name='start_before_end'
-            ),
-        ]
 
     def __str__(self) -> str:
         return f'{self.user} {self.spot}'
