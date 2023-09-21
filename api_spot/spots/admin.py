@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 from .models import (
     Category,
     Equipment,
@@ -14,6 +15,8 @@ from .models import (
     Order
 )
 from spots.models.spot import Spot
+=======
+>>>>>>> 2ca6625bcf63c2eb14876eb7a3701f87fcca5f21
 =======
 >>>>>>> 2ca6625bcf63c2eb14876eb7a3701f87fcca5f21
 
