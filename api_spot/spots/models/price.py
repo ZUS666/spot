@@ -1,38 +1,49 @@
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
-from spots.constants import (DISCOUNT_NEGATIVE_MESSAGE, MIN_VALUE,
-                             PRICE_NEGATIVE_OR_ZERO_MESSAGE, ZERO)
+from spots.constants import (MAX_DISCOUNT, MAX_DISCOUNT_MESSAGE, MIN_VALUE,
+                             PRICE_NEGATIVE_OR_ZERO_MESSAGE)
 
 
 class Price(models.Model):
     price = models.DecimalField(
+        'Цена',
         max_digits=10,
         decimal_places=2,
-        verbose_name='Цена',
-        validators=[
+        validators=(
             MinValueValidator(
                 limit_value=MIN_VALUE,
                 message=PRICE_NEGATIVE_OR_ZERO_MESSAGE,
-            )
-        ],
+            ),
+        ),
     )
-    discount = models.DecimalField(
+    discount = models.PositiveSmallIntegerField(
+        'Скидка',
+        default=0,
+        validators=(
+            MaxValueValidator(
+                limit_value=MAX_DISCOUNT,
+                message=MAX_DISCOUNT_MESSAGE,
+            ),
+        )
+    )
+    total_price = models.DecimalField(
+        'Итоговая стоимость',
         max_digits=10,
-        decimal_places=2,
         blank=True,
-        verbose_name='Скидка',
-        validators=[
+        null=True,
+        decimal_places=2,
+        validators=(
             MinValueValidator(
-                limit_value=ZERO,
-                message=DISCOUNT_NEGATIVE_MESSAGE,
-            )
-        ],
+                limit_value=MIN_VALUE,
+                message=PRICE_NEGATIVE_OR_ZERO_MESSAGE,
+            ),
+        ),
     )
     description = models.TextField(
+        'Описание',
         max_length=500,
         blank=True,
-        verbose_name='Описание',
     )
 
     class Meta:
@@ -40,4 +51,15 @@ class Price(models.Model):
         verbose_name_plural = 'Цены'
 
     def __str__(self):
-        return str(self.price)
+        return self.description[:20]
+
+    def get_total_price(self):
+        if self.discount:
+            self.total_price = self.price - self.price * self.discount / 100
+        else:
+            self.total_price = self.price
+        return self.total_price
+
+    def save(self, *args, **kwargs):
+        self.get_total_price()
+        return super().save(*args, **kwargs)

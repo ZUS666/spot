@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import (Category, Equipment, Favorite, ExtraPhoto,
-                     Location, Order, Price, Review, Spot)
+                     Location, Order, Price, Review, Spot, SpotEquipment)
 
 
 @admin.register(Category)
@@ -38,7 +38,8 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Price)
 class PriceAdmin(admin.ModelAdmin):
-    list_display = ('price', 'discount', 'description')
+    list_display = ('price', 'discount', 'total_price', 'description')
+    exclude = ('total_price',)
     search_fields = ('spot', )
 
 
@@ -47,9 +48,17 @@ class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'location')
 
 
+class SpotEquipmentInline(admin.TabularInline):
+    model = SpotEquipment
+    extra = 0
+    min_num = 1
+
+
 @admin.register(Spot)
 class SpotAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'location', 'category', 'description')
+    list_display = ('name', 'location', 'category', 'price')
+    list_filter = ('location', 'category',)
+    inlines = (SpotEquipmentInline,)
 
 
 @admin.register(Review)

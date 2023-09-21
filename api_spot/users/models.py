@@ -36,7 +36,7 @@ class MyUserManager(BaseUserManager):
             **extra_fields
         )
 
-    def create_superuser(self, email, phone, password, **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         """
         Создает суперюзера
         """
