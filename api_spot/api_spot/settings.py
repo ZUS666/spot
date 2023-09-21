@@ -127,3 +127,12 @@ CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 TIME_CHANGE_STATUS = 60 * 10
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'USE_SESSION_AUTH': True,
+        'SECURITY_DEFINITIONS': {
+            'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
+        },
+    }
+}
