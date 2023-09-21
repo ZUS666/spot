@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 
-from .models import (Category, Equipment, Favorite, Image, Location, Order,
-                     Price, Review, Spot)
+from .models import (Category, Equipment, Favorite, ExtraPhoto,
+                     Location, Order, Price, Review, Spot)
 
 
 @admin.register(Category)
@@ -11,20 +11,21 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-@admin.register(Image)
+@admin.register(ExtraPhoto)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'image', 'description')
+    list_display = ('location', 'id', 'image', 'description')
 
 
 class ImageInline(admin.TabularInline):
-    model = Image
-    extra = 1
+    model = ExtraPhoto
+    extra = 0
     min_num = 1
 
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     list_display = (
+        'name',
         'street',
         'house_number',
         'apartment_number',
@@ -33,7 +34,6 @@ class LocationAdmin(admin.ModelAdmin):
     )
     list_filter = ('street', 'house_number')
     search_fields = ('street', 'house_number')
-    exclude = ('images',)
     inlines = [ImageInline]
 
 

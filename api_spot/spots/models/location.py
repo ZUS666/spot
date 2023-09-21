@@ -6,25 +6,28 @@ from spots.constants import (LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
 
 
 class Location(models.Model):
+    name = models.CharField(
+        'Название',
+        max_length=64,
+        unique=True,
+    )
     street = models.CharField(
+        'Улица',
         max_length=100,
-        blank=False,
-        verbose_name='Улица',
     )
     house_number = models.CharField(
+        'Номер дома',
         max_length=10,
-        blank=False,
-        verbose_name='Номер дома',
     )
     apartment_number = models.CharField(
+        'Номер квартиры',
         max_length=10,
         blank=True,
-        verbose_name='Номер квартиры',
     )
     latitude = models.DecimalField(
+        'Широта',
         max_digits=9,
         decimal_places=6,
-        verbose_name='Широта',
         validators=[
             MinValueValidator(
                 limit_value=LAT_MIN,
@@ -37,9 +40,9 @@ class Location(models.Model):
         ],
     )
     longitude = models.DecimalField(
+        'Долгота',
         max_digits=9,
         decimal_places=6,
-        verbose_name='Долгота',
         validators=[
             MinValueValidator(
                 limit_value=LONG_MIN,
@@ -51,30 +54,22 @@ class Location(models.Model):
             ),
         ],
     )
-    images = models.ManyToManyField(
-        'spots.Image',
-        related_name='locations',
-        verbose_name='Изображения',
-        blank=True,
-    )
     plan_photo = models.ImageField(
+        'План',
         upload_to='images/plans/',
-        verbose_name='План',
         help_text='План коворкинга',
         blank=True,
     )
     description = models.TextField(
+        'Описание',
         max_length=500,
         blank=True,
-        verbose_name='Описание',
     )
 
     class Meta:
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
+        ordering = ('name',)
 
     def __str__(self):
-        apart = self.apartment_number
-        return (
-            f'{self.street}, {self.house_number}{", "+apart if apart else ""}'
-        )
+        return self.name
