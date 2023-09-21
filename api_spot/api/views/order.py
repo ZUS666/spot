@@ -12,7 +12,6 @@ from spots.models import Order
 from api.tasks import change_status_task
 
 
-
 class OrderViewSet(CreateDestroyViewSet):
     """Вьюсет для заказов."""
     queryset = Order.objects.all()
