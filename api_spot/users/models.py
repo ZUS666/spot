@@ -12,19 +12,19 @@ class MyUserManager(BaseUserManager):
     """
     Кастомный менеджер для модели User
     """
-    def _create_user(self, email, phone, password, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         """
         Создает и сохраняет юзера с почтой, телефоном, и паролем
         """
         if not email:
             raise ValueError('Электронная почта обязательна')
         email = self.normalize_email(email).lower()
-        user = self.model(email=email, phone=phone, **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.password = make_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, phone, password, **extra_fields):
+    def create_user(self, email, password, **extra_fields):
         """
         Создает юзера
         """
@@ -32,7 +32,6 @@ class MyUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(
             email,
-            phone,
             password,
             **extra_fields
         )
@@ -51,7 +50,6 @@ class MyUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
         return self._create_user(
             email,
-            phone,
             password,
             **extra_fields
         )
@@ -61,7 +59,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField('Имя', max_length=150)
     last_name = models.CharField('Фамилия', max_length=150)
     email = models.EmailField('Электронная почта', unique=True)
-    phone = modelfields.PhoneNumberField('Телефон', region='RU', unique=True)
+    phone = modelfields.PhoneNumberField(
+        'Телефон',
+        region='RU',
+        unique=True,
+        blank=True,
+        null=True,
+    )
     birth_date = models.DateField(
         'Дата рождения',
         blank=True,
@@ -82,7 +86,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['phone']
+    REQUIRED_FIELDS = []
 
     objects = MyUserManager()
 

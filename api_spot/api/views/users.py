@@ -11,7 +11,6 @@ from ..serializers.users import (ChangePasswordSerializer,
                                  UserMeSerializer, UserSerializer)
 from ..services.users import (cache_and_send_confirmation_code,
                               finish_activation_email,
-                              get_user_with_email_or_bad_request,
                               registration_email, reset_password_email)
 
 User = get_user_model()
@@ -45,11 +44,16 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data.get('email')
         confirmation_code = serializer.validated_data.get('confirmation_code')
-        user = get_user_with_email_or_bad_request(email)
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'error': 'Пользователя с таким email не существует'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         if confirmation_code == cache.get(user.id):
             user.is_active = True
             user.save()
-            finish_activation_email(user.email)
+            finish_activation_email(user)
             return Response(
                 {'message': 'Электронная почта верифицирована'},
                 status=status.HTTP_200_OK
@@ -95,11 +99,16 @@ class UserViewSet(viewsets.ModelViewSet):
         email = serializer.validated_data.get('email')
         confirmation_code = serializer.validated_data.get('confirmation_code')
         password = serializer.validated_data.get('password')
-        user = user = get_user_with_email_or_bad_request(email)
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'error': 'Пользователя с таким email не существует'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         if confirmation_code == cache.get(user.id):
             user.set_password(password)
             user.save(update_fields=['password'])
-            finish_activation_email(user.email)
+            finish_activation_email(user)
             return Response(
                 {'message': 'Пароль изменен'},
                 status=status.HTTP_200_OK
@@ -150,7 +159,12 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data.get('email')
-        user = user = get_user_with_email_or_bad_request(email)
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'error': 'Пользователя с таким email не существует'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         cache_and_send_confirmation_code(user, reset_password_email)
         return Response(
             {'message': 'Код подтверждения отправлен на почту'},
@@ -170,10 +184,16 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data.get('email')
-        user = get_user_with_email_or_bad_request(email)
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response(
+                {'error': 'Пользователя с таким email не существует'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         if user.is_active:
             return Response(
-                {'error': 'Вы уже подтвердили эл. почту'}
+                {'error': 'Вы уже подтвердили эл. почту'},
+                status=status.HTTP_400_BAD_REQUEST
             )
         cache_and_send_confirmation_code(user, registration_email)
         return Response(
