@@ -17,11 +17,6 @@ class Spot(models.Model):
         related_name='spots',
         verbose_name='Цена',
     )
-    main_photo = models.ImageField(
-        upload_to='images/',
-        verbose_name='Фото рабочего места',
-        help_text='Основное фото рабочего места'
-    )
     location = models.ForeignKey(
         Location,
         on_delete=models.CASCADE,
@@ -38,7 +33,8 @@ class Spot(models.Model):
     equipment = models.ManyToManyField(
         Equipment,
         related_name='spots',
-        verbose_name='Оборудование'
+        verbose_name='Оборудование',
+        through='SpotEquipment'
     )
     description = models.TextField(
         max_length=500,
@@ -48,12 +44,13 @@ class Spot(models.Model):
     class Meta:
         verbose_name = 'Место'
         verbose_name_plural = 'Места'
+        ordering = ('location', 'category')
         constraints = (
             models.UniqueConstraint(
-                fields=('location', 'name'),
-                name='unique_location_name_spot'
+                fields=('name', 'location'),
+                name='unique_name_in_location'
             ),
         )
 
     def __str__(self):
-        return self.name
+        return f'{self.name} в {self.location}'

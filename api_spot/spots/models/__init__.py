@@ -1,5 +1,5 @@
 from .category import Category
-from .equipment import Equipment
+from .equipment import Equipment, SpotEquipment
 from .extra_photo import ExtraPhoto
 from .favorite import Favorite
 from .location import Location
@@ -17,3 +17,4 @@ Order
 Price
 Review
 Spot
+SpotEquipment
