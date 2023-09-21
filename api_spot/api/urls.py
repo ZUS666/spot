@@ -1,11 +1,11 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views.users import UserViewSet
-
 from api.views.favorite import FavoriteViewSet
 from api.views.order import OrderGetViewSet, OrderViewSet
 from api.views.review import ReviewCreateViewSet, ReviewGetViewSet
+
+from .views.users import UserViewSet
 
 app_name = 'api'
 

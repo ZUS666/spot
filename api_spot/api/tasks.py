@@ -1,9 +1,8 @@
+from celery import shared_task
 from django.shortcuts import get_object_or_404
 
-from celery import shared_task
-
-from spots.models.order import Order
 from spots.constants import NOT_PAID, PAID
+from spots.models.order import Order
 
 
 @shared_task()
