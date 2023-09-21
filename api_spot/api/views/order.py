@@ -3,10 +3,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 
+
 from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer
-from spots.models.order import Order
+from spots.models import Order
 from api.tasks import change_status_task
 
 

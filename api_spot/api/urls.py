@@ -30,7 +30,7 @@ router_api_v1.register(
     basename='favorite'
 )
 router_api_v1.register(
-    r'spots/(?P<spot_id>\d+)/order',
+    r'locations/(?P<location_id>\d+)/order',
     OrderViewSet,
     basename='order'
 )

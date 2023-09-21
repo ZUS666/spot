@@ -44,10 +44,19 @@ class Spot(models.Model):
         max_length=500,
         verbose_name='Описание'
     )
+    number = models.IntegerField(
+        'Номер комнаты'
+    )
 
     class Meta:
         verbose_name = 'Место'
         verbose_name_plural = 'Места'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('category', 'number'),
+                name='unique_category_number_spot'
+            ),
+        )
 
     def __str__(self):
         return self.name

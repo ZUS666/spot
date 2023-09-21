@@ -10,11 +10,9 @@ from .models import (
     Price,
     Favorite,
     Review,
-    Order
+    Order,
+    Spot
 )
-from spots.models.location import Image
-from spots.models.spot import Spot
-
 
 
 @admin.register(Category)
@@ -58,7 +56,6 @@ class PriceAdmin(admin.ModelAdmin):
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'location')
-
 
 
 @admin.register(Spot)
