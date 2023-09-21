@@ -48,6 +48,12 @@ class Spot(models.Model):
     class Meta:
         verbose_name = 'Место'
         verbose_name_plural = 'Места'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('location', 'name'),
+                name='unique_location_name_spot'
+            ),
+        )
 
     def __str__(self):
         return self.name

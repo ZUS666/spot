@@ -1,8 +1,8 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-from rest_framework.relations import StringRelatedField
 
-from api.fields import GetSpot
-from spots.models.order import Order
+from spots.models.order import Order, Spot
+from api.serializers.spot import SpotSerializer
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -10,38 +10,30 @@ class OrderSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    spot = serializers.HiddenField(
-        default=GetSpot()
+    spot = SpotSerializer()
+    price = serializers.DecimalField(
+        source='spot.price',
+        read_only=True,
+        max_digits=10,
+        decimal_places=2
     )
-    spot_name = StringRelatedField(source='spot.name', read_only=True)
 
     class Meta:
         """Класс мета для модели Order."""
         model = Order
         fields = (
-            'spot', 'user', 'spot_name',
-            'date', 'start_time', 'end_time', 'bill'
+            'user', 'spot', 'date',
+            'start_time', 'end_time', 'price'
         )
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""
         spot = data.get('spot')
-        date = data.get('date')
-        start_time = data.get('start_time')
-        end_time = data.get('end_time')
-
-        if end_time < start_time:
-            raise serializers.ValidationError(
-                {'start_date': 'Начало брони позже конца'})
-
-        qs = Order.objects.filter(
-            spot=spot,
-            date=date,
-            start_time__lt=end_time,
-            end_time__gt=start_time
+        spot_obj = get_object_or_404(
+            Spot,
+            name=spot.get('name'),
+            category__name=spot.get('category').get('name')
         )
-        if qs.exists():
-            raise serializers.ValidationError({
-                'Spot': 'Данное время уже частиточно уже забранировано',
-            })
-        return data
+        data['spot'] = spot_obj
+        self.Meta.model(**data).full_clean()
+        return super().validate(data)
