@@ -1,9 +1,9 @@
 from django.db import models
 
-from .price import Price
-from .location import Location
 from .category import Category
 from .equipment import Equipment
+from .location import Location
+from .price import Price
 
 
 class Spot(models.Model):

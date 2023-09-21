@@ -1,18 +1,8 @@
 from django.contrib import admin
 
-from .models import (
-    Category,
-    Equipment,
-    Favorite,
-    Image,
-    Location,
-    Order,
-    Price,
-    Favorite,
-    Review,
-    Order,
-    Spot
-)
+
+from .models import (Category, Equipment, Favorite, Image, Location, Order,
+                     Price, Review, Spot)
 
 
 @admin.register(Category)
