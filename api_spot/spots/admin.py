@@ -65,13 +65,7 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "spot",
-        "user",
-    )
-    empty_value_display = "-пусто)))-"
-    list_display = ('pk', 'spot', 'user', 'start_time', 'end_time')
+    list_display = ('pk', 'spot', 'user', 'start_time', 'end_time', 'status')
     empty_value_display = '-пусто)))-'
 
 

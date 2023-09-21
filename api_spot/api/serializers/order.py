@@ -11,13 +11,19 @@ class OrderSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault()
     )
     spot = SpotSerializer()
+    price = serializers.DecimalField(
+        source='spot.price',
+        read_only=True,
+        max_digits=10,
+        decimal_places=2
+    )
 
     class Meta:
         """Класс мета для модели Order."""
         model = Order
         fields = (
-            'user', 'spot',
-            'date', 'start_time', 'end_time', 'bill'
+            'user', 'spot', 'date',
+            'start_time', 'end_time', 'price'
         )
 
     def validate(self, data):

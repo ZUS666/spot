@@ -20,7 +20,7 @@ class Order(models.Model):
     )
     user = models.ForeignKey(
         User,
-        verbose_name='Автор',
+        verbose_name='Пользователь',
         on_delete=models.CASCADE,
         related_name='orders'
     )
@@ -37,9 +37,6 @@ class Order(models.Model):
     )
     end_time = models.TimeField(
         verbose_name='Время конца брони'
-    )
-    bill = models.IntegerField(
-        'итоговый счет'
     )
 
     def validate_unique(self, *args, **kwargs):
@@ -61,6 +58,13 @@ class Order(models.Model):
             })
 
     def clean(self):
+        date_time_now = datetime.datetime.strptime(
+            f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
+        )
+        if date_time_now < datetime.datetime.now():
+            raise ValidationError({
+                'start_time': 'Нельзя забронировать в прошлом.'
+            })
         if self.end_time < self.start_time:
             raise ValidationError({
                 'end_time': 'Конец брони должен быть позже начала'
