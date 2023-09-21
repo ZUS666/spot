@@ -1,11 +1,10 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views.users import UserViewSet
+from .views import (FavoriteViewSet, OrderGetViewSet, OrderViewSet,
+                    ReviewCreateViewSet, ReviewGetViewSet,
+                    LocationViewSet, UserViewSet)
 
-from api.views.favorite import FavoriteViewSet
-from api.views.order import OrderGetViewSet, OrderViewSet
-from api.views.review import ReviewCreateViewSet, ReviewGetViewSet
 
 app_name = 'api'
 
@@ -30,7 +29,7 @@ router_api_v1.register(
     basename='favorite'
 )
 router_api_v1.register(
-    r'spots/(?P<spot_id>\d+)/order',
+    r'locations/(?P<location_id>\d+)/order',
     OrderViewSet,
     basename='order'
 )
@@ -38,6 +37,11 @@ router_api_v1.register(
     'orders',
     OrderGetViewSet,
     basename='get_orders'
+)
+router_api_v1.register(
+    r'locations',
+    LocationViewSet,
+    basename='favorite'
 )
 
 urlpatterns = [

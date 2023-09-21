@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+<<<<<<< HEAD
 from .models import (
     Category,
     Equipment,
@@ -13,7 +14,11 @@ from .models import (
     Order
 )
 from spots.models.spot import Spot
+=======
+>>>>>>> 2ca6625bcf63c2eb14876eb7a3701f87fcca5f21
 
+from .models import (Category, Equipment, Favorite, ExtraPhoto,
+                     Location, Order, Price, Review, Spot)
 
 
 @admin.register(Category)
@@ -22,20 +27,21 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-@admin.register(Image)
+@admin.register(ExtraPhoto)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'image', 'description')
+    list_display = ('location', 'id', 'image', 'description')
 
 
 class ImageInline(admin.TabularInline):
-    model = Image
-    extra = 1
+    model = ExtraPhoto
+    extra = 0
     min_num = 1
 
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     list_display = (
+        'name',
         'street',
         'house_number',
         'apartment_number',
@@ -44,7 +50,6 @@ class LocationAdmin(admin.ModelAdmin):
     )
     list_filter = ('street', 'house_number')
     search_fields = ('street', 'house_number')
-    exclude = ('images',)
     inlines = [ImageInline]
 
 
@@ -57,7 +62,6 @@ class PriceAdmin(admin.ModelAdmin):
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'location')
-
 
 
 @admin.register(Spot)
@@ -77,13 +81,7 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "spot",
-        "user",
-    )
-    empty_value_display = "-пусто)))-"
-    list_display = ('pk', 'spot', 'user', 'start_time', 'end_time')
+    list_display = ('pk', 'spot', 'user', 'start_time', 'end_time', 'status')
     empty_value_display = '-пусто)))-'
 
 
