@@ -1,24 +1,30 @@
 from django.db import models
 
+from .location import Location
 
-class Image(models.Model):
+
+class ExtraPhoto(models.Model):
     location = models.ForeignKey(
-        'spots.Location',
-        related_name='location_image',
+        Location,
+        related_name='location_extra_photo',
         on_delete=models.CASCADE,
     )
     image = models.ImageField(
+        'Фото',
         blank=False,
         upload_to='images/',
-        verbose_name='Фото',
         help_text='Фото места',
     )
     description = models.CharField(
+        'Описание',
         max_length=100,
         blank=True,
-        verbose_name='Описание',
     )
 
     class Meta:
         verbose_name = 'Фотография'
         verbose_name_plural = 'Фотографии'
+        ordering = ('location',)
+
+    def __str__(self) -> str:
+        return self.location.name
