@@ -52,8 +52,8 @@ class Order(models.Model):
         qs = self.__class__._default_manager.filter(
             spot=self.spot,
             date=self.date,
-            start_time__lt=self.end_time,
-            end_time__gt=self.start_time
+            start_time__lte=self.end_time,
+            end_time__gte=self.start_time
         )
         if qs.exists():
             raise ValidationError({
@@ -62,13 +62,16 @@ class Order(models.Model):
 
     def clean(self):
         if self.end_time < self.start_time:
-            raise ValidationError('Начало брони должно быть раньше конца')
+            raise ValidationError({
+                'end_time': 'Конец брони должен быть позже начала'
+            })
         return super().clean()
 
     class Meta:
         """Класс Meta для Order описание метаданных."""
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+        ordering = ('start_time',)
 
     def __str__(self) -> str:
         return f'{self.user} {self.spot}'

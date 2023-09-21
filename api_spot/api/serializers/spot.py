@@ -11,5 +11,5 @@ class SpotSerializer(serializers.ModelSerializer):
         """Класс мета для модели Spot."""
         model = Spot
         fields = (
-            'number', 'category_name'
+            'name', 'category_name'
         )

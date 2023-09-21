@@ -19,9 +19,9 @@ class OrderViewSet(CreateDestroyViewSet):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        change_status_task.apply_async(
-            args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
-        )
+        # change_status_task.apply_async(
+        #     args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
+        # )
 
 
 class OrderGetViewSet(RetrieveListViewSet):
