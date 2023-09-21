@@ -3,11 +3,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 
+
 from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer
+
+from spots.models import Order
 from api.tasks import change_status_task
-from spots.models.order import Order
+
 
 
 class OrderViewSet(CreateDestroyViewSet):
@@ -18,9 +21,9 @@ class OrderViewSet(CreateDestroyViewSet):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        change_status_task.apply_async(
-            args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
-        )
+        # change_status_task.apply_async(
+        #     args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
+        # )
 
 
 class OrderGetViewSet(RetrieveListViewSet):
