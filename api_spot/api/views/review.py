@@ -32,4 +32,4 @@ class ReviewGetViewSet(RetrieveListViewSet):
 
     def get_queryset(self):
         """Получение выборки с отзывами текущего спота."""
-        return Review.objects.filter(booked_spot__spot=self.get_spot())
+        return super().get_queryset().filter(booked_spot__spot=self.get_spot())

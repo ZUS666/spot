@@ -130,9 +130,6 @@ TIME_CHANGE_STATUS = 60 * 10
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
-        'USE_SESSION_AUTH': True,
-        'SECURITY_DEFINITIONS': {
-            'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
-        },
-    }
+        'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
+    },
 }

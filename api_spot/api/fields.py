@@ -4,8 +4,7 @@ from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from spots.models.location import Location
-from spots.models.spot import Spot
+from spots.models import Location, Spot
 
 
 class GetLocation(serializers.CurrentUserDefault):
