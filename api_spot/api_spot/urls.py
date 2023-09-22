@@ -22,14 +22,14 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path(  # new
+    path(
         'swagger-ui/',
         TemplateView.as_view(
             template_name='swaggerui/swaggerui.html',
             extra_context={'schema_url': 'openapi-schema'}
         ),
         name='swagger-ui'),
-    re_path(  # new
+    re_path(
         r'^swagger(?P<format>\.json|\.yaml)$',
         schema_view.without_ui(cache_timeout=0),
         name='schema-json'),
