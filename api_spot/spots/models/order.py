@@ -78,4 +78,4 @@ class Order(models.Model):
         ordering = ('start_time',)
 
     def __str__(self) -> str:
-        return f'{self.user} {self.spot}'
+        return f'{self.spot.location} {self.spot} {self.user}'

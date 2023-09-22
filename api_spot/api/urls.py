@@ -18,7 +18,7 @@ router_api_v1.register(
     basename='review'
 )
 router_api_v1.register(
-    r'spots/(?P<spot_id>\d+)/reviews',
+    r'locations/(?P<location_id>\d+)/reviews',
     ReviewGetViewSet,
     basename='get_reviews'
 )
