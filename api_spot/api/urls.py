@@ -13,12 +13,13 @@ router_api_v1 = DefaultRouter()
 router_api_v1.register(r'users', UserViewSet, basename='users')
 
 router_api_v1.register(
-    r'orders/(?P<order_id>\d+)/reviews',
+    r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)'
+    r'/order/(?P<order_id>\d+)/reviews',
     ReviewCreateViewSet,
     basename='review'
 )
 router_api_v1.register(
-    r'spots/(?P<spot_id>\d+)/reviews',
+    r'locations/(?P<location_id>\d+)/reviews',
     ReviewGetViewSet,
     basename='get_reviews'
 )
@@ -29,7 +30,7 @@ router_api_v1.register(
     basename='favorite'
 )
 router_api_v1.register(
-    r'locations/(?P<location_id>\d+)/order',
+    r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)/order',
     OrderViewSet,
     basename='order'
 )

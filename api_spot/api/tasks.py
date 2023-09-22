@@ -17,6 +17,7 @@ def change_status_task(order_id):
         order.save()
         print("Status changed")
 
+
 @shared_task()
 def send_mail_task(user_email, subject, template, add_dict=None):
     """

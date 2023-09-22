@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-
 from .models import (Equipment, Favorite, ExtraPhoto,
                      Location, Order, Price, Review, Spot, SpotEquipment)
 

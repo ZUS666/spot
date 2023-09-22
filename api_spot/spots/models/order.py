@@ -33,7 +33,7 @@ class Order(models.Model):
         verbose_name='Дата заказа'
     )
     start_time = models.TimeField(
-        verbose_name='Время начала брони'
+        verbose_name='Время начала брони',
     )
     end_time = models.TimeField(
         verbose_name='Время конца брони'
@@ -78,4 +78,4 @@ class Order(models.Model):
         ordering = ('start_time',)
 
     def __str__(self) -> str:
-        return f'{self.user} {self.spot}'
+        return f'{self.spot.location} {self.spot} {self.user}'
