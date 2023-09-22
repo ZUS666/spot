@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth import get_user_model
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models
+from multiselectfield import MultiSelectField
 
 import spots.constants as constants
 from spots.models.spot import Spot
@@ -34,28 +35,54 @@ class Order(models.Model):
     )
     start_time = models.TimeField(
         verbose_name='Время начала брони',
+        choices=constants.START_CHOICES,
+        default=constants.START_CHOICES[0][0],
     )
     end_time = models.TimeField(
-        verbose_name='Время конца брони'
+        verbose_name='Время конца брони',
+        choices=constants.END_CHOICES,
+        default=constants.END_CHOICES[0][0],
     )
+    time = MultiSelectField(
+        choices=constants.TIME_CHOICES,
+        max_length=100,
+    )
+
+    @property
+    def date_finish(self):
+        """Свойство , возращает datetime конца брони."""
+        return datetime.datetime.strptime(
+            f'{self.date} {self.end_time}', '%Y-%m-%d %H:%M:%S'
+        )
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
-        if not (
-            isinstance(self.start_time, datetime.time)
-            and isinstance(self.end_time, datetime.time)
-        ):
-            raise ValidationError("")
-        qs = self.__class__._default_manager.filter(
-            spot=self.spot,
-            date=self.date,
-            start_time__lte=self.end_time,
-            end_time__gte=self.start_time
-        )
-        if qs.exists():
-            raise ValidationError({
-                NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
-            })
+        print(self.time)
+        # Валидация по полю time
+        # qs = self.__class__._default_manager.filter(
+        #     spot=self.spot,
+        #     date=self.date,
+        # ).exclude(pk=self.pk).values_list('time', flat=True)
+        # for time in qs:
+        #     intersection = set(time).intersection(self.time)
+        #     if intersection:
+        #         raise ValidationError({
+        #             NON_FIELD_ERRORS: 'Данный коворкинг ужe'
+        #                               'забронирован на это время'
+        #                               'TIME мульти'
+        #         })
+
+        # # валидация по start и end
+        # qs = self.__class__._default_manager.filter(
+        #     spot=self.spot,
+        #     date=self.date,
+        #     start_time__lt=self.end_time,
+        #     end_time__gt=self.start_time
+        # ).exclude(pk=self.pk)
+        # if qs.exists():
+        #     raise ValidationError({
+        #         NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
+        #     })
 
     def clean(self):
         date_time_now = datetime.datetime.strptime(
@@ -64,6 +91,10 @@ class Order(models.Model):
         if date_time_now < datetime.datetime.now():
             raise ValidationError({
                 'start_time': 'Нельзя забронировать в прошлом.'
+            })
+        if self.end_time == self.start_time:
+            raise ValidationError({
+                'end_time': 'Конец брони не может совпадать с началом'
             })
         if self.end_time < self.start_time:
             raise ValidationError({
@@ -75,7 +106,7 @@ class Order(models.Model):
         """Класс Meta для Order описание метаданных."""
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-        ordering = ('start_time',)
+        ordering = ('date', 'start_time')
 
     def __str__(self) -> str:
         return f'{self.spot.location} {self.spot} {self.user}'

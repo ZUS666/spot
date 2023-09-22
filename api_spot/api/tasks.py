@@ -4,7 +4,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 
-from spots.constants import NOT_PAID, PAID
+from spots.constants import NOT_PAID, PAID, FINISH, ORDER
 from spots.models.order import Order
 
 
@@ -16,6 +16,16 @@ def change_status_task(order_id):
         order.status = NOT_PAID
         order.save()
         print("Status changed")
+
+
+@shared_task()
+def close_status_task(order_id):
+    """Таска закрытия заказа."""
+    order = get_object_or_404(Order, pk=order_id)
+    if order.status == ORDER:
+        order.status = FINISH
+        order.save()
+        print("Order FINISH")
 
 
 @shared_task()
