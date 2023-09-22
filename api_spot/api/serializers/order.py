@@ -1,8 +1,8 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from spots.models.order import Order, Spot
+from spots.models.order import Order
 from api.serializers.spot import SpotSerializer
+from api.fields import GetSpot
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -10,7 +10,9 @@ class OrderSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    spot = SpotSerializer()
+    spot = SpotSerializer(
+        default=GetSpot()
+    )
     price = serializers.DecimalField(
         source='spot.price',
         read_only=True,
@@ -28,12 +30,5 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""
-        spot = data.get('spot')
-        spot_obj = get_object_or_404(
-            Spot,
-            name=spot.get('name'),
-            category__name=spot.get('category').get('name')
-        )
-        data['spot'] = spot_obj
         self.Meta.model(**data).full_clean()
         return super().validate(data)
