@@ -57,7 +57,7 @@ class Order(models.Model):
             date=self.date,
             start_time__lt=self.end_time,
             end_time__gt=self.start_time
-        )
+        ).exclude(pk=self.pk)
         if qs.exists():
             raise ValidationError({
                 NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',

@@ -28,7 +28,7 @@ START_CHOICES = tuple([
 END_CHOICES = tuple([
     (
         datetime.time(x),
-        datetime.time(x).isoformat(MINUTES)
+        datetime.time(x - 1, 55).isoformat(MINUTES)
     )
     for x in range(9, 22)
 ])
