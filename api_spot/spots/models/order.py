@@ -33,7 +33,7 @@ class Order(models.Model):
         verbose_name='Дата заказа'
     )
     start_time = models.TimeField(
-        verbose_name='Время начала брони'
+        verbose_name='Время начала брони',
     )
     end_time = models.TimeField(
         verbose_name='Время конца брони'
