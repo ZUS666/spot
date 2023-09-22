@@ -1,8 +1,12 @@
+import datetime
+from decimal import Decimal
+
 from rest_framework import serializers
 
 from spots.models.order import Order
 from api.serializers.spot import SpotSerializer
 from api.fields import GetSpot
+from spots.constants import TIME_CHOICES
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -13,17 +17,16 @@ class OrderSerializer(serializers.ModelSerializer):
     spot = SpotSerializer(
         default=GetSpot()
     )
-    price = serializers.DecimalField(
-        source='spot.price',
-        read_only=True,
-        max_digits=10,
-        decimal_places=2
-    )
+    price = serializers.SerializerMethodField()
+    price_time = serializers.SerializerMethodField()
     start_time = serializers.TimeField(
         format='%H:%M'
     )
     end_time = serializers.TimeField(
         format='%H:%M'
+    )
+    time = serializers.MultipleChoiceField(
+        choices=TIME_CHOICES,
     )
 
     class Meta:
@@ -31,8 +34,24 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = (
             'user', 'spot', 'date',
-            'start_time', 'end_time', 'price'
+            'start_time', 'end_time', 'price',
+            'time', 'price_time'
         )
+
+    def get_price(self, obj):
+        """Цена по старте и конце."""
+        end = datetime.datetime.strptime(
+            f'{obj.date} {obj.end_time}', '%Y-%m-%d %H:%M:%S'
+        )
+        start = datetime.datetime.strptime(
+            f'{obj.date} {obj.start_time}', '%Y-%m-%d %H:%M:%S'
+        )
+        timedelta = Decimal((end - start).total_seconds() / 3600)
+        return obj.spot.price.total_price * timedelta
+
+    def get_price_time(self, obj):
+        """Цена по time."""
+        return obj.spot.price.total_price * len(obj.time)
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""

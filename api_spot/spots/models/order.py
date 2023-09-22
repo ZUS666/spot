@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth import get_user_model
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models
+from multiselectfield import MultiSelectField
 
 import spots.constants as constants
 from spots.models.spot import Spot
@@ -42,6 +43,10 @@ class Order(models.Model):
         choices=constants.END_CHOICES,
         default=constants.END_CHOICES[0][0],
     )
+    time = MultiSelectField(
+        choices=constants.TIME_CHOICES,
+        max_length=100,
+    )
 
     @property
     def date_finish(self):
@@ -52,16 +57,32 @@ class Order(models.Model):
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
-        qs = self.__class__._default_manager.filter(
-            spot=self.spot,
-            date=self.date,
-            start_time__lt=self.end_time,
-            end_time__gt=self.start_time
-        ).exclude(pk=self.pk)
-        if qs.exists():
-            raise ValidationError({
-                NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
-            })
+        print(self.time)
+        # Валидация по полю time
+        # qs = self.__class__._default_manager.filter(
+        #     spot=self.spot,
+        #     date=self.date,
+        # ).exclude(pk=self.pk).values_list('time', flat=True)
+        # for time in qs:
+        #     intersection = set(time).intersection(self.time)
+        #     if intersection:
+        #         raise ValidationError({
+        #             NON_FIELD_ERRORS: 'Данный коворкинг ужe'
+        #                               'забронирован на это время'
+        #                               'TIME мульти'
+        #         })
+
+        # # валидация по start и end
+        # qs = self.__class__._default_manager.filter(
+        #     spot=self.spot,
+        #     date=self.date,
+        #     start_time__lt=self.end_time,
+        #     end_time__gt=self.start_time
+        # ).exclude(pk=self.pk)
+        # if qs.exists():
+        #     raise ValidationError({
+        #         NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
+        #     })
 
     def clean(self):
         date_time_now = datetime.datetime.strptime(
