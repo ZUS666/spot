@@ -22,3 +22,17 @@ class ReviewSerializer(serializers.ModelSerializer):
             'description', 'raiting', 'user',
             'first_name', 'last_name', 'pub_date'
         )
+
+
+class ReviewGetSerializer(serializers.ModelSerializer):
+    """Сериализатор модели отзывов для получения."""
+    first_name = StringRelatedField(source='user.first_name', read_only=True)
+    last_name = StringRelatedField(source='user.last_name', read_only=True)
+
+    class Meta:
+        """Класс мета для модели Review."""
+        model = Review
+        fields = (
+            'description', 'raiting',
+            'first_name', 'last_name', 'pub_date'
+        )

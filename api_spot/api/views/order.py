@@ -26,7 +26,7 @@ class OrderViewSet(CreateDestroyViewSet):
 
 
 class OrderGetViewSet(RetrieveListViewSet):
-    """Вьюсет модели отзывов для получения."""
+    """Вьюсет модели заказов для получения."""
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,
@@ -34,7 +34,7 @@ class OrderGetViewSet(RetrieveListViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        """Получение выборки с отзывами текущего коворкинга."""
+        """Получение выборки с заказами для текущего пользователя."""
         if self.request.user.is_authenticated:
             return super().get_queryset().filter(user=self.request.user)
         return super().get_queryset()

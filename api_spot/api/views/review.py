@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import AllowAny
 
 from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
-from api.serializers.review import ReviewSerializer
-from spots.models import Review, Spot
+from api.serializers.review import ReviewSerializer, ReviewGetSerializer
+from spots.models import Review, Location
 
 
 class ReviewCreateViewSet(CreateDestroyViewSet):
@@ -14,10 +15,15 @@ class ReviewCreateViewSet(CreateDestroyViewSet):
 class ReviewGetViewSet(RetrieveListViewSet):
     """Вьюсет модели отзывов для получения."""
     queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+    serializer_class = ReviewGetSerializer
+    permission_classes = (AllowAny,)
 
     def get_queryset(self):
-        """Получение выборки с отзывами текущего спота."""
-        if self.kwargs.get('spot_id') is not None:
-            spot = get_object_or_404(Spot, pk=self.kwargs.get('spot_id'))
-            return super().get_queryset().filter(booked_spot__spot=spot)
+        """Получение выборки с отзывами текущей локации."""
+        if self.kwargs.get('location_id') is not None:
+            location = get_object_or_404(
+                Location, pk=self.kwargs.get('location_id')
+            )
+            return super().get_queryset().filter(
+                booked_spot__spot__location=location
+            )
