@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from .views import (FavoriteViewSet, OrderGetViewSet, OrderViewSet,
                     ReviewCreateViewSet, ReviewGetViewSet,
-                    LocationViewSet, UserViewSet)
+                    LocationViewSet, UserViewSet, SpotViewSet)
 
 
 app_name = 'api'
@@ -43,6 +43,11 @@ router_api_v1.register(
     r'locations',
     LocationViewSet,
     basename='favorite'
+)
+router_api_v1.register(
+    r'locations/(?P<location_id>\d+)/spots',
+    SpotViewSet,
+    basename='spots'
 )
 
 urlpatterns = [

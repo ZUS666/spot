@@ -1,13 +1,7 @@
 from django.contrib import admin
 
-from .models import (Category, Equipment, Favorite, ExtraPhoto,
+from .models import (Equipment, Favorite, ExtraPhoto,
                      Location, Order, Price, Review, Spot, SpotEquipment)
-
-
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description')
-    search_fields = ('name',)
 
 
 @admin.register(ExtraPhoto)
@@ -27,7 +21,8 @@ class LocationAdmin(admin.ModelAdmin):
         'name',
         'street',
         'house_number',
-        'apartment_number',
+        'open_time',
+        'close_time',
         'latitude',
         'longitude',
     )

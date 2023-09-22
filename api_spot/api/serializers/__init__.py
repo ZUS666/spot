@@ -1,6 +1,7 @@
 from .extra_photo import ExtraPhotoGetSerializer
 from .locations import LocationsGetSerializer
-
+from .spot import SpotSerializer
 
 ExtraPhotoGetSerializer
 LocationsGetSerializer
+SpotSerializer
