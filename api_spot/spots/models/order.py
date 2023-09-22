@@ -34,13 +34,13 @@ class Order(models.Model):
     )
     start_time = models.TimeField(
         verbose_name='Время начала брони',
-        choices=constants.TIME_CHOICES,
-        default=constants.TIME_CHOICES[0][0],
+        choices=constants.START_CHOICES,
+        default=constants.START_CHOICES[0][0],
     )
     end_time = models.TimeField(
         verbose_name='Время конца брони',
-        choices=constants.TIME_CHOICES,
-        default=constants.TIME_CHOICES[1][0],
+        choices=constants.END_CHOICES,
+        default=constants.END_CHOICES[0][0],
     )
 
     @property

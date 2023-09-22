@@ -18,12 +18,19 @@ ORDER_STATUS_CHOICES = (
     (NOT_PAID, NOT_PAID)
 )
 MINUTES = 'minutes'
-TIME_CHOICES = tuple([
+START_CHOICES = tuple([
     (
         datetime.time(x),
         datetime.time(x).isoformat(MINUTES)
     )
     for x in range(8, 21)
+])
+END_CHOICES = tuple([
+    (
+        datetime.time(x),
+        datetime.time(x).isoformat(MINUTES)
+    )
+    for x in range(9, 22)
 ])
 # Price
 MIN_VALUE = 1
