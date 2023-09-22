@@ -1,6 +1,6 @@
 from django.db import models
 
-from .category import Category
+from ..constants import CATEGORY_CHOICES
 from .equipment import Equipment
 from .location import Location
 from .price import Price
@@ -23,11 +23,9 @@ class Spot(models.Model):
         related_name='spots',
         verbose_name='Локация',
     )
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='spots',
+    category = models.CharField(
+        max_length=64,
+        choices=CATEGORY_CHOICES,
         verbose_name='Категория',
     )
     equipment = models.ManyToManyField(

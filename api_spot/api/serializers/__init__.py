@@ -1,9 +1,7 @@
-from .category import CategoriesGetSerializer
 from .extra_photo import ExtraPhotoGetSerializer
 from .locations import LocationsGetSerializer
 from .spot import SpotSerializer
 
-CategoriesGetSerializer
 ExtraPhotoGetSerializer
 LocationsGetSerializer
 SpotSerializer

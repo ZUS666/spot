@@ -13,10 +13,6 @@ class SpotSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='name'
     )
-    category = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field='name'
-    )
     equipment = serializers.SlugRelatedField(
         many=True,
         slug_field='name',

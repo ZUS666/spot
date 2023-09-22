@@ -1,4 +1,3 @@
-from .category import Category
 from .equipment import Equipment, SpotEquipment
 from .extra_photo import ExtraPhoto
 from .favorite import Favorite
@@ -8,7 +7,6 @@ from .price import Price
 from .review import Review
 from .spot import Spot
 
-Category
 Equipment
 Favorite
 ExtraPhoto

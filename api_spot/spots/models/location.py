@@ -11,6 +11,16 @@ class Location(models.Model):
         max_length=64,
         unique=True,
     )
+    open_time = models.TimeField(
+        'Время открытия',
+        blank=True,
+        null=True
+    )
+    close_time = models.TimeField(
+        'время закрытия',
+        blank=True,
+        null=True
+    )
     street = models.CharField(
         'Улица',
         max_length=100,
@@ -18,11 +28,6 @@ class Location(models.Model):
     house_number = models.CharField(
         'Номер дома',
         max_length=10,
-    )
-    apartment_number = models.CharField(
-        'Номер квартиры',
-        max_length=10,
-        blank=True,
     )
     latitude = models.DecimalField(
         'Широта',

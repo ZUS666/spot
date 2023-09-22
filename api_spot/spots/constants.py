@@ -31,3 +31,11 @@ LAT_MSG_ERROR = 'Широта должна быть в диапазоне от -
 LONG_MAX = 180
 LONG_MIN = -180
 LONG_MSG_ERROR = 'Долгота должна быть в диапазоне от -180 до 180'
+
+# Spot
+WORK_SPACE = 'Рабочее место'
+MEETING_ROOM = 'Переговорная'
+CATEGORY_CHOICES = (
+    (WORK_SPACE, WORK_SPACE),
+    (MEETING_ROOM, MEETING_ROOM),
+)
