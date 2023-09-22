@@ -1,3 +1,5 @@
+import datetime
+
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
@@ -7,9 +9,8 @@ from rest_framework.pagination import PageNumberPagination
 from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer
-
 from spots.models import Order
-from api.tasks import change_status_task
+from api.tasks import change_status_task, close_status_task
 
 
 class OrderViewSet(CreateDestroyViewSet):
@@ -22,6 +23,12 @@ class OrderViewSet(CreateDestroyViewSet):
         instance = serializer.save()
         # change_status_task.apply_async(
         #     args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
+        # )
+        finish_time = instance.date_finish
+        countdown = (datetime.datetime.now() - finish_time).total_seconds()
+        print(countdown)
+        # close_status_task.apply_async(
+        #     args=[instance.id], countdown=countdown
         # )
 
 

@@ -33,11 +33,22 @@ class Order(models.Model):
         verbose_name='Дата заказа'
     )
     start_time = models.TimeField(
-        verbose_name='Время начала брони'
+        verbose_name='Время начала брони',
+        choices=constants.TIME_CHOICES,
+        default=constants.TIME_CHOICES[0][0],
     )
     end_time = models.TimeField(
-        verbose_name='Время конца брони'
+        verbose_name='Время конца брони',
+        choices=constants.TIME_CHOICES,
+        default=constants.TIME_CHOICES[1][0],
     )
+
+    @property
+    def date_finish(self):
+        """Свойство , возращает datetime конца брони."""
+        return datetime.datetime.strptime(
+            f'{self.date} {self.end_time}', '%Y-%m-%d %H:%M:%S'
+        )
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
@@ -49,8 +60,8 @@ class Order(models.Model):
         qs = self.__class__._default_manager.filter(
             spot=self.spot,
             date=self.date,
-            start_time__lte=self.end_time,
-            end_time__gte=self.start_time
+            start_time__lt=self.end_time,
+            end_time__gt=self.start_time
         )
         if qs.exists():
             raise ValidationError({
@@ -58,12 +69,17 @@ class Order(models.Model):
             })
 
     def clean(self):
+        print(self.start_time)
         date_time_now = datetime.datetime.strptime(
             f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
         )
         if date_time_now < datetime.datetime.now():
             raise ValidationError({
                 'start_time': 'Нельзя забронировать в прошлом.'
+            })
+        if self.end_time == self.start_time:
+            raise ValidationError({
+                'end_time': 'Конец брони не может совпадать с началом'
             })
         if self.end_time < self.start_time:
             raise ValidationError({
@@ -75,7 +91,7 @@ class Order(models.Model):
         """Класс Meta для Order описание метаданных."""
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-        ordering = ('start_time',)
+        ordering = ('date', 'start_time')
 
     def __str__(self) -> str:
         return f'{self.spot.location} {self.spot} {self.user}'

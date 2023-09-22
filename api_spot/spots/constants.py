@@ -1,3 +1,5 @@
+import datetime
+
 # Review
 MIN_EVALUATION = 1
 MAX_EVALUATION = 5
@@ -15,7 +17,14 @@ ORDER_STATUS_CHOICES = (
     (ORDER, ORDER),
     (NOT_PAID, NOT_PAID)
 )
-
+MINUTES = 'minutes'
+TIME_CHOICES = tuple([
+    (
+        datetime.time(x),
+        datetime.time(x).isoformat(MINUTES)
+    )
+    for x in range(8, 21)
+])
 # Price
 MIN_VALUE = 1
 ZERO = 0

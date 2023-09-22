@@ -24,6 +24,7 @@ class ImageInline(admin.TabularInline):
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     list_display = (
+        'pk',
         'name',
         'street',
         'house_number',
@@ -56,7 +57,7 @@ class SpotEquipmentInline(admin.TabularInline):
 
 @admin.register(Spot)
 class SpotAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'category', 'price')
+    list_display = ('pk', 'name', 'location', 'category', 'price')
     list_filter = ('location', 'category',)
     inlines = (SpotEquipmentInline,)
 
@@ -73,7 +74,10 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'spot', 'user', 'start_time', 'end_time', 'status')
+    list_display = (
+        'pk', 'spot', 'user', 'date',
+        'start_time', 'end_time', 'status'
+    )
     empty_value_display = '-пусто)))-'
 
 
