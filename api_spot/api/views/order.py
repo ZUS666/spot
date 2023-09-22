@@ -25,7 +25,7 @@ class OrderViewSet(CreateDestroyViewSet):
         #     args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
         # )
         finish_time = instance.date_finish
-        countdown = (datetime.datetime.now() - finish_time).total_seconds()
+        countdown = (finish_time - datetime.datetime.now()).total_seconds()
         print(countdown)
         # close_status_task.apply_async(
         #     args=[instance.id], countdown=countdown

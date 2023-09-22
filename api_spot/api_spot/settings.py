@@ -85,7 +85,6 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
-DATETIME_FORMAT = "%Y-%m-%d%H:%M:%S"
 
 USE_I18N = True
 

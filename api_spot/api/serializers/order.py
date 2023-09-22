@@ -19,6 +19,12 @@ class OrderSerializer(serializers.ModelSerializer):
         max_digits=10,
         decimal_places=2
     )
+    start_time = serializers.TimeField(
+        format='%H:%M'
+    )
+    end_time = serializers.TimeField(
+        format='%H:%M'
+    )
 
     class Meta:
         """Класс мета для модели Order."""

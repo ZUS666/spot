@@ -52,11 +52,6 @@ class Order(models.Model):
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
-        if not (
-            isinstance(self.start_time, datetime.time)
-            and isinstance(self.end_time, datetime.time)
-        ):
-            raise ValidationError("")
         qs = self.__class__._default_manager.filter(
             spot=self.spot,
             date=self.date,
@@ -69,7 +64,6 @@ class Order(models.Model):
             })
 
     def clean(self):
-        print(self.start_time)
         date_time_now = datetime.datetime.strptime(
             f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
         )
