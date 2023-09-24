@@ -37,20 +37,19 @@ services:
       - web
       - redis
   
-  flower:
-    build: ../
-    command: celery -A api_spot flower
-    ports:
-      - 5555:5555
-    environment:
-      - CELERY_BROKER=redis://redis:6379
-      - CELERY_BACKEND=redis://redis:6379
-    env_file:
-      - ../.env
-    depends_on:
-      - web
-      - redis
-      - celery
+  # flower:
+  #   image: mher/flower
+  #   restart: always
+  #   expose:
+  #     - 5555
+  #   environment:
+  #     - CELERY_BROKER_URL=redis://redis:6379
+  #     - FLOWER_PORT=5555
+  #     - FLOWER_URL_PREFIX=/flower
+  #   depends_on:
+  #     - web
+  #     - redis
+  #     - celery
   
   nginx:
     image: nginx:1.21.3-alpine
@@ -62,7 +61,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - web
-      - flower
+      # - flower
 
 
 volumes:

@@ -141,7 +141,7 @@ COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
-TIME_CHANGE_STATUS = 60 * 10
+TIME_CHANGE_STATUS = 60 * 1 # 0
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
