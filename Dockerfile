@@ -2,11 +2,10 @@ FROM python:3.11.1-alpine
 
 WORKDIR /app
 
-COPY requirements.txt /app
+COPY . /app
 RUN python -m pip install --upgrade pip
-RUN pip install -r /app/requirements.txt --no-cache-dir
-
-COPY ./ /app
+RUN pip install -r requirements.txt
+# RUN pip install -r requirements.txt --no-cache-dir
 
 WORKDIR /app/api_spot
 

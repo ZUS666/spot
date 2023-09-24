@@ -12,11 +12,11 @@ services:
     image: redis:7-alpine
   
   web:
-    build: ../
+    build: ../.
     restart: always
     volumes:
-      - static_value:/api_spot/static/
-      - media_value:/api_spot/media
+      - static_value:/app/api_spot/static/
+      - media_value:/app/api_spot/media
     depends_on:
       - db
     env_file:
@@ -29,16 +29,30 @@ services:
     volumes:
       - app:/app
     environment:
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
+      - CELERY_BROKER=redis://redis:6379
+      - CELERY_BACKEND=redis://redis:6379
     env_file:
       - ../.env
     depends_on:
       - web
       - redis
-
+  
+  flower:
+    build: ../
+    command: celery -A api_spot flower
+    ports:
+      - 5555:5555
+    environment:
+      - CELERY_BROKER=redis://redis:6379
+      - CELERY_BACKEND=redis://redis:6379
+    env_file:
+      - ../.env
+    depends_on:
+      - web
+      - redis
+      - celery
+  
   nginx:
-    container_name: nginx
     image: nginx:1.21.3-alpine
     ports:
       - "80:80"
@@ -48,7 +62,9 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - web
-  
+      - flower
+
+
 volumes:
   static_value:
   media_value:

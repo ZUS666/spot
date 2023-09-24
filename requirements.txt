@@ -16,3 +16,5 @@ drf-yasg==1.21.7
 django-cors-headers==3.8.0
 
 django-multiselectfield
+
+flower
