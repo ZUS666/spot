@@ -20,8 +20,8 @@ pip install -r requirements.txt
 sudo apt update
 sudo apt install redis
 ```
-* Запустить сервер во втором терминале `redis-server`
-* В другом терминале(третим) перейти в папку `api_spot` и запустить celery
+* Запустить сервер терминале `redis-server`
+* В другом терминале(2) перейти в папку `api_spot` и запустить celery
 ```
 cd api_spot
 python -m celery -A api_spot worker
@@ -32,6 +32,11 @@ python manage.py createsuperuser
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
+```
+
+Так же можно запустить flower(для мониторинга задач) в третим терминале.
+```
+celery -A api_spot flower --port=5001
 ```
 
 * Для заполнения или обновления базы данных исползовать https://localhost/admin 
