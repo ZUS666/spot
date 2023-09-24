@@ -1,8 +1,12 @@
-from rest_framework import serializers
-from rest_framework.relations import StringRelatedField
+import datetime
+from decimal import Decimal
 
-from api.fields import GetSpot
+from rest_framework import serializers
+
 from spots.models.order import Order
+from api.serializers.spot import SpotSerializer
+from api.fields import GetSpot
+from spots.constants import TIME_CHOICES
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -10,44 +14,46 @@ class OrderSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    spot = serializers.HiddenField(
+    spot = SpotSerializer(
         default=GetSpot()
     )
-    spot_name = StringRelatedField(source='spot.name', read_only=True)
-    first_name = StringRelatedField(source='user.first_name', read_only=True)
-    last_name = StringRelatedField(source='user.last_name', read_only=True)
-    duration = serializers.SerializerMethodField(read_only=True)
+    price = serializers.SerializerMethodField()
+    price_time = serializers.SerializerMethodField()
+    start_time = serializers.TimeField(
+        format='%H:%M'
+    )
+    end_time = serializers.TimeField(
+        format='%H:%M'
+    )
+    time = serializers.MultipleChoiceField(
+        choices=TIME_CHOICES,
+    )
 
     class Meta:
         """Класс мета для модели Order."""
         model = Order
         fields = (
-            'spot', 'user', 'spot_name', 'first_name', 'last_name',
-            'start_date', 'end_date', 'duration'
+            'user', 'spot', 'date',
+            'start_time', 'end_time', 'price',
+            'time', 'price_time'
         )
 
-    def get_duration(self, obj):
-        """Получение продолжительность брони."""
-        time = obj.end_date - obj.start_date
-        return f'{round((time.total_seconds() / 3600), 3)} в часах'
+    def get_price(self, obj):
+        """Цена по старте и конце."""
+        end = datetime.datetime.strptime(
+            f'{obj.date} {obj.end_time}', '%Y-%m-%d %H:%M:%S'
+        )
+        start = datetime.datetime.strptime(
+            f'{obj.date} {obj.start_time}', '%Y-%m-%d %H:%M:%S'
+        )
+        timedelta = Decimal((end - start).total_seconds() / 3600)
+        return obj.spot.price.total_price * timedelta
+
+    def get_price_time(self, obj):
+        """Цена по time."""
+        return obj.spot.price.total_price * len(obj.time)
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""
-        spot = data.get('spot')
-        start_date = data.get('start_date')
-        end_date = data.get('end_date')
-
-        if end_date < start_date:
-            raise serializers.ValidationError(
-                {'start_date': 'Начало брони позже конца'})
-
-        qs = Order.objects.filter(
-            spot=spot,
-            start_date__lt=end_date,
-            end_date__gt=start_date
-        )
-        if qs.exists():
-            raise serializers.ValidationError({
-                'Spot': 'Данный коворкинг уже забронирован',
-            })
-        return data
+        self.Meta.model(**data).full_clean()
+        return super().validate(data)

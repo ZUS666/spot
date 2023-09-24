@@ -163,3 +163,5 @@ images/
 # VScode
 # *.http
 .vscode/
+
+migrations/
