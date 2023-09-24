@@ -141,10 +141,10 @@ COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 
-TIME_CHANGE_STATUS = 60 * 10
+TIME_CHANGE_STATUS = 60 * 1
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {

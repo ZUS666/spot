@@ -28,28 +28,25 @@ services:
     command: celery -A api_spot worker --loglevel=info
     volumes:
       - app:/app
-    environment:
-      - CELERY_BROKER=redis://redis:6379
-      - CELERY_BACKEND=redis://redis:6379
     env_file:
       - ../.env
     depends_on:
       - web
       - redis
   
-  # flower:
-  #   image: mher/flower
-  #   restart: always
-  #   expose:
-  #     - 5555
-  #   environment:
-  #     - CELERY_BROKER_URL=redis://redis:6379
-  #     - FLOWER_PORT=5555
-  #     - FLOWER_URL_PREFIX=/flower
-  #   depends_on:
-  #     - web
-  #     - redis
-  #     - celery
+  flower:
+    image: mher/flower
+    restart: always
+    expose:
+      - 5555
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379
+      - FLOWER_PORT=5555
+      - FLOWER_URL_PREFIX=/flower
+    depends_on:
+      - web
+      - redis
+      - celery
   
   nginx:
     image: nginx:1.21.3-alpine
@@ -59,9 +56,11 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_value:/var/html/static/
       - media_value:/var/html/media/
+    links:
+      - web
     depends_on:
       - web
-      # - flower
+      - flower
 
 
 volumes:
