@@ -1,11 +1,14 @@
 import os
-from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.getenv('SECRET_KEY', default='default_key')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default=['*'])
 
@@ -141,10 +144,13 @@ COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
-TIME_CHANGE_STATUS = 60 * 1 # 0
+TIME_CHANGE_STATUS = 60 * 10
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
     },
 }
+
+CELERY_TIMEZONE = 'Europe/Moscow'
+CELERY_TASK_TRACK_STARTED = True
