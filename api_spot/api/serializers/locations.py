@@ -29,8 +29,8 @@ class LocationsGetSerializer(serializers.ModelSerializer):
             'extra_photo',
             'description',
             'is_favorited',
-            'count_workspace',
-            'count_meeting_room',
+            # 'count_workspace',
+            # 'count_meeting_room',
         )
 
     def get_is_favorited(self, instance, *args, **kwargs):
