@@ -32,6 +32,15 @@ END_CHOICES = tuple([
     )
     for x in range(0, 23)
 ])
+TIME_CHOICES = tuple([
+    (
+        f'{datetime.time(x).isoformat(MINUTES)} - '
+        f'{datetime.time(x, 55).isoformat(MINUTES)}',
+        f'{datetime.time(x).isoformat(MINUTES)} - '
+        f'{datetime.time(x, 55).isoformat(MINUTES)}'
+    )
+    for x in range(0, 24)
+])
 
 # Price
 MIN_VALUE = 1
