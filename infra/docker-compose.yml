@@ -9,10 +9,7 @@ services:
       - ../.env
   
   redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    entrypoint: redis-server --appendonly yes
+    image: redis:latest
   
   web:
     build: ../.
@@ -33,9 +30,12 @@ services:
       - app:/app
     env_file:
       - ../.env
+    links:
+      - redis
     depends_on:
       - web
       - redis
+      - db
   
   flower:
     image: mher/flower
