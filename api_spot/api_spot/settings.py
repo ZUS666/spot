@@ -141,8 +141,8 @@ COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 
-CELERY_BROKER_URL = 'redis://redis:6379'
-CELERY_RESULT_BACKEND = 'redis://redis:6379'
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 
 TIME_CHANGE_STATUS = 60 * 1
 
