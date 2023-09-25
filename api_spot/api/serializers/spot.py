@@ -41,7 +41,6 @@ class SpotSerializer(serializers.ModelSerializer):
             'is_ordered',
         )
 
-    # def get_plan_photo()
     def get_is_ordered(self, instance, *args, **kwargs):
         date = self.context.get('date')
         start_time = self.context.get('start_time')
