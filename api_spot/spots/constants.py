@@ -54,6 +54,8 @@ LAT_MSG_ERROR = 'Широта должна быть в диапазоне от -
 LONG_MAX = 180
 LONG_MIN = -180
 LONG_MSG_ERROR = 'Долгота должна быть в диапазоне от -180 до 180'
+NAME_CACHE_WORKSPACE = 'workspace'
+NAME_CACHE_MEETING_ROOM = 'meeting_room'
 
 # Spot
 WORK_SPACE = 'Рабочее место'

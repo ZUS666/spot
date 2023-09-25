@@ -1,8 +1,11 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
+from spots.services import count_spots
 from spots.constants import (LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
-                             LONG_MIN, LONG_MSG_ERROR)
+                             LONG_MIN, LONG_MSG_ERROR, WORK_SPACE,
+                             MEETING_ROOM, NAME_CACHE_MEETING_ROOM,
+                             NAME_CACHE_WORKSPACE)
 
 
 class Location(models.Model):
@@ -78,3 +81,9 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
+
+    def count_workspace(self, *args, **kwargs):
+        return count_spots(self, WORK_SPACE, NAME_CACHE_WORKSPACE)
+
+    def count_meeting_room(self, *args, **kwargs):
+        return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
