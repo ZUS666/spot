@@ -11,6 +11,7 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer
 from spots.models import Order
 from api.tasks import change_status_task, close_status_task
+from api.filters import OrderFilter
 
 
 class OrderViewSet(CreateDestroyViewSet):
@@ -36,9 +37,10 @@ class OrderGetViewSet(RetrieveListViewSet):
     """Вьюсет модели заказов для получения."""
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter,
+    filter_backends = (DjangoFilterBackend,
                        filters.OrderingFilter)
     pagination_class = PageNumberPagination
+    filterset_class = OrderFilter
 
     def get_queryset(self):
         """Получение выборки с заказами для текущего пользователя."""
