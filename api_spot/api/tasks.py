@@ -12,11 +12,12 @@ from spots.models.order import Order
 def change_status_task(order_id):
     """Таска изменения статуса после n секнуд."""
     order = get_object_or_404(Order, pk=order_id)
+    print('НАЧАЛО ЗАДАЧИ ИЗМЕНЕНИЯ СТАТСУА ')
     if order.status != PAID:
         order.status = NOT_PAID
         order.save()
         print("Status changed")
-
+    print('finish task1')
 
 @shared_task()
 def close_status_task(order_id):
