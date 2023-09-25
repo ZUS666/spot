@@ -1,9 +1,10 @@
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
 from .views import (FavoriteViewSet, OrderGetViewSet, OrderViewSet,
                     ReviewCreateViewSet, ReviewGetViewSet,
-                    LocationViewSet, UserViewSet, SpotViewSet)
+                    LocationViewSet, UserViewSet, SpotViewSet,
+                    confirmation_pay)
 
 
 app_name = 'api'
@@ -50,7 +51,16 @@ router_api_v1.register(
     basename='spots'
 )
 
+url = [
+    re_path(
+        r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)'
+        r'/order/(?P<order_id>\d+)/pay/',
+        confirmation_pay, name='pay'
+    ),
+]
+
 urlpatterns = [
+    path('v1/', include(url)),
     path('v1/', include(router_api_v1.urls)),
     path('v1/auth/', include('djoser.urls.authtoken')),
 ]
