@@ -25,6 +25,7 @@ class LocationsGetSerializer(serializers.ModelSerializer):
             'close_time',
             'latitude',
             'longitude',
+            'main_photo'
             'plan_photo',
             'extra_photo',
             'description',
@@ -38,3 +39,12 @@ class LocationsGetSerializer(serializers.ModelSerializer):
         if not user.is_authenticated:
             return False
         return instance.favorites.filter(user_id=user.id).exists()
+
+
+class LocationGetPlanNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = (
+            'name',
+            'plan_photo',
+        )

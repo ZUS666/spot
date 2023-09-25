@@ -1,7 +1,10 @@
 from .extra_photo import ExtraPhotoGetSerializer
-from .locations import LocationsGetSerializer
-from .spot import SpotSerializer
+from .locations import LocationsGetSerializer, LocationGetPlanNameSerializer
+from .spot import SpotDetailSerializer, SpotQuerySerializer, SpotSerializer
 
 ExtraPhotoGetSerializer
+LocationGetPlanNameSerializer
 LocationsGetSerializer
+SpotDetailSerializer
+SpotQuerySerializer
 SpotSerializer

@@ -16,13 +16,9 @@ class Location(models.Model):
     )
     open_time = models.TimeField(
         'Время открытия',
-        blank=True,
-        null=True
     )
     close_time = models.TimeField(
         'время закрытия',
-        blank=True,
-        null=True
     )
     street = models.CharField(
         'Улица',
@@ -31,6 +27,12 @@ class Location(models.Model):
     house_number = models.CharField(
         'Номер дома',
         max_length=10,
+    )
+    metro = street = models.CharField(
+        'Метро',
+        max_length=128,
+        blank=True,
+        null=True
     )
     latitude = models.DecimalField(
         'Широта',
@@ -61,6 +63,12 @@ class Location(models.Model):
                 message=LONG_MSG_ERROR,
             ),
         ],
+    )
+    main_photo = models.ImageField(
+        'Главное фото',
+        upload_to='images/main_photo/',
+        help_text='Главное фото локации',
+        blank=True,
     )
     plan_photo = models.ImageField(
         'План',

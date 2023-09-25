@@ -1,12 +1,12 @@
 import datetime
 from decimal import Decimal
 
+from django.conf import settings
 from rest_framework import serializers
 
 from spots.models.order import Order
 from api.serializers.spot import SpotSerializer
 from api.fields import GetSpot
-from spots.constants import TIME_CHOICES
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -20,13 +20,10 @@ class OrderSerializer(serializers.ModelSerializer):
     price = serializers.SerializerMethodField()
     price_time = serializers.SerializerMethodField()
     start_time = serializers.TimeField(
-        format='%H:%M'
+        format=settings.TIME_INPUT_FORMAT
     )
     end_time = serializers.TimeField(
-        format='%H:%M'
-    )
-    time = serializers.MultipleChoiceField(
-        choices=TIME_CHOICES,
+        format=settings.TIME_INPUT_FORMAT
     )
 
     class Meta:
@@ -34,8 +31,8 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = (
             'user', 'spot', 'date',
-            'start_time', 'end_time', 'price',
-            'time', 'price_time'
+            'start_time', 'end_time',
+            'price', 'price_time'
         )
 
     def get_price(self, obj):
@@ -49,9 +46,9 @@ class OrderSerializer(serializers.ModelSerializer):
         timedelta = Decimal((end - start).total_seconds() / 3600)
         return obj.spot.price.total_price * timedelta
 
-    def get_price_time(self, obj):
-        """Цена по time."""
-        return obj.spot.price.total_price * len(obj.time)
+    # def get_price_time(self, obj):
+    #     """Цена по time."""
+    #     return obj.spot.price.total_price * len(obj.time)
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""

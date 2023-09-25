@@ -47,12 +47,6 @@ class Order(models.Model):
         blank=True,
         null=True,
     )
-    time = MultiSelectField(
-        choices=constants.TIME_CHOICES,
-        max_length=100,
-        blank=True,
-        null=True,
-    )
 
     @property
     def date_finish(self):
@@ -63,7 +57,7 @@ class Order(models.Model):
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
-        print(self.time)
+        # print(self.time)
         # Валидация по полю time
         # qs = self.__class__._default_manager.filter(
         #     spot=self.spot,
