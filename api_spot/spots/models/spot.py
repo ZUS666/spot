@@ -1,6 +1,8 @@
+from django.core.cache import cache
 from django.db import models
 
-from ..constants import CATEGORY_CHOICES
+from ..constants import (CATEGORY_CHOICES, NAME_CACHE_MEETING_ROOM,
+                         NAME_CACHE_WORKSPACE)
 from .equipment import Equipment
 from .location import Location
 from .price import Price
@@ -52,3 +54,13 @@ class Spot(models.Model):
 
     def __str__(self):
         return f'{self.name} в {self.location}'
+
+    def save(self, *args, **kwargs):
+        cache.delete(f'{self.location_id} {NAME_CACHE_WORKSPACE}')
+        cache.delete(f'{self.location_id} {NAME_CACHE_MEETING_ROOM}')
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        cache.delete(f'{self.location_id} {NAME_CACHE_WORKSPACE}')
+        cache.delete(f'{self.location_id} {NAME_CACHE_MEETING_ROOM}')
+        return super().delete(*args, **kwargs)
