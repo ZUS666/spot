@@ -28,11 +28,15 @@ class Location(models.Model):
         'Номер дома',
         max_length=10,
     )
-    metro = street = models.CharField(
+    metro = models.CharField(
         'Метро',
         max_length=128,
         blank=True,
         null=True
+    )
+    city = models.CharField(
+        'Город',
+        max_length=64,
     )
     latitude = models.DecimalField(
         'Широта',
