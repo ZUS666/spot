@@ -1,5 +1,6 @@
 import django_filters
 
+
 from spots.models import Order
 from spots.constants import FINISH
 
@@ -9,6 +10,11 @@ class OrderFilter(django_filters.FilterSet):
     finished = django_filters.NumberFilter(
         method='filter_finished', label='finished'
     )
+    name = django_filters.CharFilter(
+        field_name='name',
+        lookup_expr='istartswith',
+    )
+
 
     def filter_finished(self, queryset, name, value):
         if self.request.user.is_authenticated:
@@ -25,5 +31,6 @@ class OrderFilter(django_filters.FilterSet):
     class Meta:
         model = Order
         fields = (
-            'finished',
+            'finished', 'name',
         )
+   
