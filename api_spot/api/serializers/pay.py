@@ -1,9 +1,11 @@
 from django.core.validators import RegexValidator
-
 from rest_framework import serializers
+
+from phonenumber_field.serializerfields import PhoneNumberField
 
 
 class PaySerializer(serializers.Serializer):
+    """Сериадизатор для оплаты."""
     name_owner = serializers.CharField(
         max_length=30, validators=(RegexValidator(r'^[A-Za-z]+$'),)
     )
@@ -15,7 +17,7 @@ class PaySerializer(serializers.Serializer):
         input_formats=['%m/%y', ]
     )
     cvv = serializers.CharField(
-        max_length=3, validators=(RegexValidator(r'^[\d]$'),)
+        max_length=3, validators=(RegexValidator(r'^[\d]{1,3}$'),)
     )
     email = serializers.EmailField()
-    phone = serializers.IntegerField()
+    phone = PhoneNumberField(region='RU')
