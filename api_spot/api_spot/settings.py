@@ -1,10 +1,12 @@
 import os
 
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.getenv('SECRET_KEY', default='default_key')
 
@@ -65,19 +67,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api_spot.wsgi.application'
 
 DATABASES = {
-    "default": {
-        "ENGINE": os.environ["DB_ENGINE"],
-        "NAME": os.environ["DB_NAME"],
-        "USER": os.environ["POSTGRES_USER"],
-        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
-        "HOST": os.environ["DB_HOST"],
-        "PORT": os.environ["DB_PORT"],
-    }
-
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # "default": {
+    #     "ENGINE": os.environ["DB_ENGINE"],
+    #     "NAME": os.environ["DB_NAME"],
+    #     "USER": os.environ["POSTGRES_USER"],
+    #     "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+    #     "HOST": os.environ["DB_HOST"],
+    #     "PORT": os.environ["DB_PORT"],
     # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -154,3 +156,5 @@ SWAGGER_SETTINGS = {
 
 CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_TASK_TRACK_STARTED = True
+
+TIMEOUT_CACHED_COUNTER = 6 * 60 * 60
