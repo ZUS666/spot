@@ -45,6 +45,10 @@ class SpotSerializer(serializers.ModelSerializer):
         )
 
     def get_is_ordered(self, instance, *args, **kwargs):
+        """
+        Получение булевого значение по параметрам запроса о
+        возможности бронирования.
+        """
         date = self.context.get('date')
         start_time = self.context.get('start_time')
         end_time = self.context.get('end_time')
