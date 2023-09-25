@@ -82,8 +82,8 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
-    # def count_workspace(self, *args, **kwargs):
-    #     return count_spots(self, WORK_SPACE, NAME_CACHE_WORKSPACE)
+    def count_workspace(self, *args, **kwargs):
+        return count_spots(self, WORK_SPACE, NAME_CACHE_WORKSPACE)
 
-    # def count_meeting_room(self, *args, **kwargs):
-    #     return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
+    def count_meeting_room(self, *args, **kwargs):
+        return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
