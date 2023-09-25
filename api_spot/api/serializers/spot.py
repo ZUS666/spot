@@ -7,6 +7,9 @@ from spots.models import Spot
 
 
 class SpotQuerySerializer(serializers.Serializer):
+    """
+    Сериализатор для валидации query_params.
+    """
     date = serializers.DateField(input_formats=(settings.DATE_INPUT_FORMAT,))
     start_time = serializers.TimeField(
         input_formats=(settings.TIME_INPUT_FORMAT,)
