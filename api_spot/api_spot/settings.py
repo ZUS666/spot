@@ -132,6 +132,7 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 DEFAULT_FROM_EMAIL = 'fake@mail.com'
 
 TIMEOUT_CACHED_CODE = 15 * 16
+TIMEOUT_CACHED_COUNTER = 6 * 60 * 60
 LEN_CONFIRMATION_CODE = 6
 COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 
