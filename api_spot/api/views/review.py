@@ -1,9 +1,8 @@
+from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
+from api.serializers.review import ReviewGetSerializer, ReviewSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny
-
-from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
-from api.serializers.review import ReviewSerializer, ReviewGetSerializer
-from spots.models import Review, Location
+from spots.models import Location, Review
 
 
 class ReviewCreateViewSet(CreateDestroyViewSet):

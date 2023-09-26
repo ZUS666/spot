@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework import serializers
-
 from spots.models import Location
+
 from .extra_photo import ExtraPhotoGetSerializer
 
 

@@ -1,17 +1,15 @@
 import datetime
 
+from api.filters import OrderFilter
+from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
+from api.permissions import IsOwnerOrReadOnly
+from api.serializers.order import OrderSerializer
+from api.tasks import change_status_task, close_status_task
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
-
-
-from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
-from api.permissions import IsOwnerOrReadOnly
-from api.serializers.order import OrderSerializer
 from spots.models import Order
-from api.tasks import change_status_task, close_status_task
-from api.filters import OrderFilter
 
 
 class OrderViewSet(CreateDestroyViewSet):
@@ -40,6 +38,7 @@ class OrderGetViewSet(RetrieveListViewSet):
     filter_backends = (DjangoFilterBackend,
                        filters.OrderingFilter)
     filterset_class = OrderFilter
+    permission_classes = (IsOwnerOrReadOnly,)
     pagination_class = PageNumberPagination
 
     def get_queryset(self):

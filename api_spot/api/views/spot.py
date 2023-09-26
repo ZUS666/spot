@@ -1,10 +1,10 @@
+from api.mixins import RetrieveListViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny
-
-from api.mixins import RetrieveListViewSet
-from ..serializers import (SpotDetailSerializer, SpotSerializer,
-                           SpotQuerySerializer)
 from spots.models import Spot
+
+from ..serializers import (SpotDetailSerializer, SpotQuerySerializer,
+                           SpotSerializer)
 
 
 class SpotViewSet(RetrieveListViewSet):
