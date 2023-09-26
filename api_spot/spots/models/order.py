@@ -37,15 +37,11 @@ class Order(models.Model):
         verbose_name='Время начала брони',
         choices=constants.START_CHOICES,
         default=constants.START_CHOICES[0][0],
-        blank=True,
-        null=True,
     )
     end_time = models.TimeField(
         verbose_name='Время конца брони',
         choices=constants.END_CHOICES,
         default=constants.END_CHOICES[0][0],
-        blank=True,
-        null=True,
     )
     time = MultiSelectField(
         choices=constants.TIME_CHOICES,
@@ -63,7 +59,7 @@ class Order(models.Model):
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
-        print(self.time)
+        # print(self.time)
         # Валидация по полю time
         # qs = self.__class__._default_manager.filter(
         #     spot=self.spot,

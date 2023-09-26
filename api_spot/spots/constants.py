@@ -24,26 +24,29 @@ START_CHOICES = tuple([
         datetime.time(x),
         datetime.time(x).isoformat(MINUTES)
     )
-    for x in range(8, 21)
+    for x in range(0, 23)
 ])
 END_CHOICES = tuple([
     (
-        datetime.time(x),
-        datetime.time(x - 1, 55).isoformat(MINUTES)
+        datetime.time(x, 55),
+        datetime.time(x, 55).isoformat(MINUTES)
     )
-    for x in range(9, 22)
+    for x in range(0, 23)
 ])
 TIME_CHOICES = tuple([
     (
-        f'{datetime.time(x).isoformat(MINUTES)}',
-        f'{datetime.time(x).isoformat(MINUTES)}'
+        f'{datetime.time(x).isoformat(MINUTES)} - '
+        f'{datetime.time(x, 55).isoformat(MINUTES)}',
+        f'{datetime.time(x).isoformat(MINUTES)} - '
+        f'{datetime.time(x, 55).isoformat(MINUTES)}'
     )
-    for x in range(9, 22)
+    for x in range(0, 24)
 ])
+
 # Price
 MIN_VALUE = 1
 ZERO = 0
-MAX_DISCOUNT = 100
+MAX_DISCOUNT = 70
 MAX_DISCOUNT_MESSAGE = f'Скидка не может превышать {MAX_DISCOUNT}%'
 DISCOUNT_NEGATIVE_MESSAGE = 'Скидка не может быть меньше нуля.'
 PRICE_NEGATIVE_OR_ZERO_MESSAGE = 'Цена не может быть меньше или равна нулю.'
@@ -57,6 +60,8 @@ LONG_MIN = -180
 LONG_MSG_ERROR = 'Долгота должна быть в диапазоне от -180 до 180'
 NAME_CACHE_WORKSPACE = 'workspace'
 NAME_CACHE_MEETING_ROOM = 'meeting_room'
+NAME_CACHE_RATING = 'rating'
+NAME_CACHE_LOW_PRICE = 'low_price'
 
 # Spot
 WORK_SPACE = 'Рабочее место'

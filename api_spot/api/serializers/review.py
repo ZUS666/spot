@@ -19,7 +19,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = (
             'booked_spot',
-            'description', 'raiting', 'user',
+            'description', 'rating', 'user',
             'first_name', 'last_name', 'pub_date'
         )
 
@@ -33,6 +33,6 @@ class ReviewGetSerializer(serializers.ModelSerializer):
         """Класс мета для модели Review."""
         model = Review
         fields = (
-            'description', 'raiting',
+            'description', 'rating',
             'first_name', 'last_name', 'pub_date'
         )

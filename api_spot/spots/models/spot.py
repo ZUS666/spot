@@ -2,7 +2,7 @@ from django.core.cache import cache
 from django.db import models
 
 from ..constants import (CATEGORY_CHOICES, NAME_CACHE_MEETING_ROOM,
-                         NAME_CACHE_WORKSPACE)
+                         NAME_CACHE_WORKSPACE, NAME_CACHE_LOW_PRICE)
 from .equipment import Equipment
 from .location import Location
 from .price import Price
@@ -56,11 +56,13 @@ class Spot(models.Model):
         return f'{self.name} в {self.location}'
 
     def save(self, *args, **kwargs):
-        cache.delete(f'{self.location_id} {NAME_CACHE_WORKSPACE}')
-        cache.delete(f'{self.location_id} {NAME_CACHE_MEETING_ROOM}')
+        cache.delete(f'{self.location_id}{NAME_CACHE_WORKSPACE}')
+        cache.delete(f'{self.location_id}{NAME_CACHE_MEETING_ROOM}')
+        cache.delete(f'{self.location_id}{NAME_CACHE_LOW_PRICE}')
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        cache.delete(f'{self.location_id} {NAME_CACHE_WORKSPACE}')
-        cache.delete(f'{self.location_id} {NAME_CACHE_MEETING_ROOM}')
+        cache.delete(f'{self.location_id}{NAME_CACHE_WORKSPACE}')
+        cache.delete(f'{self.location_id}{NAME_CACHE_MEETING_ROOM}')
+        cache.delete(f'{self.location_id}{NAME_CACHE_LOW_PRICE}')
         return super().delete(*args, **kwargs)
