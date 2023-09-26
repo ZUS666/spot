@@ -64,9 +64,9 @@ class LocationFilter(filters.FilterSet):
         )
 
 
-class SpotEquipmentFilter(django_filters.FilterSet):
+class SpotEquipmentFilter(filters.FilterSet):
     """Класс FilterSet для фильтрации обородувания."""
-    category = django_filters.ChoiceFilter(
+    category = filters.ChoiceFilter(
         choices=CATEGORY_CHOICES,
         field_name='spot__category',
     )
