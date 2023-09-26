@@ -59,34 +59,7 @@ class Order(models.Model):
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
-        # print(self.time)
-        # Валидация по полю time
-        # qs = self.__class__._default_manager.filter(
-        #     spot=self.spot,
-        #     date=self.date,
-        # ).exclude(pk=self.pk).values_list('time', flat=True)
-        # for time in qs:
-        #     intersection = set(time).intersection(self.time)
-        #     if intersection:
-        #         raise ValidationError({
-        #             NON_FIELD_ERRORS: 'Данный коворкинг ужe'
-        #                               'забронирован на это время'
-        #                               'TIME мульти'
-        #         })
 
-        # # валидация по start и end
-        # qs = self.__class__._default_manager.filter(
-        #     spot=self.spot,
-        #     date=self.date,
-        #     start_time__lt=self.end_time,
-        #     end_time__gt=self.start_time
-        # ).exclude(pk=self.pk)
-        # if qs.exists():
-        #     raise ValidationError({
-        #         NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
-        #     })
-
-    def clean(self):
         date_time_now = datetime.datetime.strptime(
             f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
         )
@@ -94,6 +67,33 @@ class Order(models.Model):
             raise ValidationError({
                 'start_time': 'Нельзя забронировать в прошлом.'
             })
+        # Валидация по полю time
+        qs = self.__class__._default_manager.filter(
+            spot=self.spot,
+            date=self.date,
+        ).exclude(pk=self.pk).values_list('time', flat=True)
+        for time in qs:
+            intersection = set(time).intersection(self.time)
+            if intersection:
+                raise ValidationError({
+                    NON_FIELD_ERRORS: 'Данный коворкинг ужe'
+                                      'забронирован на это время'
+                                      'TIME мульти'
+                })
+
+        # валидация по start и end
+        qs = self.__class__._default_manager.filter(
+            spot=self.spot,
+            date=self.date,
+            start_time__lt=self.end_time,
+            end_time__gt=self.start_time
+        ).exclude(pk=self.pk)
+        if qs.exists():
+            raise ValidationError({
+                NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
+            })
+
+    def clean(self):
         if self.end_time == self.start_time:
             raise ValidationError({
                 'end_time': 'Конец брони не может совпадать с началом'
