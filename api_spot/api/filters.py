@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from spots.models import Order, Location
+from spots.models import Order, Location, SpotEquipment
 from spots.constants import FINISH, CATEGORY_CHOICES
 
 
@@ -9,10 +9,6 @@ class OrderFilter(filters.FilterSet):
     finished = filters.BooleanFilter(
         method='filter_finished',
         label='finished',
-    )
-    name = filters.CharFilter(
-        field_name='name',
-        lookup_expr='istartswith',
     )
 
     def filter_finished(self, queryset, name, value):
@@ -23,7 +19,7 @@ class OrderFilter(filters.FilterSet):
     class Meta:
         model = Order
         fields = (
-            'finished', 'name',
+            'finished',
         )
 
 
@@ -47,6 +43,10 @@ class LocationFilter(filters.FilterSet):
     is_favorited = filters.BooleanFilter(
         method='get_is_favorited'
     )
+    name = django_filters.CharFilter(
+        field_name='name',
+        lookup_expr='istartswith',
+    )
 
     def get_is_favorited(self, queryset, name, value):
         user = self.request.user
@@ -61,4 +61,18 @@ class LocationFilter(filters.FilterSet):
             'metro',
             'category',
             'is_favorited',
+        )
+
+
+class SpotEquipmentFilter(django_filters.FilterSet):
+    """Класс FilterSet для фильтрации обородувания."""
+    category = django_filters.ChoiceFilter(
+        choices=CATEGORY_CHOICES,
+        field_name='spot__category',
+    )
+
+    class Meta:
+        model = SpotEquipment
+        fields = (
+            'category',
         )
