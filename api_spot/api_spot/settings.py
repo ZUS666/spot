@@ -100,6 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
+DATE_FORMAT = '%Y-%m-%d'
+TIME_FORMAT = '%H:%M'
 
 USE_I18N = True
 
@@ -133,29 +135,37 @@ DEFAULT_FROM_EMAIL = 'fake@mail.com'
 
 TIMEOUT_CACHED_CODE = 15 * 16
 TIMEOUT_CACHED_COUNTER = 6 * 60 * 60
+TIMEOUT_CACHED_COUNTER = 6 * 60 * 60
+TIMEOUT_CACHED_RATING = 60 * 60
+TIMEOUT_CACHED_LOW_PRICE = 3 * 60 * 60
+
+TIME_CHANGE_STATUS = 60 * 1
 LEN_CONFIRMATION_CODE = 6
+
 COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'your_adress@gmail.com'
-# EMAIL_HOST_PASSWORD = 'password'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
+# EMAIL_HOST = os.getenv('EMAIL_HOST', default='smtp.gamil.com')
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', default='your_adress@gmail.com')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', default='password')
+# EMAIL_PORT = os.getenv('EMAIL_PORT', default='587')
+# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', default='True')
 
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
+CELERY_TIMEZONE = 'Europe/Moscow'
+CELERY_TASK_TRACK_STARTED = True
 
-TIME_CHANGE_STATUS = 60 * 1
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': os.getenv('REDIS_ADDRESS', default='redis://redis:6379'),
+    }
+}
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
     },
 }
-
-CELERY_TIMEZONE = 'Europe/Moscow'
-CELERY_TASK_TRACK_STARTED = True
-
-TIMEOUT_CACHED_COUNTER = 6 * 60 * 60

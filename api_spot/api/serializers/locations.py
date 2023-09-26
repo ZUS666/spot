@@ -6,6 +6,10 @@ from .extra_photo import ExtraPhotoGetSerializer
 
 
 class LocationGetPlanNameSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для вывода краткой информации о локации.
+    Используется при выборе места бронирования.
+    """
     class Meta:
         model = Location
         fields = (
@@ -15,6 +19,10 @@ class LocationGetPlanNameSerializer(serializers.ModelSerializer):
 
 
 class LocationGetShortSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для вывода краткой информации о локации.
+    Используется на главной странице.
+    """
 
     class Meta:
         model = Location
@@ -31,6 +39,9 @@ class LocationGetShortSerializer(serializers.ModelSerializer):
 
 
 class LocationGetSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для вывода подбробной информации о локации.
+    """
     open_time = serializers.TimeField(format=settings.TIME_FORMAT)
     close_time = serializers.TimeField(format=settings.TIME_FORMAT)
     extra_photo = ExtraPhotoGetSerializer(
@@ -61,6 +72,9 @@ class LocationGetSerializer(serializers.ModelSerializer):
         )
 
     def get_is_favorited(self, instance, *args, **kwargs):
+        """
+        Отображение наличия location в избранном при листинге location.
+        """
         user = self.context['request'].user
         if not user.is_authenticated:
             return False
