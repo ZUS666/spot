@@ -1,12 +1,11 @@
 import datetime
 from decimal import Decimal
 
+from api.fields import GetSpot
+from api.serializers.spot import SpotDetailSerializer
 from django.conf import settings
 from rest_framework import serializers
-
 from spots.models.order import Order
-from api.serializers.spot import SpotSerializer
-from api.fields import GetSpot
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -14,11 +13,11 @@ class OrderSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    spot = SpotSerializer(
+    spot = SpotDetailSerializer(
         default=GetSpot()
     )
     price = serializers.SerializerMethodField()
-    price_time = serializers.SerializerMethodField()
+    # price_time = serializers.SerializerMethodField()
     start_time = serializers.TimeField(
         format=settings.TIME_FORMAT
     )
@@ -32,7 +31,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = (
             'user', 'spot', 'date',
             'start_time', 'end_time',
-            'price', 'price_time'
+            'price',  # 'price_time'
         )
 
     def get_price(self, obj):

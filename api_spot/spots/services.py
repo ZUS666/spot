@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Avg, Min
 
-from .constants import (NAME_CACHE_LOW_PRICE, NAME_CACHE_RATING)
+from .constants import NAME_CACHE_LOW_PRICE, NAME_CACHE_RATING
 
 
 def count_spots(self, category, name_cache):

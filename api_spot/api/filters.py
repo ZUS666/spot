@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 
-from spots.models import Order, Location, SpotEquipment
-from spots.constants import FINISH, CATEGORY_CHOICES
+from spots.constants import CATEGORY_CHOICES, FINISH
+from spots.models import Location, Order, SpotEquipment
 
 
 class OrderFilter(filters.FilterSet):

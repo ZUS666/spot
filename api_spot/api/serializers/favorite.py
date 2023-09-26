@@ -1,7 +1,6 @@
+from api.fields import GetLocation
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
-
-from api.fields import GetLocation
 from spots.models.favorite import Favorite
 
 

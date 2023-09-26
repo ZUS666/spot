@@ -1,11 +1,10 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
-from spots.services import count_spots, get_rating_location, get_low_price
 from spots.constants import (LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
-                             LONG_MIN, LONG_MSG_ERROR, WORK_SPACE,
-                             MEETING_ROOM, NAME_CACHE_MEETING_ROOM,
-                             NAME_CACHE_WORKSPACE)
+                             LONG_MIN, LONG_MSG_ERROR, MEETING_ROOM,
+                             NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE,
+                             WORK_SPACE)
+from spots.services import count_spots, get_low_price, get_rating_location
 
 
 class Location(models.Model):

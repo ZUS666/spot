@@ -12,8 +12,8 @@ from ..serializers.users import (ChangePasswordSerializer,
                                  ResetPasswordSerializer, SendCodeSerializer,
                                  UserMeSerializer, UserSerializer)
 from ..services.users import (cache_and_send_confirmation_code,
-                              finish_activation_email,
-                              registration_email, reset_password_email)
+                              finish_activation_email, registration_email,
+                              reset_password_email)
 
 User = get_user_model()
 

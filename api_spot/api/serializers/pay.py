@@ -1,7 +1,6 @@
 from django.core.validators import RegexValidator
-from rest_framework import serializers
-
 from phonenumber_field.serializerfields import PhoneNumberField
+from rest_framework import serializers
 
 
 class PaySerializer(serializers.Serializer):
