@@ -68,18 +68,18 @@ class Order(models.Model):
                 'start_time': 'Нельзя забронировать в прошлом.'
             })
         # Валидация по полю time
-        qs = self.__class__._default_manager.filter(
-            spot=self.spot,
-            date=self.date,
-        ).exclude(pk=self.pk).values_list('time', flat=True)
-        for time in qs:
-            intersection = set(time).intersection(self.time)
-            if intersection:
-                raise ValidationError({
-                    NON_FIELD_ERRORS: 'Данный коворкинг ужe'
-                                      'забронирован на это время'
-                                      'TIME мульти'
-                })
+        # qs = self.__class__._default_manager.filter(
+        #     spot=self.spot,
+        #     date=self.date,
+        # ).exclude(pk=self.pk).values_list('time', flat=True)
+        # for time in qs:
+        #     intersection = set(time).intersection(self.time)
+        #     if intersection:
+        #         raise ValidationError({
+        #             NON_FIELD_ERRORS: 'Данный коворкинг ужe'
+        #                               'забронирован на это время'
+        #                               'TIME мульти'
+        #         })
 
         # валидация по start и end
         qs = self.__class__._default_manager.filter(
