@@ -51,7 +51,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
+        'DIRS': (TEMPLATES_DIR, ),
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,12 +68,12 @@ WSGI_APPLICATION = 'api_spot.wsgi.application'
 
 DATABASES = {
     # "default": {
-    #     "ENGINE": os.environ["DB_ENGINE"],
-    #     "NAME": os.environ["DB_NAME"],
-    #     "USER": os.environ["POSTGRES_USER"],
-    #     "PASSWORD": os.environ["POSTGRES_PASSWORD"],
-    #     "HOST": os.environ["DB_HOST"],
-    #     "PORT": os.environ["DB_PORT"],
+    #     "ENGINE": os.getenv('DB_ENGINE')
+    #     "NAME": os.getenv('DB_NAME'),
+    #     "USER": os.getenv('POSTGRES_USER'),
+    #     "PASSWORD": os.getenv('POSTGRES_PASSWORD'),
+    #     "HOST": os.getenv('DB_HOST'),
+    #     "PORT": os.getenv('DB_PORT'),
     # }
 
     'default': {
@@ -144,8 +144,8 @@ COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER',  default='redis://redis:6379/0')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER',  default='redis://redis:6379/0')
 
 TIME_CHANGE_STATUS = 60 * 1
 
