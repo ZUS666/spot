@@ -5,6 +5,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
+from ..exceptions import (ConfirmationCodeInvalidError, EmailNotFoundError,
+                          UserIsActiveError)
 from ..serializers.users import (ChangePasswordSerializer,
                                  ConfirmationCodeSerializer,
                                  ResetPasswordSerializer, SendCodeSerializer,
@@ -46,21 +48,15 @@ class UserViewSet(viewsets.ModelViewSet):
         confirmation_code = serializer.validated_data.get('confirmation_code')
         user = User.objects.filter(email=email).first()
         if not user:
-            return Response(
-                {'error': 'Пользователя с таким email не существует'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        if confirmation_code == cache.get(user.id):
-            user.is_active = True
-            user.save()
-            finish_activation_email(user)
-            return Response(
-                {'message': 'Электронная почта верифицирована'},
-                status=status.HTTP_200_OK
-            )
+            raise EmailNotFoundError
+        if confirmation_code != cache.get(user.id):
+            raise ConfirmationCodeInvalidError
+        user.is_active = True
+        user.save()
+        finish_activation_email(user)
         return Response(
-            {'error': 'Не действительный код подтверждения'},
-            status=status.HTTP_400_BAD_REQUEST
+            {'message': 'Электронная почта верифицирована'},
+            status=status.HTTP_200_OK
         )
 
     @action(
@@ -101,21 +97,15 @@ class UserViewSet(viewsets.ModelViewSet):
         password = serializer.validated_data.get('password')
         user = User.objects.filter(email=email).first()
         if not user:
-            return Response(
-                {'error': 'Пользователя с таким email не существует'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        if confirmation_code == cache.get(user.id):
-            user.set_password(password)
-            user.save(update_fields=['password'])
-            finish_activation_email(user)
-            return Response(
-                {'message': 'Пароль изменен'},
-                status=status.HTTP_200_OK
-            )
+            raise EmailNotFoundError
+        if confirmation_code != cache.get(user.id):
+            raise ConfirmationCodeInvalidError
+        user.set_password(password)
+        user.save(update_fields=['password'])
+        finish_activation_email(user)
         return Response(
-            {'error': 'Не действительный код подтверждения'},
-            status=status.HTTP_400_BAD_REQUEST
+            {'message': 'Пароль изменен'},
+            status=status.HTTP_200_OK
         )
 
     @action(
@@ -161,10 +151,7 @@ class UserViewSet(viewsets.ModelViewSet):
         email = serializer.validated_data.get('email')
         user = User.objects.filter(email=email).first()
         if not user:
-            return Response(
-                {'error': 'Пользователя с таким email не существует'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            raise EmailNotFoundError
         cache_and_send_confirmation_code(user, reset_password_email)
         return Response(
             {'message': 'Код подтверждения отправлен на почту'},
@@ -186,15 +173,9 @@ class UserViewSet(viewsets.ModelViewSet):
         email = serializer.validated_data.get('email')
         user = User.objects.filter(email=email).first()
         if not user:
-            return Response(
-                {'error': 'Пользователя с таким email не существует'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            raise EmailNotFoundError
         if user.is_active:
-            return Response(
-                {'error': 'Вы уже подтвердили эл. почту'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            raise UserIsActiveError
         cache_and_send_confirmation_code(user, registration_email)
         return Response(
             {'message': 'Код активации отправлен на почту'},
