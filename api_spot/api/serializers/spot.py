@@ -1,10 +1,62 @@
+from django.conf import settings
 from rest_framework import serializers
 
-from spots.models import Spot, Order
+from ..serializers import LocationGetPlanNameSerializer
+from ..services.orders import is_ordered_spot
+from spots.models import Spot
+
+
+class SpotQuerySerializer(serializers.Serializer):
+    """
+    Сериализатор для валидации query_params.
+    """
+    date = serializers.DateField(input_formats=(settings.DATE_FORMAT,))
+    start_time = serializers.TimeField(
+        input_formats=(settings.TIME_FORMAT,)
+    )
+    end_time = serializers.TimeField(
+        input_formats=(settings.TIME_FORMAT,)
+    )
+
+    class Meta:
+        fields = ('date', 'start_time', 'end_time')
 
 
 class SpotSerializer(serializers.ModelSerializer):
-    """Сериализатор модели спота."""
+    """Сериализатор получения объектов спота."""
+    price = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='total_price'
+    )
+    location = LocationGetPlanNameSerializer(
+        read_only=True,
+    )
+    is_ordered = serializers.SerializerMethodField(default=False)
+
+    class Meta:
+        """Класс мета для модели Spot."""
+        model = Spot
+        fields = (
+            'name',
+            'price',
+            'location',
+            'category',
+            'is_ordered',
+        )
+
+    def get_is_ordered(self, instance, *args, **kwargs):
+        """
+        Получение булевого значение по параметрам запроса о
+        возможности бронирования.
+        """
+        date = self.context.get('date')
+        start_time = self.context.get('start_time')
+        end_time = self.context.get('end_time')
+        return is_ordered_spot(instance, date, start_time, end_time)
+
+
+class SpotDetailSerializer(serializers.ModelSerializer):
+    """Сериализатор для получения детальной информации о споте."""
     price = serializers.SlugRelatedField(
         read_only=True,
         slug_field='total_price'
@@ -18,7 +70,6 @@ class SpotSerializer(serializers.ModelSerializer):
         slug_field='name',
         read_only=True
     )
-    is_ordered = serializers.SerializerMethodField(default=False)
 
     class Meta:
         """Класс мета для модели Spot."""
@@ -30,18 +81,4 @@ class SpotSerializer(serializers.ModelSerializer):
             'location',
             'category',
             'equipment',
-            'is_ordered',
         )
-
-    def get_is_ordered(self, instance, *args, **kwargs):
-        query_params = self.context.get('request').query_params
-        # if 'date' and 'start_time' and 'end_time' in query_params.keys():
-        #     date = query_params.get('date')
-        #     start_time = query_params.get('start_time')
-        #     end_time = query_params.get('end_time')
-        #     return Order.objects.filter(
-        #         date=date,
-        #         start_time=start_time,
-        #         end_time=end_time
-        #     ).exists()
-        return False

@@ -1,13 +1,38 @@
+from django.conf import settings
 from rest_framework import serializers
 
 from spots.models import Location
 from .extra_photo import ExtraPhotoGetSerializer
 
 
-class LocationsGetSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для вывода локаций.
-    """
+class LocationGetPlanNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = (
+            'name',
+            'plan_photo',
+        )
+
+
+class LocationGetShortSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Location
+        fields = (
+            'name',
+            'city',
+            'street',
+            'house_number',
+            'metro',
+            'rating',
+            'low_price',
+            'main_photo',
+        )
+
+
+class LocationGetSerializer(serializers.ModelSerializer):
+    open_time = serializers.TimeField(format=settings.TIME_FORMAT)
+    close_time = serializers.TimeField(format=settings.TIME_FORMAT)
     extra_photo = ExtraPhotoGetSerializer(
         many=True,
         read_only=True,
@@ -19,18 +44,20 @@ class LocationsGetSerializer(serializers.ModelSerializer):
         model = Location
         fields = (
             'name',
+            'city',
             'street',
             'house_number',
+            'metro',
             'open_time',
             'close_time',
-            'latitude',
-            'longitude',
-            'plan_photo',
+            'rating',
+            'low_price',
+            'main_photo',
             'extra_photo',
+            'rating',
+            'low_price',
             'description',
             'is_favorited',
-            'count_workspace',
-            'count_meeting_room',
         )
 
     def get_is_favorited(self, instance, *args, **kwargs):
