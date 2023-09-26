@@ -6,6 +6,9 @@ from .constants import (NAME_CACHE_LOW_PRICE, NAME_CACHE_RATING)
 
 
 def count_spots(self, category, name_cache):
+    """
+    Получение количества мест по категории в локации.
+    """
     count = cache.get(f'{self.id}{name_cache}')
     if count is None:
         count = self.spots.filter(category=category).count()
@@ -46,5 +49,5 @@ def get_low_price(self):
             Min('price__total_price')).get('price__total_price__min')
         cache.set(f'{self.id}{NAME_CACHE_LOW_PRICE}',
                   low_price,
-                  settings.TIME_OUT_LOW_PRICE)
+                  settings.TIMEOUT_CACHED_LOW_PRICE)
     return low_price
