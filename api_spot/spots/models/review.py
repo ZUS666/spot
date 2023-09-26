@@ -23,26 +23,26 @@ class Review(models.Model):
         on_delete=models.CASCADE,
         related_name='reviews'
     )
-    raiting = models.PositiveSmallIntegerField(
-        "Оценка отзыва",
+    rating = models.PositiveSmallIntegerField(
+        'Оценка отзыва',
         validators=(
             MinValueValidator(constants.MIN_EVALUATION),
             MaxValueValidator(constants.MAX_EVALUATION)
         ),
     )
     description = models.TextField(
-        "Текст отзыва",
+        'Текст отзыва',
         max_length=constants.MAX_LENGTH_DESC
     )
     pub_date = models.DateField(
-        verbose_name="Дата создания",
+        verbose_name='Дата создания',
         auto_now_add=True
     )
 
     class Meta:
         """Класс меты для Review"""
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
 
     def __str__(self):
-        return f"Отзыв {self.pk}"
+        return f'Отзыв {self.pk}'

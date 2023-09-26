@@ -14,8 +14,8 @@ class SpotViewSet(RetrieveListViewSet):
     queryset = Spot.objects.all()
     serializer_class = SpotSerializer
     permission_classes = (AllowAny,)
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['category']
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('category',)
 
     def get_serializer_class(self):
         if self.action == 'retrieve':

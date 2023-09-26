@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 
 from .views import (FavoriteViewSet, OrderGetViewSet, OrderViewSet,
                     ReviewCreateViewSet, ReviewGetViewSet,
-                    LocationViewSet, UserViewSet, SpotViewSet)
+                    LocationViewSet, UserViewSet, SpotViewSet,
+                    LocationShortListAPIView,)
 
 
 app_name = 'api'
@@ -42,7 +43,7 @@ router_api_v1.register(
 router_api_v1.register(
     r'locations',
     LocationViewSet,
-    basename='favorite'
+    basename='locations'
 )
 router_api_v1.register(
     r'locations/(?P<location_id>\d+)/spots',
@@ -53,4 +54,5 @@ router_api_v1.register(
 urlpatterns = [
     path('v1/', include(router_api_v1.urls)),
     path('v1/auth/', include('djoser.urls.authtoken')),
+    path('v1/short_locations/', LocationShortListAPIView.as_view()),
 ]

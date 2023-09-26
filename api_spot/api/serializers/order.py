@@ -20,10 +20,10 @@ class OrderSerializer(serializers.ModelSerializer):
     price = serializers.SerializerMethodField()
     price_time = serializers.SerializerMethodField()
     start_time = serializers.TimeField(
-        format=settings.TIME_INPUT_FORMAT
+        format=settings.TIME_FORMAT
     )
     end_time = serializers.TimeField(
-        format=settings.TIME_INPUT_FORMAT
+        format=settings.TIME_FORMAT
     )
 
     class Meta:
