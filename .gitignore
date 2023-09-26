@@ -165,3 +165,5 @@ images/
 .vscode/
 
 migrations/
+
+*.rdb
