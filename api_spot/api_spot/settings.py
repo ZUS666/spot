@@ -1,7 +1,12 @@
 import os
+
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.getenv('SECRET_KEY', default='default_key')
 
@@ -62,6 +67,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api_spot.wsgi.application'
 
 DATABASES = {
+    # "default": {
+    #     "ENGINE": os.environ["DB_ENGINE"],
+    #     "NAME": os.environ["DB_NAME"],
+    #     "USER": os.environ["POSTGRES_USER"],
+    #     "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+    #     "HOST": os.environ["DB_HOST"],
+    #     "PORT": os.environ["DB_PORT"],
+    # }
+
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -91,7 +105,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost', ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -112,6 +132,7 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 DEFAULT_FROM_EMAIL = 'fake@mail.com'
 
 TIMEOUT_CACHED_CODE = 15 * 16
+TIMEOUT_CACHED_COUNTER = 6 * 60 * 60
 LEN_CONFIRMATION_CODE = 6
 COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 
@@ -123,13 +144,16 @@ COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 
-TIME_CHANGE_STATUS = 60 * 10
+TIME_CHANGE_STATUS = 60 * 1
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
     },
 }
+
+CELERY_TIMEZONE = 'Europe/Moscow'
+CELERY_TASK_TRACK_STARTED = True

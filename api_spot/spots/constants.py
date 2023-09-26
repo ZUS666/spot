@@ -13,9 +13,10 @@ FINISH = 'Завершен'
 NOT_PAID = 'Не оплачено'
 ORDER_STATUS_CHOICES = (
     (WAIT_PAY, WAIT_PAY),
+    (NOT_PAID, NOT_PAID),
     (PAID, PAID),
     (ORDER, ORDER),
-    (NOT_PAID, NOT_PAID)
+    (FINISH, FINISH)
 )
 MINUTES = 'minutes'
 START_CHOICES = tuple([

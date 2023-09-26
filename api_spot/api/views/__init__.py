@@ -4,7 +4,7 @@ from .review import ReviewCreateViewSet, ReviewGetViewSet
 from .locations import (LocationViewSet, LocationShortListAPIView,)
 from .users import UserViewSet
 from .spot import SpotViewSet
-
+from .pay import confirmation_pay
 
 FavoriteViewSet
 OrderGetViewSet
@@ -15,3 +15,4 @@ LocationViewSet
 LocationShortListAPIView
 UserViewSet
 SpotViewSet
+confirmation_pay
