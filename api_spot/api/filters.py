@@ -10,10 +10,6 @@ class OrderFilter(filters.FilterSet):
         method='filter_finished',
         label='finished',
     )
-    name = filters.CharFilter(
-        field_name='name',
-        lookup_expr='istartswith',
-    )
 
     def filter_finished(self, queryset, name, value):
         if value and self.request.user.is_authenticated:
@@ -23,7 +19,7 @@ class OrderFilter(filters.FilterSet):
     class Meta:
         model = Order
         fields = (
-            'finished', 'name',
+            'finished',
         )
 
 
