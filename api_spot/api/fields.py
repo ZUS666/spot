@@ -1,10 +1,10 @@
 import base64
 
 from django.core.files.base import ContentFile
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-
-from spots.models import Location, Spot, Order
+from spots.models import Location, Order, Spot
 
 
 class GetLocation(serializers.CurrentUserDefault):
@@ -21,16 +21,24 @@ class GetLocation(serializers.CurrentUserDefault):
 class GetSpot(serializers.CurrentUserDefault):
     """Получение spot из view."""
     def __call__(self, serializer_field):
-        return get_object_or_404(
-            Spot,
+        location = get_object_or_404(
+            Location,
             id=int(
-                serializer_field.context.get('view').kwargs.get('spot_id')
+                serializer_field.context.get('view').kwargs.get('location_id')
             )
         )
+        print(location)
+        spots = Spot.objects.filter(location=location)
+        print(spots)
+        number = int(serializer_field.context.get('view').kwargs.get('spot_id')) - 1
+        try:
+            return spots[number]
+        except IndexError:
+            raise Http404
 
 
 class GetOrder(serializers.CurrentUserDefault):
-    """Получение spot из view."""
+    """Получение order из view."""
     def __call__(self, serializer_field):
         return get_object_or_404(
             Order,

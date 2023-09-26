@@ -1,12 +1,11 @@
 import datetime
 from decimal import Decimal
 
+from api.fields import GetSpot
+from api.serializers.spot import SpotDetailSerializer
 from django.conf import settings
 from rest_framework import serializers
-
 from spots.models.order import Order
-from api.serializers.spot import SpotDetailSerializer
-from api.fields import GetSpot
 
 
 class OrderSerializer(serializers.ModelSerializer):

@@ -1,11 +1,10 @@
 import datetime
 
+import spots.constants as constants
 from django.contrib.auth import get_user_model
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models
 from multiselectfield import MultiSelectField
-
-import spots.constants as constants
 from spots.models.spot import Spot
 
 User = get_user_model()

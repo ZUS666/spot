@@ -1,7 +1,6 @@
+from api.fields import GetOrder
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
-
-from api.fields import GetOrder
 from spots.models.review import Review
 
 

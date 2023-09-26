@@ -1,9 +1,8 @@
-from rest_framework.pagination import PageNumberPagination
-
 from api.mixins import CreateDestroyViewSet
-from api.serializers.favorite import FavoriteSerializer
-from spots.models.favorite import Favorite
 from api.permissions import IsOwnerOrReadOnly
+from api.serializers.favorite import FavoriteSerializer
+from rest_framework.pagination import PageNumberPagination
+from spots.models.favorite import Favorite
 
 
 class FavoriteViewSet(CreateDestroyViewSet):
