@@ -28,6 +28,7 @@ class LocationShortListAPIView(ListAPIView):
     queryset = Location.objects.all()
     serializer_class = LocationGetShortSerializer
     permission_classes = (AllowAny,)
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filterset_class = LocationFilter
+    search_fields = ('^name',)
     pagination_class = PageNumberPagination
