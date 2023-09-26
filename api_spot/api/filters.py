@@ -18,7 +18,7 @@ class OrderFilter(filters.FilterSet):
     def filter_finished(self, queryset, name, value):
         if value and self.request.user.is_authenticated:
             return queryset.filter(status=FINISH)
-        return queryset
+        return queryset.exclude(status=FINISH)
 
     class Meta:
         model = Order
