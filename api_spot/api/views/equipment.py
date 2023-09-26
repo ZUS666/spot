@@ -26,4 +26,4 @@ class EquipmentViewSet(RetrieveListViewSet):
         location_id = self.kwargs.get('location_id')
         return super().get_queryset().filter(
             spot__location=location_id
-        ).distinct('equipment')
+        ).distinct('equipment') # only postgers
