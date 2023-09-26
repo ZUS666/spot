@@ -5,6 +5,7 @@ from .locations import LocationViewSet
 from .users import UserViewSet
 from .spot import SpotViewSet
 from .pay import confirmation_pay
+from .equipment import EquipmentViewSet
 
 FavoriteViewSet
 OrderGetViewSet
@@ -15,3 +16,4 @@ LocationViewSet
 UserViewSet
 SpotViewSet
 confirmation_pay
+EquipmentViewSet

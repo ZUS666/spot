@@ -67,19 +67,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api_spot.wsgi.application'
 
 DATABASES = {
-    # "default": {
-    #     "ENGINE": os.getenv('DB_ENGINE')
-    #     "NAME": os.getenv('DB_NAME'),
-    #     "USER": os.getenv('POSTGRES_USER'),
-    #     "PASSWORD": os.getenv('POSTGRES_PASSWORD'),
-    #     "HOST": os.getenv('DB_HOST'),
-    #     "PORT": os.getenv('DB_PORT'),
-    # }
-
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": os.getenv('DB_ENGINE'),
+        "NAME": os.getenv('DB_NAME'),
+        "USER": os.getenv('POSTGRES_USER'),
+        "PASSWORD": os.getenv('POSTGRES_PASSWORD'),
+        "HOST": os.getenv('DB_HOST'),
+        "PORT": os.getenv('DB_PORT'),
     }
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -144,8 +144,8 @@ COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER',  default='redis://redis:6379/0')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER',  default='redis://redis:6379/0')
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
 
 TIME_CHANGE_STATUS = 60 * 1
 

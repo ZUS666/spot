@@ -17,6 +17,7 @@ class LocationViewSet(RetrieveListViewSet):
     queryset = Location.objects.all()
     serializer_class = LocationsGetSerializer
     permission_classes = (AllowAny,)
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filterset_class = LocationFilter
+    search_fields = ('^name',)
     pagination_class = PageNumberPagination

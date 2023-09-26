@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (FavoriteViewSet, OrderGetViewSet, OrderViewSet,
                     ReviewCreateViewSet, ReviewGetViewSet,
                     LocationViewSet, UserViewSet, SpotViewSet,
-                    confirmation_pay)
+                    confirmation_pay, EquipmentViewSet)
 
 
 app_name = 'api'
@@ -23,6 +23,12 @@ router_api_v1.register(
     r'locations/(?P<location_id>\d+)/reviews',
     ReviewGetViewSet,
     basename='get_reviews'
+)
+
+router_api_v1.register(
+    r'locations/(?P<location_id>\d+)/equipments',
+    EquipmentViewSet,
+    basename='get_equipments'
 )
 
 router_api_v1.register(

@@ -1,7 +1,7 @@
 import django_filters
 
-from spots.models import Order, Location
-from spots.constants import FINISH
+from spots.models import Order, Location, SpotEquipment
+from spots.constants import FINISH, CATEGORY_CHOICES
 
 
 class OrderFilter(django_filters.FilterSet):
@@ -9,11 +9,6 @@ class OrderFilter(django_filters.FilterSet):
     finished = django_filters.NumberFilter(
         method='filter_finished', label='finished'
     )
-    name = django_filters.CharFilter(
-        field_name='name',
-        lookup_expr='istartswith',
-    )
-
 
     def filter_finished(self, queryset, name, value):
         if self.request.user.is_authenticated:
@@ -30,7 +25,7 @@ class OrderFilter(django_filters.FilterSet):
     class Meta:
         model = Order
         fields = (
-            'finished', 'name',
+            'finished',
         )
 
 
@@ -38,6 +33,10 @@ class LocationFilter(django_filters.FilterSet):
     """Класс FilterSet для фильтрации локации."""
     favorite = django_filters.NumberFilter(
         method='filter_favorite', label='favorite'
+    )
+    name = django_filters.CharFilter(
+        field_name='name',
+        lookup_expr='istartswith',
     )
 
     def filter_favorite(self, queryset, name, value):
@@ -55,5 +54,19 @@ class LocationFilter(django_filters.FilterSet):
     class Meta:
         model = Location
         fields = (
-            'favorite',
+            'favorite', 'name',
+        )
+
+
+class SpotEquipmentFilter(django_filters.FilterSet):
+    """Класс FilterSet для фильтрации обородувания."""
+    category = django_filters.ChoiceFilter(
+        choices=CATEGORY_CHOICES,
+        field_name='spot__category',
+    )
+
+    class Meta:
+        model = SpotEquipment
+        fields = (
+            'category',
         )
