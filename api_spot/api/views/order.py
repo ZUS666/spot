@@ -39,8 +39,8 @@ class OrderGetViewSet(RetrieveListViewSet):
     serializer_class = OrderSerializer
     filter_backends = (DjangoFilterBackend,
                        filters.OrderingFilter)
-    pagination_class = PageNumberPagination
     filterset_class = OrderFilter
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         """Получение выборки с заказами для текущего пользователя."""
