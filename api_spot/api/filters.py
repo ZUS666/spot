@@ -1,25 +1,20 @@
-import django_filters
+from django_filters import rest_framework as filters
+
 from spots.constants import CATEGORY_CHOICES, FINISH
 from spots.models import Location, Order, SpotEquipment
 
 
-class OrderFilter(django_filters.FilterSet):
+class OrderFilter(filters.FilterSet):
     """Класс FilterSet для фильтрации заказа."""
-    finished = django_filters.NumberFilter(
-        method='filter_finished', label='finished'
+    finished = filters.BooleanFilter(
+        method='filter_finished',
+        label='finished',
     )
 
     def filter_finished(self, queryset, name, value):
-        if self.request.user.is_authenticated:
-            if value == 1:
-                return queryset.filter(
-                    status=FINISH
-                )
-            if value == 0:
-                return queryset.exclude(
-                    status=FINISH
-                )
-        return queryset
+        if value and self.request.user.is_authenticated:
+            return queryset.filter(status=FINISH)
+        return queryset.exclude(status=FINISH)
 
     class Meta:
         model = Order
@@ -28,32 +23,44 @@ class OrderFilter(django_filters.FilterSet):
         )
 
 
-class LocationFilter(django_filters.FilterSet):
-    """Класс FilterSet для фильтрации локации."""
-    favorite = django_filters.NumberFilter(
-        method='filter_favorite', label='favorite'
+class LocationFilter(filters.FilterSet):
+    """
+    Фильтрация локаций по названию, метро, категориям спотов и избранному.
+    """
+    name = filters.CharFilter(
+        field_name='name',
+        lookup_expr='istartswith',
+    )
+    metro = filters.CharFilter(
+        field_name='metro',
+        lookup_expr='istartswith',
+    )
+    category = filters.ChoiceFilter(
+        distinct=True,
+        field_name='spots__category',
+        choices=CATEGORY_CHOICES,
+    )
+    is_favorited = filters.BooleanFilter(
+        method='get_is_favorited'
     )
     name = django_filters.CharFilter(
         field_name='name',
         lookup_expr='istartswith',
     )
 
-    def filter_favorite(self, queryset, name, value):
-        if self.request.user.is_authenticated:
-            if value == 1:
-                return queryset.filter(
-                    favorites__user=self.request.user
-                )
-            if value == 0:
-                return queryset.exclude(
-                    favorites__user=self.request.user
-                )
+    def get_is_favorited(self, queryset, name, value):
+        user = self.request.user
+        if value and user.is_authenticated:
+            return queryset.filter(favorites__user=user)
         return queryset
 
     class Meta:
         model = Location
         fields = (
-            'favorite', 'name',
+            'name',
+            'metro',
+            'category',
+            'is_favorited',
         )
 
 
