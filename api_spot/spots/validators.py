@@ -48,7 +48,9 @@ def check_date_time(self):
 
 def check_spot_order(self):
     """Проверка на то, что данный спот свободен в данное время."""
-    qs = self.__class__._default_manager.filter(
+    qs = self.__class__._default_manager.exclude(
+        status__in=[constants.CANCEL, constants.FINISH]
+    ).filter(
         spot=self.spot,
         date=self.date,
         start_time__lt=self.end_time,

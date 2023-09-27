@@ -4,7 +4,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 
-from spots.constants import FINISH, NOT_PAID, ORDER, PAID
+from spots.constants import FINISH, NOT_PAID, PAID
 from spots.models.order import Order
 
 
@@ -23,7 +23,7 @@ def change_status_task(order_id):
 def close_status_task(order_id):
     """Таска закрытия заказа."""
     order = get_object_or_404(Order, pk=order_id)
-    if order.status == ORDER:
+    if order.status == PAID:
         order.status = FINISH
         order.save()
         return f'Заказ с {order_id} завершен'

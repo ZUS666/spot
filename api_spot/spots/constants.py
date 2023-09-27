@@ -9,15 +9,15 @@ MAX_LENGTH_STATUS = 16
 MAX_LENGTH_DESC = 100
 WAIT_PAY = 'Ожидается оплата'
 PAID = 'Оплачено'
-ORDER = 'Забранировано'
 FINISH = 'Завершен'
+CANCEL = 'Отменен'
 NOT_PAID = 'Не оплачено'
 ORDER_STATUS_CHOICES = (
     (WAIT_PAY, WAIT_PAY),
     (NOT_PAID, NOT_PAID),
     (PAID, PAID),
-    (ORDER, ORDER),
-    (FINISH, FINISH)
+    (FINISH, FINISH),
+    (CANCEL, CANCEL)
 )
 MINUTES = 'minutes'
 START_CHOICES = tuple([
