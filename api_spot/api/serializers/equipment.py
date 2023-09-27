@@ -1,5 +1,6 @@
-from api.fields import GetLocation
 from rest_framework import serializers
+
+from api.fields import GetLocation
 from spots.models import SpotEquipment
 
 

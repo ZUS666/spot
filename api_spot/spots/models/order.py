@@ -2,14 +2,11 @@ import datetime
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
-from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models
-from multiselectfield import MultiSelectField
 
-
-from spots.models.spot import Spot
 import spots.constants as constants
-from spots.validators import check_date_time
+from spots.models.spot import Spot
+from spots.validators import check_date_time, check_spot_order
 
 User = get_user_model()
 
@@ -46,12 +43,6 @@ class Order(models.Model):
         choices=constants.END_CHOICES,
         default=constants.END_CHOICES[0][0],
     )
-    time = MultiSelectField(
-        choices=constants.TIME_CHOICES,
-        max_length=100,
-        blank=True,
-        null=True,
-    )
     bill = models.DecimalField(
         'Итоговый чек',
         max_digits=10,
@@ -83,31 +74,7 @@ class Order(models.Model):
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
-        # Валидация по полю time
-        # qs = self.__class__._default_manager.filter(
-        #     spot=self.spot,
-        #     date=self.date,
-        # ).exclude(pk=self.pk).values_list('time', flat=True)
-        # for time in qs:
-        #     intersection = set(time).intersection(self.time)
-        #     if intersection:
-        #         raise ValidationError({
-        #             NON_FIELD_ERRORS: 'Данный коворкинг ужe'
-        #                               'забронирован на это время'
-        #                               'TIME мульти'
-        #         })
-
-        # валидация по start и end
-        qs = self.__class__._default_manager.filter(
-            spot=self.spot,
-            date=self.date,
-            start_time__lt=self.end_time,
-            end_time__gt=self.start_time
-        ).exclude(pk=self.pk)
-        if qs.exists():
-            raise ValidationError({
-                NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
-            })
+        check_spot_order(self)
 
     def clean(self):
         check_date_time(self)

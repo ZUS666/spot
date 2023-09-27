@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+
 from spots.constants import FINISH, NOT_PAID, ORDER, PAID
 from spots.models.order import Order
 
@@ -11,13 +12,11 @@ from spots.models.order import Order
 def change_status_task(order_id):
     """Таска изменения статуса после n секнуд."""
     order = get_object_or_404(Order, pk=order_id)
-    print('НАЧАЛО ЗАДАЧИ ИЗМЕНЕНИЯ СТАТСУА ')
     if order.status != PAID:
         order.status = NOT_PAID
         order.save()
         return f'Cтатус у {order_id} изменен'
     return f'Cтатус у {order_id} не изменен'
-
 
 
 @shared_task()

@@ -1,7 +1,8 @@
-from api.fields import GetSpot
-from api.serializers.spot import SpotDetailSerializer
 from django.conf import settings
 from rest_framework import serializers
+
+from api.fields import GetSpot
+from api.serializers.spot import SpotDetailSerializer
 from spots.models.order import Order
 
 

@@ -7,14 +7,17 @@ from rest_framework.response import Response
 
 from ..exceptions import (ConfirmationCodeInvalidError, EmailNotFoundError,
                           UserIsActiveError)
-from ..serializers.users import (ChangePasswordSerializer,
-                                 ConfirmationCodeSerializer,
-                                 ResetPasswordSerializer, SendCodeSerializer,
-                                 UserMeSerializer, UserSerializer)
-from ..services.users import (cache_and_send_confirmation_code,
-                              finish_activation_email,
-                              finish_reset_password_email,
-                              registration_email, reset_password_email)
+from ..serializers.users import (
+    ChangePasswordSerializer, ConfirmationCodeSerializer,
+    ResetPasswordSerializer, SendCodeSerializer,
+    UserMeSerializer, UserSerializer
+)
+from ..services.users import (
+    cache_and_send_confirmation_code,
+    finish_activation_email,
+    finish_reset_password_email,
+    registration_email, reset_password_email
+)
 
 User = get_user_model()
 
