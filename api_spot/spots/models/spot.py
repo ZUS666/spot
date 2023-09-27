@@ -3,6 +3,7 @@ from django.db import models
 
 from spots.constants import (CATEGORY_CHOICES, NAME_CACHE_LOW_PRICE,
                              NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE)
+
 from spots.models.equipment import Equipment
 from spots.models.location import Location
 from spots.models.price import Price
