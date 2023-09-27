@@ -12,8 +12,9 @@ from ..serializers.users import (ChangePasswordSerializer,
                                  ResetPasswordSerializer, SendCodeSerializer,
                                  UserMeSerializer, UserSerializer)
 from ..services.users import (cache_and_send_confirmation_code,
-                              finish_activation_email, registration_email,
-                              reset_password_email)
+                              finish_activation_email,
+                              finish_reset_password_email,
+                              registration_email, reset_password_email)
 
 User = get_user_model()
 
@@ -75,7 +76,6 @@ class UserViewSet(viewsets.ModelViewSet):
         user = serializer.validated_data.get('user')
         user.set_password(password)
         user.save(update_fields=['password'])
-        user.auth_token.delete()
         return Response(
             {'message': 'Пароль изменен'}, status=status.HTTP_200_OK
         )
@@ -102,7 +102,8 @@ class UserViewSet(viewsets.ModelViewSet):
             raise ConfirmationCodeInvalidError
         user.set_password(password)
         user.save(update_fields=['password'])
-        finish_activation_email(user)
+        user.auth_token.delete()
+        finish_reset_password_email(user)
         return Response(
             {'message': 'Пароль изменен'},
             status=status.HTTP_200_OK
