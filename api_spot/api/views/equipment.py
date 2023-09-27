@@ -1,11 +1,11 @@
-from api.filters import SpotEquipmentFilter
-from api.mixins import RetrieveListViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
-from spots.models import SpotEquipment
 
-from ..serializers import EquipmentGetSerializer
+from api.filters import SpotEquipmentFilter
+from api.mixins import RetrieveListViewSet
+from api.serializers import EquipmentGetSerializer
+from spots.models import SpotEquipment
 
 
 class EquipmentViewSet(RetrieveListViewSet):

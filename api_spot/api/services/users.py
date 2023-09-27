@@ -4,14 +4,14 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 
-from ..constants import (FINISH_ACTIVATION_TEMAPLATE,
-                         FINISH_RESET_PASSWORD_TEMPLATE, REGISTRATION_TEMPLATE,
-                         RESET_PASSWORD_TEMPLATE,
-                         SUBJECT_EMAIL_FINISH_ACTIVATION,
-                         SUBJECT_EMAIL_FINISH_RESET_PASSWORD,
-                         SUBJECT_EMAIL_REGISTRATION,
-                         SUBJECT_EMAIL_RESET_PASSWORD)
-from ..tasks import send_mail_task
+from api.constants import (FINISH_ACTIVATION_TEMAPLATE,
+                           FINISH_RESET_PASSWORD_TEMPLATE,
+                           REGISTRATION_TEMPLATE, RESET_PASSWORD_TEMPLATE,
+                           SUBJECT_EMAIL_FINISH_ACTIVATION,
+                           SUBJECT_EMAIL_FINISH_RESET_PASSWORD,
+                           SUBJECT_EMAIL_REGISTRATION,
+                           SUBJECT_EMAIL_RESET_PASSWORD)
+from api.tasks import send_mail_task
 
 User = get_user_model()
 

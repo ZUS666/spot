@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+
 from spots.constants import (LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
                              LONG_MIN, LONG_MSG_ERROR, MEETING_ROOM,
                              NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE,

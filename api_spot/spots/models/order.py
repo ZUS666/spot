@@ -6,9 +6,8 @@ from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models
 from multiselectfield import MultiSelectField
 
-
-from spots.models.spot import Spot
 import spots.constants as constants
+from spots.models.spot import Spot
 from spots.validators import check_date_time
 
 User = get_user_model()
