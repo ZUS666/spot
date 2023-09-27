@@ -12,7 +12,7 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer, OrderUpdateSerializer
 from api.tasks import change_status_task, close_status_task
 from spots.models import Order
-from spots.constants import CANCEL, PAID
+from spots.constants import CANCEL, PAID, WAIT_PAY
 
 
 class OrderViewSet(CreateUpdateViewSet):
@@ -39,11 +39,14 @@ class OrderViewSet(CreateUpdateViewSet):
         )
 
     def perform_update(self, serializer):
-        instance = serializer.save()
+        instance = serializer.instance
         if instance.status == PAID:
             instance.status = CANCEL
             instance.save()
             order_cancel_email(instance)
+        if instance.status == WAIT_PAY:
+            instance.status = CANCEL
+            instance.save()
         return super().perform_update(serializer)
 
 

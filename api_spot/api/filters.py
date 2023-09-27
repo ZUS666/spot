@@ -13,7 +13,7 @@ class OrderFilter(filters.FilterSet):
 
     def filter_finished(self, queryset, name, value):
         if value and self.request.user.is_authenticated:
-            return queryset.filter(status=FINISH)
+            return queryset.filter(status__in=[FINISH, CANCEL])
         return queryset.exclude(status__in=[FINISH, CANCEL])
 
     class Meta:
