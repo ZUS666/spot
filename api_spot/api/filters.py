@@ -43,7 +43,7 @@ class LocationFilter(filters.FilterSet):
     is_favorited = filters.BooleanFilter(
         method='get_is_favorited'
     )
-    name = django_filters.CharFilter(
+    name = filters.CharFilter(
         field_name='name',
         lookup_expr='istartswith',
     )
