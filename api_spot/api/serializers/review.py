@@ -21,13 +21,11 @@ class ReviewSerializer(serializers.ModelSerializer):
             'description', 'rating', 'user',
             'first_name', 'last_name', 'pub_date'
         )
-        validators = (
-            serializers.UniqueTogetherValidator(
-                queryset=model.objects.all(),
-                fields=('user', 'booked_spot'),
-                message='Уже есть отзыв на данный заказ.'
-            ),
-        )
+
+    def validate(self, data):
+        """Валидация данных из модели."""
+        self.Meta.model(**data).full_clean()
+        return super().validate(data)
 
 
 class ReviewGetSerializer(serializers.ModelSerializer):
