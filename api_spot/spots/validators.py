@@ -1,6 +1,6 @@
 import datetime
 
-from django.core.exceptions import ValidationError
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 
 import spots.constants as constants
 
@@ -43,4 +43,18 @@ def check_date_time(self):
     if self.end_time < self.start_time:
         raise ValidationError({
             'end_time': 'Конец брони должен быть позже начала'
+        })
+
+
+def check_spot_order(self):
+    """Проверка на то, что данный спот свободен в данное время."""
+    qs = self.__class__._default_manager.filter(
+        spot=self.spot,
+        date=self.date,
+        start_time__lt=self.end_time,
+        end_time__gt=self.start_time
+    ).exclude(pk=self.pk)
+    if qs.exists():
+        raise ValidationError({
+            NON_FIELD_ERRORS: 'Данный коворкинг уже забронирован',
         })

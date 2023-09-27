@@ -1,7 +1,10 @@
 from django.contrib import admin
 
-from .models import (Equipment, ExtraPhoto, Favorite, Location, Order, Price,
-                     Review, Spot, SpotEquipment)
+from .models import (
+    Equipment, ExtraPhoto, Favorite,
+    Location, Order, Price,
+    Review, Spot, SpotEquipment
+)
 
 
 @admin.register(ExtraPhoto)

@@ -1,12 +1,12 @@
-from api.filters import LocationFilter
-from api.mixins import RetrieveListViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
-from spots.models import Location
 
+from api.filters import LocationFilter
+from api.mixins import RetrieveListViewSet
+from spots.models import Location
 from ..paginations import SixPageNumberPagination
 from ..serializers import LocationGetSerializer, LocationGetShortSerializer
 

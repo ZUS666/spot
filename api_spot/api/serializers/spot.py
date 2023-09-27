@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework import serializers
-from spots.models import Spot
 
+from spots.models import Spot
 from ..serializers import LocationGetPlanNameSerializer
 from ..services.orders import is_ordered_spot
 
