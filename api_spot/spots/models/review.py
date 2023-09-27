@@ -42,6 +42,7 @@ class Review(models.Model):
         """Класс меты для Review"""
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
+        ordering = ('id', )
         constraints = (
             models.UniqueConstraint(
                 fields=('user', 'booked_spot'),
