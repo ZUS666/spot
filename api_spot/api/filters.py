@@ -43,10 +43,6 @@ class LocationFilter(filters.FilterSet):
     is_favorited = filters.BooleanFilter(
         method='get_is_favorited'
     )
-    name = filters.CharFilter(
-        field_name='name',
-        lookup_expr='istartswith',
-    )
 
     def get_is_favorited(self, queryset, name, value):
         user = self.request.user

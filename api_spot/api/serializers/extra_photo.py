@@ -9,4 +9,7 @@ class ExtraPhotoGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExtraPhoto
-        fields = '__all__'
+        fields = (
+            'image',
+            'description',
+        )
