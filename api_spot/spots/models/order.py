@@ -6,8 +6,10 @@ from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models
 from multiselectfield import MultiSelectField
 
-import spots.constants as constants
+
 from spots.models.spot import Spot
+import spots.constants as constants
+from spots.validators import check_date_time
 
 User = get_user_model()
 
@@ -66,7 +68,9 @@ class Order(models.Model):
         end = datetime.datetime.strptime(
             f'{self.date} {self.end_time}', '%Y-%m-%d %H:%M:%S'
         )
-        timedelta = Decimal((end - start).total_seconds() / 3600)
+        timedelta = Decimal(
+            (end - start).total_seconds() / constants.SECONDS_IN_HOUR
+        )
         self.bill = self.spot.price.total_price * timedelta
         return self.bill
 
@@ -106,43 +110,7 @@ class Order(models.Model):
             })
 
     def clean(self):
-        if self.date > (
-            datetime.datetime.now() + datetime.timedelta(
-                days=constants.MAX_COUNT_DAYS
-            )
-        ).date():
-            raise ValidationError({
-                'date': 'Нельзя забронировать на 60 дней вперед.'
-            })
-        date_time_now = datetime.datetime.strptime(
-            f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
-        )
-        if date_time_now < datetime.datetime.now():
-            raise ValidationError({
-                'start_time': 'Нельзя забронировать в прошлом.'
-            })
-        if date_time_now < datetime.datetime.now():
-            raise ValidationError({
-                'start_time': 'Нельзя забронировать в прошлом.'
-            })
-
-        if self.start_time < self.spot.location.open_time:
-            raise ValidationError({
-                'start_time': 'Локация еще не будет открыта'
-            })
-        if self.end_time > self.spot.location.close_time:
-            raise ValidationError({
-                'end_time': 'Локация уже будет закрыта'
-            })
-
-        if self.end_time == self.start_time:
-            raise ValidationError({
-                'end_time': 'Конец брони не может совпадать с началом'
-            })
-        if self.end_time < self.start_time:
-            raise ValidationError({
-                'end_time': 'Конец брони должен быть позже начала'
-            })
+        check_date_time(self)
         return super().clean()
 
     def save(self, *args, **kwargs):
@@ -156,4 +124,4 @@ class Order(models.Model):
         ordering = ('date', 'start_time')
 
     def __str__(self) -> str:
-        return f'{self.spot.location} {self.spot} {self.user}'
+        return f'Локация = {self.spot.location} , спот = {self.spot}'

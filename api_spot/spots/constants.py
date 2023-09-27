@@ -4,6 +4,7 @@ import datetime
 MIN_EVALUATION = 1
 MAX_EVALUATION = 5
 # order
+SECONDS_IN_HOUR = 60 * 60
 MAX_LENGTH_STATUS = 16
 MAX_LENGTH_DESC = 100
 WAIT_PAY = 'Ожидается оплата'
