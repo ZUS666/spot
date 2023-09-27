@@ -110,3 +110,6 @@ class Location(models.Model):
 
     def low_price(self, *args, **kwargs):
         return get_low_price(self)
+
+    def get_full_address_str(self):
+        return f'г. {self.city}, ул. {self.street}, {self.house_number}'

@@ -1,0 +1,24 @@
+{% load i18n %}
+
+{% block html_body %}
+
+<p>{% blocktrans %} Здравствуйте, {{ first_name }} {{ last_name }} {% endblocktrans %}</p>
+
+
+<p>{% blocktrans %} Вы бронировали место в нашем коворкинге {{ location_name }} {% endblocktrans %}</p>
+
+<p>{% trans "Теперь вы можете оставить отзыв и оценку." %}</p>
+
+<p>{% trans "Мы ценим обратную свзять и улучшаем наш сервис." %}</p>
+
+<p>{% blocktrans %} Адрес: {{ full_address }} {% endblocktrans %}</p>
+
+<p>{% blocktrans %} Место: {{ spot_name }} {% endblocktrans %}</p>
+
+<p>{% blocktrans %} Дата: {{ date }} {% endblocktrans %}</p>
+
+<p>{% blocktrans %} Врмея: с {{ start_time }} до {{ end_time }} {% endblocktrans %}</p>
+
+<p>{% blocktrans %} The {{ company_name }} team {% endblocktrans %}</p>
+
+{% endblock html_body %}
