@@ -15,8 +15,9 @@ def change_status_task(order_id):
     if order.status != PAID:
         order.status = NOT_PAID
         order.save()
-        print("Status changed")
-    print('finish task1')
+        return f'Cтатус у {order_id} изменен'
+    return f'Cтатус у {order_id} не изменен'
+
 
 @shared_task()
 def close_status_task(order_id):
@@ -25,7 +26,7 @@ def close_status_task(order_id):
     if order.status == ORDER:
         order.status = FINISH
         order.save()
-        print("Order FINISH")
+        return f'Заказ с {order_id} завершен'
 
 
 @shared_task()

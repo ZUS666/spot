@@ -1,6 +1,3 @@
-import datetime
-from decimal import Decimal
-
 from api.fields import GetSpot
 from api.serializers.spot import SpotDetailSerializer
 from django.conf import settings
@@ -16,8 +13,6 @@ class OrderSerializer(serializers.ModelSerializer):
     spot = SpotDetailSerializer(
         default=GetSpot()
     )
-    price = serializers.SerializerMethodField()
-    # price_time = serializers.SerializerMethodField()
     start_time = serializers.TimeField(
         format=settings.TIME_FORMAT
     )
@@ -31,23 +26,8 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = (
             'user', 'spot', 'date',
             'start_time', 'end_time',
-            'price',  # 'price_time'
+            'bill',
         )
-
-    def get_price(self, obj):
-        """Цена по старте и конце."""
-        end = datetime.datetime.strptime(
-            f'{obj.date} {obj.end_time}', '%Y-%m-%d %H:%M:%S'
-        )
-        start = datetime.datetime.strptime(
-            f'{obj.date} {obj.start_time}', '%Y-%m-%d %H:%M:%S'
-        )
-        timedelta = Decimal((end - start).total_seconds() / 3600)
-        return obj.spot.price.total_price * timedelta
-
-    # def get_price_time(self, obj):
-    #     """Цена по time."""
-    #     return obj.spot.price.total_price * len(obj.time)
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""

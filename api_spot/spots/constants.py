@@ -28,10 +28,10 @@ START_CHOICES = tuple([
 ])
 END_CHOICES = tuple([
     (
-        datetime.time(x, 55),
-        datetime.time(x, 55).isoformat(MINUTES)
+        datetime.time(x),
+        datetime.time(x - 1, 55).isoformat(MINUTES)
     )
-    for x in range(0, 23)
+    for x in range(1, 23)
 ])
 TIME_CHOICES = tuple([
     (

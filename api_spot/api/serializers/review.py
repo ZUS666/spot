@@ -21,6 +21,13 @@ class ReviewSerializer(serializers.ModelSerializer):
             'description', 'rating', 'user',
             'first_name', 'last_name', 'pub_date'
         )
+        validators = (
+            serializers.UniqueTogetherValidator(
+                queryset=model.objects.all(),
+                fields=('user', 'booked_spot'),
+                message='Уже есть отзыв на данный заказ.'
+            ),
+        )
 
 
 class ReviewGetSerializer(serializers.ModelSerializer):
