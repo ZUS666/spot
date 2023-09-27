@@ -1,6 +1,6 @@
 from django.db import models
 
-from .location import Location
+from spots.models.location import Location
 
 
 class ExtraPhoto(models.Model):

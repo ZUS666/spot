@@ -5,7 +5,7 @@ from django.db import models
 from django.utils import timezone
 from phonenumber_field import modelfields
 
-from .validators import validate_birth_day
+from users.validators import validate_birth_day
 
 
 class MyUserManager(BaseUserManager):

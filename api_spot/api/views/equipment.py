@@ -4,9 +4,8 @@ from rest_framework.permissions import AllowAny
 
 from api.filters import SpotEquipmentFilter
 from api.mixins import RetrieveListViewSet
+from api.serializers import EquipmentGetSerializer
 from spots.models import SpotEquipment
-
-from ..serializers import EquipmentGetSerializer
 
 
 class EquipmentViewSet(RetrieveListViewSet):
