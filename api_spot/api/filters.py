@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from spots.constants import CATEGORY_CHOICES, FINISH
+from spots.constants import CATEGORY_CHOICES, FINISH, CANCEL
 from spots.models import Location, Order, SpotEquipment
 
 
@@ -14,7 +14,7 @@ class OrderFilter(filters.FilterSet):
     def filter_finished(self, queryset, name, value):
         if value and self.request.user.is_authenticated:
             return queryset.filter(status=FINISH)
-        return queryset.exclude(status=FINISH)
+        return queryset.exclude(status__in=[FINISH, CANCEL])
 
     class Meta:
         model = Order

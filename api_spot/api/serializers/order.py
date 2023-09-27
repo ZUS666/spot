@@ -34,3 +34,21 @@ class OrderSerializer(serializers.ModelSerializer):
         """Проверка на пересечение с другими бронями."""
         self.Meta.model(**data).full_clean()
         return super().validate(data)
+
+
+class OrderUpdateSerializer(serializers.ModelSerializer):
+    """Сериализатор для изменения брони."""
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    spot = serializers.HiddenField(
+        default=GetSpot()
+    )
+    status = serializers.CharField(read_only=True)
+
+    class Meta:
+        """Класс мета для модели Order."""
+        model = Order
+        fields = (
+            'user', 'spot', 'status'
+        )

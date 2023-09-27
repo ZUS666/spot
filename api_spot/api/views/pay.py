@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from api.services.orders import order_finished_email
 from api.serializers.pay import PaySerializer
 from spots.constants import PAID
 from spots.models import Order
@@ -24,6 +25,7 @@ def confirmation_pay(request, location_id, spot_id, order_id):
             return Response('КТО ТЫ ВОИН?', status=status.HTTP_403_FORBIDDEN)
         order.status = PAID
         order.save()
+        order_finished_email(order)
         return Response(
             serializer.data,
             status=status.HTTP_200_OK

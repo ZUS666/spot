@@ -24,3 +24,11 @@ class CreateDestroyViewSet(
 ):
     """Класс ViewSet только для создания и удаления объектов(-а)."""
     pass
+
+
+class CreateUpdateViewSet(
+    mixins.CreateModelMixin, mixins.UpdateModelMixin,
+    viewsets.GenericViewSet
+):
+    """Класс ViewSet только для создания и изменения объектов(-а)."""
+    pass
