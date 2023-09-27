@@ -1,11 +1,15 @@
 import datetime
+from decimal import Decimal
 
-import spots.constants as constants
 from django.contrib.auth import get_user_model
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models
 from multiselectfield import MultiSelectField
+
+
 from spots.models.spot import Spot
+import spots.constants as constants
+from spots.validators import check_date_time
 
 User = get_user_model()
 
@@ -48,6 +52,27 @@ class Order(models.Model):
         blank=True,
         null=True,
     )
+    bill = models.DecimalField(
+        'Итоговый чек',
+        max_digits=10,
+        blank=True,
+        null=True,
+        decimal_places=2,
+    )
+
+    def get_bill(self):
+        """Получнения итогово счета."""
+        start = datetime.datetime.strptime(
+            f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
+        )
+        end = datetime.datetime.strptime(
+            f'{self.date} {self.end_time}', '%Y-%m-%d %H:%M:%S'
+        )
+        timedelta = Decimal(
+            (end - start).total_seconds() / constants.SECONDS_IN_HOUR
+        )
+        self.bill = self.spot.price.total_price * timedelta
+        return self.bill
 
     @property
     def date_finish(self):
@@ -58,14 +83,6 @@ class Order(models.Model):
 
     def validate_unique(self, *args, **kwargs):
         super(Order, self).validate_unique(*args, **kwargs)
-
-        date_time_now = datetime.datetime.strptime(
-            f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
-        )
-        if date_time_now < datetime.datetime.now():
-            raise ValidationError({
-                'start_time': 'Нельзя забронировать в прошлом.'
-            })
         # Валидация по полю time
         # qs = self.__class__._default_manager.filter(
         #     spot=self.spot,
@@ -93,15 +110,12 @@ class Order(models.Model):
             })
 
     def clean(self):
-        if self.end_time == self.start_time:
-            raise ValidationError({
-                'end_time': 'Конец брони не может совпадать с началом'
-            })
-        if self.end_time < self.start_time:
-            raise ValidationError({
-                'end_time': 'Конец брони должен быть позже начала'
-            })
+        check_date_time(self)
         return super().clean()
+
+    def save(self, *args, **kwargs):
+        self.get_bill()
+        return super().save(*args, **kwargs)
 
     class Meta:
         """Класс Meta для Order описание метаданных."""
@@ -110,4 +124,4 @@ class Order(models.Model):
         ordering = ('date', 'start_time')
 
     def __str__(self) -> str:
-        return f'{self.spot.location} {self.spot} {self.user}'
+        return f'Локация = {self.spot.location} , спот = {self.spot}'

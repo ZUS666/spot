@@ -22,6 +22,11 @@ class ReviewSerializer(serializers.ModelSerializer):
             'first_name', 'last_name', 'pub_date'
         )
 
+    def validate(self, data):
+        """Валидация данных из модели."""
+        self.Meta.model(**data).full_clean()
+        return super().validate(data)
+
 
 class ReviewGetSerializer(serializers.ModelSerializer):
     """Сериализатор модели отзывов для получения."""

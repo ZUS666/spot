@@ -25,17 +25,26 @@ class GetSpot(serializers.CurrentUserDefault):
             Spot,
             id=int(
                 serializer_field.context.get('view').kwargs.get('spot_id')
+            ),
+            location=int(
+                serializer_field.context.get('view').kwargs.get('location_id')
             )
         )
 
 
 class GetOrder(serializers.CurrentUserDefault):
-    """Получение spot из view."""
+    """Получение order из view."""
     def __call__(self, serializer_field):
         return get_object_or_404(
             Order,
             id=int(
                 serializer_field.context.get('view').kwargs.get('order_id')
+            ),
+            spot=int(
+                serializer_field.context.get('view').kwargs.get('spot_id')
+            ),
+            spot__location=int(
+                serializer_field.context.get('view').kwargs.get('location_id')
             )
         )
 

@@ -4,6 +4,7 @@ import datetime
 MIN_EVALUATION = 1
 MAX_EVALUATION = 5
 # order
+SECONDS_IN_HOUR = 60 * 60
 MAX_LENGTH_STATUS = 16
 MAX_LENGTH_DESC = 100
 WAIT_PAY = 'Ожидается оплата'
@@ -28,10 +29,10 @@ START_CHOICES = tuple([
 ])
 END_CHOICES = tuple([
     (
-        datetime.time(x, 55),
-        datetime.time(x, 55).isoformat(MINUTES)
+        datetime.time(x),
+        datetime.time(x - 1, 55).isoformat(MINUTES)
     )
-    for x in range(0, 23)
+    for x in range(1, 24)
 ])
 TIME_CHOICES = tuple([
     (
@@ -43,6 +44,7 @@ TIME_CHOICES = tuple([
     for x in range(0, 24)
 ])
 
+MAX_COUNT_DAYS = 60
 # Price
 MIN_VALUE = 1
 ZERO = 0
