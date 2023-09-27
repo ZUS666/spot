@@ -47,7 +47,6 @@ class OrderViewSet(CreateUpdateViewSet):
         if instance.status == WAIT_PAY:
             instance.status = CANCEL
             instance.save()
-        return super().perform_update(serializer)
 
 
 class OrderGetViewSet(RetrieveListViewSet):
