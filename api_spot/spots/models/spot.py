@@ -1,13 +1,9 @@
 from django.core.cache import cache
 from django.db import models
 
-from ..constants import (
-    CATEGORY_CHOICES, NAME_CACHE_LOW_PRICE,
-    NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE
-)
-from .equipment import Equipment
-from .location import Location
-from .price import Price
+from spots.constants import (CATEGORY_CHOICES, NAME_CACHE_LOW_PRICE,
+                             NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE)
+from spots.models import Equipment, Location, Price
 
 
 class Spot(models.Model):

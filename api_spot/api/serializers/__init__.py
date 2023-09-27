@@ -1,9 +1,7 @@
 from .equipment import EquipmentGetSerializer
 from .extra_photo import ExtraPhotoGetSerializer
-from .locations import (
-    LocationGetPlanNameSerializer, LocationGetSerializer,
-    LocationGetShortSerializer
-)
+from .locations import (LocationGetPlanNameSerializer, LocationGetSerializer,
+                        LocationGetShortSerializer)
 from .spot import SpotDetailSerializer, SpotQuerySerializer, SpotSerializer
 
 ExtraPhotoGetSerializer

@@ -1,12 +1,11 @@
 from django.db.models import Q
 
-from ..constants import (ORDER_CANCEL_TEMPLATE, ORDER_CONFIRMATION_TEMPLATE,
-                         ORDER_FINISH_TEMPLATE,
-                         SUBJECT_EMAIL_ORDER_CANCEL,
-                         SUBJECT_EMAIL_ORDER_CONFRIMATION,
-                         SUBJECT_EMAIL_ORDER_FINISH)
-from ..tasks import send_mail_task
-from .users import get_user_email_context
+from api.constants import (ORDER_CANCEL_TEMPLATE, ORDER_CONFIRMATION_TEMPLATE,
+                           ORDER_FINISH_TEMPLATE, SUBJECT_EMAIL_ORDER_CANCEL,
+                           SUBJECT_EMAIL_ORDER_CONFRIMATION,
+                           SUBJECT_EMAIL_ORDER_FINISH)
+from api.services.users import get_user_email_context
+from api.tasks import send_mail_task
 
 
 def is_ordered_spot(instance, date, start_time, end_time):
