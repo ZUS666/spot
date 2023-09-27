@@ -18,6 +18,7 @@ def change_status_task(order_id):
         print("Status changed")
     print('finish task1')
 
+
 @shared_task()
 def close_status_task(order_id):
     """Таска закрытия заказа."""
@@ -43,4 +44,4 @@ def send_mail_task(user_email, subject, template, add_dict=None):
     )
     msg.attach_alternative(html_body, 'text/html')
     msg.send()
-    return f'{subject} sent'
+    return f'{subject} sent to {user_email}'
