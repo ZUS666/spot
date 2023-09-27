@@ -107,7 +107,9 @@ class Order(models.Model):
 
     def clean(self):
         if self.date > (
-            datetime.datetime.now() + datetime.timedelta(days=60)
+            datetime.datetime.now() + datetime.timedelta(
+                days=constants.MAX_COUNT_DAYS
+            )
         ).date():
             raise ValidationError({
                 'date': 'Нельзя забронировать на 60 дней вперед.'
