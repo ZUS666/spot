@@ -32,7 +32,6 @@ def get_order_context(order):
     spot = order.spot
     location = spot.location
     full_address = location.get_full_address_str()
-    print(full_address)
     data = {
         'location_name': location.name,
         'full_address': full_address,
