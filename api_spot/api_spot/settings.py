@@ -128,9 +128,9 @@ REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'error'
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-DEFAULT_FROM_EMAIL = 'fake@mail.com'
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+# DEFAULT_FROM_EMAIL = 'fake@mail.com'
 
 TIMEOUT_CACHED_CODE = 15 * 16
 TIMEOUT_CACHED_COUNTER = 6 * 60 * 60
@@ -143,13 +143,17 @@ LEN_CONFIRMATION_CODE = 6
 
 COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# EMAIL_HOST = os.getenv('EMAIL_HOST', default='smtp.gamil.com')
-# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', default='your_adress@gmail.com')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', default='password')
-# EMAIL_PORT = os.getenv('EMAIL_PORT', default='587')
-# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', default='True')
+EMAIL_HOST = os.getenv('EMAIL_HOST', default='smtp.gamil.com')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', default='your_adress@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', default='password')
+EMAIL_PORT = os.getenv('EMAIL_PORT', default='587')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', default='True')
+
+EMAIL_SERVER = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
 
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
