@@ -7,6 +7,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 from spots.models import Location
 
+from ..paginations import SixPageNumberPagination
 from ..serializers import LocationGetSerializer, LocationGetShortSerializer
 
 
@@ -29,7 +30,7 @@ class LocationShortListAPIView(ListAPIView):
     queryset = Location.objects.all()
     serializer_class = LocationGetShortSerializer
     permission_classes = (AllowAny,)
-    pagination_class = PageNumberPagination
+    pagination_class = SixPageNumberPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filterset_class = LocationFilter
     search_fields = ('^name',)
