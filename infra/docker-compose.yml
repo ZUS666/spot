@@ -10,42 +10,51 @@ services:
   
   redis:
     image: redis:latest
+    restart: always
   
   backend:
+<<<<<<< HEAD
     build: ../.
+=======
+    image: spotit2709/backend:latest
+>>>>>>> develop
     restart: always
     volumes:
-      - static_value:/app/api_spot/static/
-      - media_value:/app/api_spot/media
+      - static_value:/app/static
+      - media_value:/app/media
     depends_on:
       - db
     env_file:
       - ../.env
-  
     
   celery:
-    build: ../
+    image: spotit2709/backend:latest
     command: celery -A api_spot worker --loglevel=info
+    restart: always
     volumes:
       - app:/app
+    depends_on:
+      - backend
+      - redis
     env_file:
       - ../.env
+<<<<<<< HEAD
     links:
       - redis
     depends_on:
       - backend
       - redis
       - db
+=======
+>>>>>>> develop
   
   flower:
     image: mher/flower
     restart: always
     expose:
       - 5555
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379
-      - FLOWER_PORT=5555
-      - FLOWER_URL_PREFIX=/flower
+    env_file:
+      - ../.env
     depends_on:
       - backend
       - redis
@@ -64,7 +73,6 @@ services:
     depends_on:
       - backend
       - flower
-
 
 volumes:
   static_value:

@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', default='default_key')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default=['*'])
 
@@ -74,11 +74,6 @@ DATABASES = {
         "HOST": os.getenv('DB_HOST'),
         "PORT": os.getenv('DB_PORT'),
     }
-
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -112,7 +107,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost', ]
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://185.41.160.27']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -137,17 +132,13 @@ SPECTACULAR_SETTINGS = {
     # OTHER SETTINGS
 }
 
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-# DEFAULT_FROM_EMAIL = 'fake@mail.com'
-
 TIMEOUT_CACHED_CODE = 15 * 16
 TIMEOUT_CACHED_COUNTER = 6 * 60 * 60
 TIMEOUT_CACHED_COUNTER = 6 * 60 * 60
 TIMEOUT_CACHED_RATING = 60 * 60
 TIMEOUT_CACHED_LOW_PRICE = 3 * 60 * 60
 
-TIME_CHANGE_STATUS = 60 * 1
+TIME_CHANGE_STATUS = 60 * 10
 LEN_CONFIRMATION_CODE = 6
 
 COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
