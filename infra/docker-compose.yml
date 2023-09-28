@@ -30,6 +30,7 @@ services:
     volumes:
       - app:/app
     depends_on:
+      - backend
       - redis
     env_file:
       - ../.env
