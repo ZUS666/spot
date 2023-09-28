@@ -39,7 +39,7 @@ class OrderViewSet(CreateUpdateViewSet):
         )
 
     def perform_update(self, serializer):
-        instance = serializer.save()
+        instance = serializer.instance
         if instance.status == PAID:
             instance.status = CANCEL
             instance.save()

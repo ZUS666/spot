@@ -11,7 +11,7 @@ services:
   redis:
     image: redis:latest
   
-  web:
+  backend:
     build: ../.
     restart: always
     volumes:
@@ -33,7 +33,7 @@ services:
     links:
       - redis
     depends_on:
-      - web
+      - backend
       - redis
       - db
   
@@ -47,7 +47,7 @@ services:
       - FLOWER_PORT=5555
       - FLOWER_URL_PREFIX=/flower
     depends_on:
-      - web
+      - backend
       - redis
       - celery
   
@@ -60,9 +60,9 @@ services:
       - static_value:/var/html/static/
       - media_value:/var/html/media/
     links:
-      - web
+      - backend
     depends_on:
-      - web
+      - backend
       - flower
 
 
