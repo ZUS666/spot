@@ -16,6 +16,8 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         password: ${{ secrets.PASSWORD }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
         source: "infra/docker-compose.yml"
         target: ${{ secrets.DEPLOY_PATH }}/infra/
         overwrite: true
@@ -30,6 +32,8 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         password: ${{ secrets.PASSWORD }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
         source: "infra/nginx/default.conf"
         target: ${{ secrets.DEPLOY_PATH }}/infra/nginx/
         overwrite: true
@@ -63,6 +67,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_KEY }}
         script: |
             cd ${{ secrets.DEPLOY_PATH }}
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest 
