@@ -65,7 +65,6 @@ services:
       - web
       - flower
 
-
 volumes:
   static_value:
   media_value:
