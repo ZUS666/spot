@@ -67,6 +67,7 @@ jobs:
             sudo docker rmi $(sudo docker images -f dangling=true)
             touch .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+            
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
@@ -77,6 +78,14 @@ jobs:
             echo CELERY_BROKER=${{ secrets.CELERY_BROKER }} >> .env
             echo CELERY_BACKEND=${{ secrets.CELERY_BACKEND }} >> .env
             echo REDIS_ADDRESS=${{ secrets.REDIS_ADDRESS }} >> .env
+
+            echo COMPANY_NAME=${{ secrets.COMPANY_NAME }} >> .env
+            echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
+            echo EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} >> .env
+            echo EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} >> .env
+            echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
+            echo EMAIL_USE_TLS=${{ secrets.EMAIL_USE_TLS }} >> .env
+
 
             cd infra
             
