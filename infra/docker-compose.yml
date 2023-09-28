@@ -13,11 +13,7 @@ services:
     restart: always
   
   backend:
-<<<<<<< HEAD
-    build: ../.
-=======
     image: spotit2709/backend:latest
->>>>>>> develop
     restart: always
     volumes:
       - static_value:/app/static
@@ -38,15 +34,6 @@ services:
       - redis
     env_file:
       - ../.env
-<<<<<<< HEAD
-    links:
-      - redis
-    depends_on:
-      - backend
-      - redis
-      - db
-=======
->>>>>>> develop
   
   flower:
     image: mher/flower
