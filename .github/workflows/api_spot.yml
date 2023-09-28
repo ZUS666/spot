@@ -15,6 +15,8 @@ jobs:
       uses: appleboy/scp-action@v0.1.4
       with:
         host: ${{ secrets.HOST }}
+        password: ${{ secrets.PASSWORD }}
+        username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         source: "infra/docker-compose.yml"
         target: ${{ secrets.DEPLOY_PATH }}/infra/
@@ -29,6 +31,8 @@ jobs:
       uses: appleboy/scp-action@v0.1.4
       with:
         host: ${{ secrets.HOST }}
+        password: ${{ secrets.PASSWORD }}
+        username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         source: "infra/nginx/default.conf"
         target: ${{ secrets.DEPLOY_PATH }}/infra/nginx/
@@ -62,6 +66,8 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
+        password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_KEY }}
         key: ${{ secrets.SSH_KEY }}  
         script: |
             cd ${{ secrets.DEPLOY_PATH }}
