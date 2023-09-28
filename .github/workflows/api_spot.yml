@@ -20,7 +20,7 @@ jobs:
         target: ${{ secrets.DEPLOY_PATH }}/infra/
   
   send_nginx:
-    name: Send docker-compose
+    name: Send nginx
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
