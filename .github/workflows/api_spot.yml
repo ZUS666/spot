@@ -78,6 +78,10 @@ jobs:
             echo CELERY_BROKER=${{ secrets.CELERY_BROKER }} >> .env
             echo CELERY_BACKEND=${{ secrets.CELERY_BACKEND }} >> .env
             echo REDIS_ADDRESS=${{ secrets.REDIS_ADDRESS }} >> .env
+            echo CELERY_BROKER_URL=${{ secrets.CELERY_BROKER_URL }} >> .env
+
+            echo FLOWER_PORT=${{ secrets.FLOWER_PORT }} >> .env
+            echo FLOWER_URL_PREFIX=${{ secrets.FLOWER_URL_PREFIX }} >> .env
 
             echo COMPANY_NAME=${{ secrets.COMPANY_NAME }} >> .env
             echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
