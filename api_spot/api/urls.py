@@ -63,7 +63,7 @@ view_url = [
         r'/order/(?P<order_id>\d+)/pay/',
         confirmation_pay, name='pay'
     ),
-    path('v1/short_locations/', LocationShortListAPIView.as_view())
+    path('short_locations/', LocationShortListAPIView.as_view())
 ]
 
 urlpatterns = [
