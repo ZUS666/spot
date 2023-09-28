@@ -19,7 +19,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         source: "infra/docker-compose.yml"
-        target: ${{ secrets.DEPLOY_PATH }}/infra/
+        target: ${{ secrets.DEPLOY_PATH }}
         overwrite: true
   
   send_nginx:
@@ -35,7 +35,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         source: "infra/nginx/default.conf"
-        target: ${{ secrets.DEPLOY_PATH }}/infra/nginx/
+        target: ${{ secrets.DEPLOY_PATH }}
         overwrite: true
 
   build_and_push_to_docker_hub:
