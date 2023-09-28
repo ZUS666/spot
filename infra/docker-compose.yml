@@ -13,7 +13,7 @@ services:
     restart: always
   
   backend:
-    build: ../api_spot/
+    image: SPOTIT2709/backend:latest
     restart: always
     volumes:
       - static_value:/app/static
@@ -24,7 +24,7 @@ services:
       - ../.env
     
   celery:
-    build: ../api_spot
+    image: SPOTIT2709/backend:latest
     command: celery -A api_spot worker --loglevel=info
     restart: always
     volumes:
