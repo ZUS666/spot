@@ -67,8 +67,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         password: ${{ secrets.PASSWORD }}
-        key: ${{ secrets.SSH_KEY }}
-        key: ${{ secrets.SSH_KEY }}  
+        key: ${{ secrets.SSH_KEY }} 
         script: |
             cd ${{ secrets.DEPLOY_PATH }}
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest 
