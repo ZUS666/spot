@@ -65,6 +65,8 @@ jobs:
             cd ${{ secrets.DEPLOY_PATH }}
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest 
             sudo docker rmi $(sudo docker images -f dangling=true)
+            
+            rm .env
             touch .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
 
