@@ -106,7 +106,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost', '185.41.160.27']
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://185.41.160.27']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
