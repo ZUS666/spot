@@ -7,6 +7,7 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
+        swagger="2.0",
         title="Snippets API",
         default_version='v1',
         description="Test description",
