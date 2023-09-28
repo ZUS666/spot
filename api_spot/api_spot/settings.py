@@ -107,29 +107,31 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://185.41.160.27']
+CSRF_TRUSTED_ORIGINS = (
+    'http://localhost',
+    os.getenv('HOST', default='http://185.41.160.27')
+)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.user'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
+    'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAdminUser',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    ],
+    ),
     'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
-    'VERSION': '1.0.0',
+    'TITLE': 'API SPOT',
+    'DESCRIPTION': 'Апи для коворкинког',
+    'VERSION': '0.0.1',
     'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
 }
 
 TIMEOUT_CACHED_CODE = 15 * 16
@@ -168,8 +170,6 @@ CACHES = {
 }
 
 SWAGGER_SETTINGS = {
-    "swagger": "2.0",
-    "openapi": "3.0.0",
     'SECURITY_DEFINITIONS': {
         'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
     },
