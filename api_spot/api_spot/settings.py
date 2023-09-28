@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django_filters',
     'djoser',
     'phonenumber_field',
+    'drf_spectacular',
 
     'users',
     'spots',
@@ -119,7 +120,16 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'NON_FIELD_ERRORS_KEY': 'error'
+    'NON_FIELD_ERRORS_KEY': 'error',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
 
 TIMEOUT_CACHED_CODE = 15 * 16
@@ -158,6 +168,8 @@ CACHES = {
 }
 
 SWAGGER_SETTINGS = {
+    "swagger": "2.0",
+    "openapi": "3.0.0",
     'SECURITY_DEFINITIONS': {
         'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
     },
