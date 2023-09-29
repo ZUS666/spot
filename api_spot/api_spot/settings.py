@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'djoser',
     'phonenumber_field',
     'drf_spectacular',
+    'gmailapi_backend',
 
     'users',
     'spots',
@@ -143,7 +144,7 @@ LEN_CONFIRMATION_CODE = 6
 
 COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
 
 EMAIL_HOST = os.getenv('EMAIL_HOST', default='smtp.gamil.com')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', default='your_adress@gmail.com')

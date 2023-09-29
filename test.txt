@@ -1,0 +1,4 @@
+python oauth2.py gmail_oauth2 --generate_oauth2_token \
+  --client_id=799867549490-vduo12b20sk2tenn6dvhtk63fbm4b8pg.apps.googleusercontent.com \
+  --client_secret=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 \
+  --scope="https://www.googleapis.com/auth/gmail.send"
