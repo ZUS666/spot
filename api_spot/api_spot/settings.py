@@ -143,7 +143,7 @@ LEN_CONFIRMATION_CODE = 6
 
 COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
 
 GMAIL_API_CLIENT_ID = os.getenv('GMAIL_API_CLIENT_ID')
 GMAIL_API_CLIENT_SECRET = os.getenv('GMAIL_API_CLIENT_SECRET')
