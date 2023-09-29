@@ -93,3 +93,4 @@ celery -A api_spot flower --port=5001
 ## Авторы:
 
 **Изимов Арсений**  - https://github.com/Arseny13
+**Тагиров Руслан**  - https://github.com/ZUS666
