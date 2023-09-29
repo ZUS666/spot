@@ -18,9 +18,9 @@ class ReviewSerializer(serializers.ModelSerializer):
         """Класс мета для модели Review."""
         model = Review
         fields = (
-            'booked_spot',
+            'id', 'booked_spot',
             'description', 'rating', 'user',
-            'first_name', 'last_name', 'pub_date'
+            'first_name', 'last_name', 'pub_date',
         )
 
     def validate(self, data):
@@ -38,6 +38,6 @@ class ReviewGetSerializer(serializers.ModelSerializer):
         """Класс мета для модели Review."""
         model = Review
         fields = (
-            'description', 'rating',
+            'id', 'description', 'rating',
             'first_name', 'last_name', 'pub_date'
         )

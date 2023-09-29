@@ -2,6 +2,7 @@ import datetime
 
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 
@@ -15,8 +16,13 @@ from spots.models import Order
 from spots.constants import CANCEL, PAID, WAIT_PAY
 
 
+@extend_schema(
+    tags=('orders',)
+)
 class OrderViewSet(CreateUpdateViewSet):
-    """Вьюсет для заказов."""
+    """
+    Представление создания заказов и изменение статуса для отмены.
+    """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (IsOwnerOrReadOnly,)
@@ -50,7 +56,10 @@ class OrderViewSet(CreateUpdateViewSet):
 
 
 class OrderGetViewSet(RetrieveListViewSet):
-    """Вьюсет модели заказов для получения."""
+    """
+    Представление заказов авторизованного пользователя с возможностью
+    фильтрации по статусу "завершен".
+    """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_backends = (DjangoFilterBackend,

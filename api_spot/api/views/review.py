@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -7,15 +8,26 @@ from api.serializers.review import ReviewGetSerializer, ReviewSerializer
 from spots.models import Location, Review
 
 
+@extend_schema(
+    tags=('reviews',)
+)
 class ReviewCreateViewSet(CreateDestroyViewSet):
-    """Вьюсет модели отзывов для создания и удаления."""
+    """
+    Представление для создания и удаления отзывов к локациям
+    по завершенным заказам.
+    """
     queryset = Review.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = ReviewSerializer
 
 
+@extend_schema(
+    tags=('reviews',)
+)
 class ReviewGetViewSet(RetrieveListViewSet):
-    """Вьюсет модели отзывов для получения."""
+    """
+    Представление для вывода отзывов по локациям.
+    """
     queryset = Review.objects.all()
     serializer_class = ReviewGetSerializer
     permission_classes = (AllowAny,)

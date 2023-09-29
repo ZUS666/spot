@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -10,6 +11,9 @@ from spots.constants import PAID
 from spots.models import Order
 
 
+@extend_schema(
+    tags=('pay',)
+)
 @api_view(['PATCH'])
 @permission_classes((IsAuthenticated, ))
 def confirmation_pay(request, location_id, spot_id, order_id):

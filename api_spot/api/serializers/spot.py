@@ -19,7 +19,7 @@ class SpotQuerySerializer(serializers.Serializer):
     )
 
     class Meta:
-        fields = ('date', 'start_time', 'end_time')
+        fields = ('date', 'start_time', 'end_time',)
 
 
 class SpotSerializer(serializers.ModelSerializer):
@@ -37,6 +37,7 @@ class SpotSerializer(serializers.ModelSerializer):
         """Класс мета для модели Spot."""
         model = Spot
         fields = (
+            'id',
             'name',
             'price',
             'location',
@@ -75,6 +76,7 @@ class SpotDetailSerializer(serializers.ModelSerializer):
         """Класс мета для модели Spot."""
         model = Spot
         fields = (
+            'id',
             'name',
             'description',
             'price',
