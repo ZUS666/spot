@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
 from django.db import models
 
 import spots.constants as constants
@@ -38,6 +39,14 @@ class Review(models.Model):
         verbose_name='Дата создания',
         auto_now_add=True
     )
+
+    def clean(self):
+        if self.booked_spot.status != constants.FINISH:
+            msg = 'Нельзя оставлять отзывы на не завершенный заказ.'
+            raise ValidationError({
+                'booked_spot': msg
+            })
+        return super().clean()
 
     class Meta:
         """Класс меты для Review"""
