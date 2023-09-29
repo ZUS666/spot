@@ -144,7 +144,7 @@ TIMEOUT_CACHED_LOW_PRICE = 3 * 60 * 60
 TIME_CHANGE_STATUS = 60 * 10
 LEN_CONFIRMATION_CODE = 6
 
-COMPANY_NAME = os.getenv('COMPANY_NAME', default='Backend')
+COMPANY_NAME = os.getenv('COMPANY_NAME', default='SPOT')
 
 EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
 
