@@ -11,7 +11,6 @@
 * Для установки на ubuntu выполните следующие команды:
 ```
 sudo apt install docker
-sudo apt install docker-compose
 ```
 Про установку на других операционных системах вы можете прочитать в [документации](https://docs.docker.com/engine/install/) и [про установку docker-compose](https://docs.docker.com/compose/install/).
 
@@ -22,19 +21,19 @@ git clone git@github.com:ZUS666/spot.git
 * В корне проекта создайте .env файл по аналогии с файлом .env.example.
 * Перейдите в папку infra и соберите контейнеры:
 ```
-docker-compose up -d
+docker compose up -d
 ```
 * Примените миграции:
 ```
-docker-compose exec web python manage.py migrate
+docker compose exec web python manage.py migrate
 ```
 * Создайте суперпользователя Django:
 ```
-docker-compose exec web python manage.py createsuperuser
+docker compose exec web python manage.py createsuperuser
 ```
 * Соберите статику:
 ```
-docker-compose exec web python manage.py collectstatic --noinput
+docker compose exec web python manage.py collectstatic --noinput
 ```
 
 * Для заполнения или обновления базы данных перейдите по адресу https://localhost/admin
@@ -82,10 +81,11 @@ celery -A api_spot flower --port=5001
 
 ## Используемые технологии
 
-- [![Python](https://img.shields.io/badge/-Python_3.11-464646?style=flat-square&logo=Python)](https://www.python.org/)
-- [![Django](https://img.shields.io/badge/-Django_4.1-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
+- Python
+- Django
 - celery
 - redis
+- flower
 
 ## Авторы:
 
