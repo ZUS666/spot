@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'drf_spectacular',
     'gmailapi_backend',
+    'django_celery_beat',
 
     'users',
     'spots',

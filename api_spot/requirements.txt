@@ -14,3 +14,4 @@ psycopg2-binary==2.9.7
 python-dotenv==1.0.0
 drf-spectacular
 django-gmailapi-backend
+django-celery-beat
