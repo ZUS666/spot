@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
@@ -13,7 +14,8 @@ from spots.models import Location
 
 class LocationViewSet(RetrieveListViewSet):
     """
-    Вьюсет подбродной информации для локаций.
+    Представление подробной информации о локациях с возможностью фильтрации
+    по названию, категориям, метро и избранному.
     """
     queryset = Location.objects.all()
     serializer_class = LocationGetSerializer
@@ -23,9 +25,13 @@ class LocationViewSet(RetrieveListViewSet):
     filterset_class = LocationFilter
 
 
+@extend_schema(
+    tags=('locations',)
+)
 class LocationShortListAPIView(ListAPIView):
     """
-    Представление краткой информации о локациях.
+    Представление краткой информации о локациях с возможностью фильтрации
+    по названию, категориям, метро и избранному и поиску по названию.
     """
     queryset = Location.objects.all()
     serializer_class = LocationGetShortSerializer

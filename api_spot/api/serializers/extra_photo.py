@@ -11,6 +11,7 @@ class ExtraPhotoGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExtraPhoto
         fields = (
+            'id',
             'image',
             'description',
         )

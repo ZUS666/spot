@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework.pagination import PageNumberPagination
 
 from api.mixins import CreateDestroyViewSet
@@ -6,8 +7,14 @@ from api.serializers.favorite import FavoriteSerializer
 from spots.models.favorite import Favorite
 
 
+@extend_schema(
+    tags=('favorite',)
+)
 class FavoriteViewSet(CreateDestroyViewSet):
-    """Вьюсет для избранного."""
+    """
+    Добавление в избранное и удаление из избранного авторизованным
+    пользователем.
+    """
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
     permission_classes = (IsOwnerOrReadOnly,)

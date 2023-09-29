@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 
@@ -8,9 +9,13 @@ from api.serializers import EquipmentGetSerializer
 from spots.models import SpotEquipment
 
 
+@extend_schema(
+    tags=('equipments',)
+)
 class EquipmentViewSet(RetrieveListViewSet):
     """
-    Вьюсет для cнаредния.
+    Представление оборудования по локациям с возможностью фильтрации
+    по категориям.
     """
     queryset = SpotEquipment.objects.all()
     serializer_class = EquipmentGetSerializer

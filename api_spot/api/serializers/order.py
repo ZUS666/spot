@@ -25,9 +25,9 @@ class OrderSerializer(serializers.ModelSerializer):
         """Класс мета для модели Order."""
         model = Order
         fields = (
-            'user', 'spot', 'date',
-            'start_time', 'end_time',
-            'bill',
+            'id', 'user', 'spot',
+            'date', 'start_time',
+            'end_time', 'bill',
         )
 
     def validate(self, data):
@@ -50,5 +50,5 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
         """Класс мета для модели Order."""
         model = Order
         fields = (
-            'user', 'spot', 'status'
+            'id', 'user', 'spot', 'status',
         )

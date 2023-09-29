@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema
 from rest_framework.permissions import AllowAny
 
 from api.mixins import RetrieveListViewSet
@@ -7,9 +8,13 @@ from api.serializers import (SpotDetailSerializer, SpotQuerySerializer,
 from spots.models import Spot
 
 
+@extend_schema(
+    tags=('spots',)
+)
 class SpotViewSet(RetrieveListViewSet):
     """
-    Вьюсет для локаций.
+    Представление для мест в локациях с возможностью фильтрации
+    по категериям.
     """
     queryset = Spot.objects.all()
     serializer_class = SpotSerializer

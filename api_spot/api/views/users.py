@@ -20,16 +20,25 @@ User = get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    """
+    Представление для регистрации пользователей с отправкой кода подтверждения.
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAdminUser,)
 
     def get_permissions(self):
+        """
+        Предоставление прав на создание для неавторизованного пользователя.
+        """
         if self.action == 'create':
             return (AllowAny(),)
         return super().get_permissions()
 
     def perform_create(self, serializer, *args, **kwargs):
+        """
+        Создание и отправка пароля после успешной регистрации пользователя.
+        """
         user = serializer.save(*args, **kwargs)
         cache_and_send_confirmation_code(user, registration_email)
 
@@ -41,7 +50,7 @@ class UserViewSet(viewsets.ModelViewSet):
     )
     def activation(self, request, *args, **kwargs):
         """
-        Активация юзера через код подтверждения
+        Активация юзера через код подтверждения.
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -68,7 +77,7 @@ class UserViewSet(viewsets.ModelViewSet):
     )
     def change_password(self, request, *args, **kwargs):
         """
-        Cмена пароля.
+        Cмена пароля авторизованного пользователя.
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -88,7 +97,7 @@ class UserViewSet(viewsets.ModelViewSet):
     )
     def reset_password(self, request, *args, **kwargs):
         """
-        Сброс пароля.
+        Сброс пароля с последующим удаленим токена авторизации.
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -116,7 +125,7 @@ class UserViewSet(viewsets.ModelViewSet):
     )
     def me(self, request, *args, **kwargs):
         """
-        Любой пользователь может получить информацию о себе.
+        Получение пользователем информации информацию о себе.
         """
         email = request.user.email
         user = User.objects.get(email=email)
@@ -126,7 +135,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @me.mapping.patch
     def patch_me(self, request, *args, **kwargs):
         """
-        Любой пользователь может изменить информацию о себе.
+        Изменение пользователем информации о себе.
         """
         serializer = self.get_serializer(
             request.user,
