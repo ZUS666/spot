@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'djoser',
     'phonenumber_field',
     'drf_spectacular',
+    'gmailapi_backend',
 
     'users',
     'spots',
@@ -130,7 +131,7 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'API SPOT',
     'DESCRIPTION': 'Апи для коворкинког',
-    'VERSION': '0.0.1',
+    'VERSION': '0.0.5',
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
@@ -145,17 +146,11 @@ LEN_CONFIRMATION_CODE = 6
 
 COMPANY_NAME = os.getenv('COMPANY_NAME', default='Beckend')
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
 
-EMAIL_HOST = os.getenv('EMAIL_HOST', default='smtp.gamil.com')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', default='your_adress@gmail.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', default='password')
-EMAIL_PORT = os.getenv('EMAIL_PORT', default='587')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', default='True')
-
-EMAIL_SERVER = EMAIL_HOST_USER
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_ADMIN = EMAIL_HOST_USER
+GMAIL_API_CLIENT_ID = os.getenv('GMAIL_API_CLIENT_ID')
+GMAIL_API_CLIENT_SECRET = os.getenv('GMAIL_API_CLIENT_SECRET')
+GMAIL_API_REFRESH_TOKEN = os.getenv('GMAIL_API_REFRESH_TOKEN')
 
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
