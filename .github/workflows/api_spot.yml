@@ -93,12 +93,10 @@ jobs:
             echo FLOWER_PORT=${{ secrets.FLOWER_PORT }} >> .env
             echo FLOWER_URL_PREFIX=${{ secrets.FLOWER_URL_PREFIX }} >> .env
 
-            echo COMPANY_NAME=${{ secrets.COMPANY_NAME }} >> .env
-            echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
-            echo EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }} >> .env
-            echo EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }} >> .env
-            echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
-            echo EMAIL_USE_TLS=${{ secrets.EMAIL_USE_TLS }} >> .env
+            echo EMAIL_BACKEND=${{ secrets.EMAIL_BACKEND }} >> .env
+            echo GMAIL_API_CLIENT_ID=${{ secrets.GMAIL_API_CLIENT_ID }} >> .env
+            echo GMAIL_API_CLIENT_SECRET=${{ secrets.GMAIL_API_CLIENT_SECRET }} >> .env
+            echo GMAIL_API_REFRESH_TOKEN=${{ secrets.GMAIL_API_REFRESH_TOKEN }} >> .env
 
 
             cd infra
