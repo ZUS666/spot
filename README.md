@@ -1,32 +1,44 @@
 # Spot
 
+![api_spot](https://github.com/ZUS666/spot/actions/workflows/api_spot.yml/badge.svg)
+
 ## Описание
 
 Ценность приложения в  улучшении доступности, удобства и эффективности использования коворкинговых пространств для IT специалистов, а также улучшении управлении и оптимизации пространств для владельцев.
 
 ## Запуск проекта
-* Создать виртуальное окружение и активировать его
-* Установить зависимости 
+* Установите docker
+* Для установки на ubuntu выполните следующие команды:
 ```
-python -m vevn venv
-. venv/Scripts/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+sudo apt install docker
+```
+Про установку на других операционных системах вы можете прочитать в [документации](https://docs.docker.com/engine/install/)
+
+* Склонируйте репозиторий на локальную машину:
+```
+git clone git@github.com:ZUS666/spot.git
+```
+* В корне проекта создайте .env файл по аналогии с файлом .env.example.
+* Перейдите в папку infra и соберите контейнеры:
+```
+docker compose up -d
+```
+* Примените миграции:
+```
+docker compose exec web python manage.py migrate
+```
+* Создайте суперпользователя Django:
+```
+docker compose exec web python manage.py createsuperuser
+```
+* Соберите статику:
+```
+docker compose exec web python manage.py collectstatic --noinput
 ```
 
-В папке ```api_spot ``` 
-выполнить команды 
-```
-python manage.py createsuperuser
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-```
+* Для заполнения или обновления базы данных перейдите по адресу https://localhost/admin
+* Для получения документация по api перейдите по адресу https://localhost/api/docs/
 
-Проект запустится на адресе http://http://127.0.0.1:8000/,
-заполнить бд можно в админке (http://127.0.0.1:8000/admin/)
-увидеть спецификацию API вы сможете по адресу http://127.0.0.1:8000/swagger-ui/
-(на Windows не работает celery, это значит api запросы которые связаные с задачи будет очень долго выполняться)
 
 ## Запуск проекта на локальной машине Linux
 
@@ -69,10 +81,11 @@ celery -A api_spot flower --port=5001
 
 ## Используемые технологии
 
-- [![Python](https://img.shields.io/badge/-Python_3.11-464646?style=flat-square&logo=Python)](https://www.python.org/)
-- [![Django](https://img.shields.io/badge/-Django_4.1-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
+- Python
+- Django
 - celery
 - redis
+- flower
 
 ## Авторы:
 
