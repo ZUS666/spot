@@ -16,4 +16,4 @@ class EquipmentGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SpotEquipment
-        fields = ('name', 'location', 'category')
+        fields = ('id', 'name', 'location', 'category',)

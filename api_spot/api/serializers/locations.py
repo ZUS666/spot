@@ -14,6 +14,7 @@ class LocationGetPlanNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = (
+            'id',
             'name',
             'plan_photo',
         )
@@ -28,6 +29,7 @@ class LocationGetShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = (
+            'id',
             'name',
             'city',
             'street',
@@ -55,6 +57,7 @@ class LocationGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = (
+            'id',
             'name',
             'city',
             'street',
