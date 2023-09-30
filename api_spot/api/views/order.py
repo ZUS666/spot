@@ -1,5 +1,3 @@
-import datetime
-
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
@@ -11,7 +9,7 @@ from api.filters import OrderFilter
 from api.mixins import CreateUpdateViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer, OrderUpdateSerializer
-from api.tasks import change_status_task, close_status_task
+from api.tasks import change_status_task
 from spots.models import Order
 from spots.constants import CANCEL, PAID, WAIT_PAY
 
@@ -26,6 +24,7 @@ class OrderViewSet(CreateUpdateViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (IsOwnerOrReadOnly,)
+    http_method_names = ('post', 'patch')
 
     def get_serializer_class(self):
         if self.action == 'update':
@@ -38,13 +37,8 @@ class OrderViewSet(CreateUpdateViewSet):
             args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
         )
         order_confirmation_email(instance)
-        finish_time = instance.date_finish
-        countdown = (finish_time - datetime.datetime.now()).total_seconds()
-        close_status_task.apply_async(
-            args=[instance.id], countdown=countdown
-        )
 
-    def perform_update(self, serializer):
+    def partial_update(self, serializer):
         instance = serializer.instance
         if instance.status == PAID:
             instance.status = CANCEL
