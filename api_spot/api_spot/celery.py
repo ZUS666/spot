@@ -13,6 +13,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'every': {
         'task': 'spots.tasks.repeat_orders_finish',
-        'schedule': crontab(hour=0, minute=0),
+        'schedule': crontab(hour='*/1', minute=1),
     },
 }

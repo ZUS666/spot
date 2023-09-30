@@ -20,6 +20,7 @@ class OrderViewSet(CreateUpdateViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (IsOwnerOrReadOnly,)
+    http_method_names = ('post', 'patch')
 
     def get_serializer_class(self):
         if self.action == 'update':
@@ -38,7 +39,7 @@ class OrderViewSet(CreateUpdateViewSet):
             args=[instance.id], countdown=countdown
         )
 
-    def perform_update(self, serializer):
+    def partial_update(self, serializer):
         instance = serializer.instance
         if instance.status == PAID:
             instance.status = CANCEL
