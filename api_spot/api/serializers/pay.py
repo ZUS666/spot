@@ -2,14 +2,14 @@ from django.core.validators import RegexValidator
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 
-from api.fields import GetOrder
+from api.fields import GetOrderPay
 from api.serializers.order import OrderUpdateSerializer
 
 
 class PaySerializer(serializers.Serializer):
     """Сериадизатор для оплаты."""
     order = OrderUpdateSerializer(
-        default=GetOrder(),
+        default=GetOrderPay(),
         read_only=True
     )
     name_owner = serializers.CharField(

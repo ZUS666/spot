@@ -49,6 +49,17 @@ class GetOrder(serializers.CurrentUserDefault):
         )
 
 
+class GetOrderPay(serializers.CurrentUserDefault):
+    """Получение order из view."""
+    def __call__(self, serializer_field):
+        return get_object_or_404(
+            Order,
+            id=int(
+                serializer_field.context.get('order_id')
+            ),
+        )
+
+
 class LowercaseEmailField(serializers.EmailField):
     """
     Приводит email к нижнему регистру.
