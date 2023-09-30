@@ -2,7 +2,7 @@ from .equipment import EquipmentViewSet
 from .favorite import FavoriteViewSet
 from .locations import LocationShortListAPIView, LocationViewSet
 from .order import OrderGetViewSet, OrderViewSet
-from .pay import confirmation_pay
+from .pay import PayView
 from .review import ReviewCreateViewSet, ReviewGetViewSet
 from .spot import SpotViewSet
 from .users import UserViewSet
@@ -16,5 +16,5 @@ LocationViewSet
 LocationShortListAPIView
 UserViewSet
 SpotViewSet
-confirmation_pay
+PayView
 EquipmentViewSet

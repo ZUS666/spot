@@ -12,13 +12,19 @@ class OrderSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault()
     )
     spot = SpotDetailSerializer(
-        default=GetSpot()
+        default=GetSpot(),
+        read_only=True
     )
     start_time = serializers.TimeField(
         format=settings.TIME_FORMAT
     )
     end_time = serializers.TimeField(
         format=settings.TIME_FORMAT
+    )
+    bill = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        read_only=True
     )
 
     class Meta:
