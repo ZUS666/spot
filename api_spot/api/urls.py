@@ -5,7 +5,7 @@ from api.views import (EquipmentViewSet, FavoriteViewSet,
                        LocationShortListAPIView, LocationViewSet,
                        OrderGetViewSet, OrderViewSet, ReviewCreateViewSet,
                        ReviewGetViewSet, SpotViewSet, UserViewSet,
-                       confirmation_pay)
+                       PayView)
 
 app_name = 'api'
 
@@ -62,7 +62,7 @@ view_url = [
     re_path(
         r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)'
         r'/order/(?P<order_id>\d+)/pay/',
-        confirmation_pay, name='pay'
+        PayView.as_view(), name='pay'
     ),
     path('short_locations/', LocationShortListAPIView.as_view())
 ]
