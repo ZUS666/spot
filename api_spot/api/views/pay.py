@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from api.exceptions import OrderStatusError
 from api.services.orders import order_finished_email
 from api.serializers.pay import PaySerializer
 from api.permissions import IsOwnerOrReadOnly
@@ -32,11 +33,7 @@ class PayView(APIView):
         order = serializer.validated_data.get('order')
         self.check_object_permissions(request, order)
         if order.status != WAIT_PAY:
-            return Response(
-                'Можно оплачить только заказы со статусом '
-                '"ожидается оплата"',
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            raise OrderStatusError
         order.status = PAID
         order.save()
         order_finished_email(order)
