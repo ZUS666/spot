@@ -1,20 +1,14 @@
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
-from rest_framework import filters, status
+from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.decorators import action
-from rest_framework.response import Response
 
-from api.services.orders import (
-    order_confirmation_email, order_cancel_email,
-    order_finished_email
-)
+from api.services.orders import order_confirmation_email, order_cancel_email
 from api.filters import OrderFilter
 from api.mixins import CreateUpdateViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer, OrderUpdateSerializer
-from api.serializers.pay import PaySerializer
 from api.tasks import change_status_task
 from spots.models import Order
 from spots.constants import CANCEL, PAID, WAIT_PAY
@@ -53,35 +47,6 @@ class OrderViewSet(CreateUpdateViewSet):
         if instance.status == WAIT_PAY:
             instance.status = CANCEL
             instance.save()
-
-    @extend_schema(
-        tags=('pay_in_order',),
-        request=PaySerializer
-    )
-    @action(detail=True, methods=['patch', ], url_path='pay')
-    def pay(self, request):
-        """
-        Оплачивание заказа(изменения статуса).
-        """
-        serializer = PaySerializer(
-            data=request.data,
-        )
-        serializer.is_valid(raise_exception=True)
-        order = self.get_object()
-        self.check_object_permissions(request, order)
-        if order.status != WAIT_PAY:
-            return Response(
-                'Можно оплачить только заказы со статусом '
-                '"ожидается оплата"',
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        order.status = PAID
-        order.save()
-        order_finished_email(order)
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK
-        )
 
 
 class OrderGetViewSet(RetrieveListViewSet):

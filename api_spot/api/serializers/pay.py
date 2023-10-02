@@ -10,18 +10,18 @@ class PaySerializer(serializers.Serializer):
     order = serializers.HiddenField(
         default=GetOrderPay(),
     )
-    # name_owner = serializers.CharField(
-    #     max_length=30, validators=(RegexValidator(r'^[A-Za-z]+$'),)
-    # )
-    # card_number = serializers.CharField(
-    #     max_length=16, validators=(RegexValidator(r'^[\d]{16,16}$'),)
-    # )
-    # date = serializers.DateField(
-    #     format='%m/%y',
-    #     input_formats=('%m/%y', )
-    # )
+    name_owner = serializers.CharField(
+        max_length=30, validators=(RegexValidator(r'^[A-Za-z]+$'),)
+    )
+    card_number = serializers.CharField(
+        max_length=16, validators=(RegexValidator(r'^[\d]{16,16}$'),)
+    )
+    date = serializers.DateField(
+        format='%m/%y',
+        input_formats=('%m/%y', )
+    )
     cvv = serializers.CharField(
         max_length=3, validators=(RegexValidator(r'^[\d]{1,3}$'),)
     )
-    # email = serializers.EmailField()
-    # phone = PhoneNumberField(region='RU')
+    email = serializers.EmailField()
+    phone = PhoneNumberField(region='RU')
