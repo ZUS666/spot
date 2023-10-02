@@ -8,7 +8,7 @@ class Event(models.Model):
         upload_to='images/',
     )
     address = models.CharField('Адрес', max_length=255)
-    meeting_quantity = models.PositiveSmallIntegerField()
+    meeting_quantity = models.PositiveSmallIntegerField('Количество мест')
     url = models.URLField('Ссылка')
     date = models.DateField('Дата')
 
