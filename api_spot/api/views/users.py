@@ -1,12 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from api.exceptions import (ConfirmationCodeInvalidError, EmailNotFoundError,
                             UserIsActiveError)
+from api.mixins import CreateDestroyViewSet
+from api.permissions import IsOwnerOrReadOnly
 from api.serializers.users import (ChangePasswordSerializer,
                                    ConfirmationCodeSerializer,
                                    ResetPasswordSerializer, SendCodeSerializer,
@@ -19,13 +21,15 @@ from api.services.users import (cache_and_send_confirmation_code,
 User = get_user_model()
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(CreateDestroyViewSet):
     """
-    Представление для регистрации пользователей с отправкой кода подтверждения.
+    post: Представление для регистрации пользователей с отправкой кода
+    подтверждения.
+    delete: Представления для удаления своего аккаунта пользователем.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsOwnerOrReadOnly,)
 
     def get_permissions(self):
         """
