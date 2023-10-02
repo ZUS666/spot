@@ -50,13 +50,19 @@ class GetOrder(serializers.CurrentUserDefault):
 
 
 class GetOrderPay(serializers.CurrentUserDefault):
-    """Получение order из view."""
+    """Получение order из context."""
     def __call__(self, serializer_field):
         return get_object_or_404(
             Order,
             id=int(
                 serializer_field.context.get('order_id')
             ),
+            spot=int(
+                serializer_field.context.get('spot_id')
+            ),
+            spot__location=int(
+                serializer_field.context.get('location_id')
+            )
         )
 
 

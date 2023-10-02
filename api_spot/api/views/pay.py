@@ -22,7 +22,11 @@ class PayView(APIView):
     def patch(self, request, location_id, spot_id, order_id):
         serializer = PaySerializer(
             data=request.data,
-            context={'order_id': order_id}
+            context={
+                'order_id': order_id,
+                'location_id': location_id,
+                'spot_id': spot_id
+            }
         )
         serializer.is_valid(raise_exception=True)
         order = serializer.validated_data.get('order')
