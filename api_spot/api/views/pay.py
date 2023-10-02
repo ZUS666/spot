@@ -1,32 +1,39 @@
-from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from api.exceptions import OrderStatusError
 from api.services.orders import order_finished_email
 from api.serializers.pay import PaySerializer
-from spots.constants import PAID
-from spots.models import Order
+from api.permissions import IsOwnerOrReadOnly
+from spots.constants import PAID, WAIT_PAY
 
 
 @extend_schema(
-    tags=('pay',)
+    tags=('pay',),
+    request=PaySerializer
 )
-@api_view(['PATCH'])
-@permission_classes((IsAuthenticated, ))
-def confirmation_pay(request, location_id, spot_id, order_id):
-    """Подверждения оплаты."""
-    serializer = PaySerializer(data=request.data)
-    if serializer.is_valid():
-        order = get_object_or_404(
-            Order, pk=order_id,
-            spot=spot_id,
-            spot__location=location_id,
+class PayView(APIView):
+    """
+    Оплачивание заказа(изменения статуса).
+    """
+    permission_classes = (IsOwnerOrReadOnly, )
+
+    def patch(self, request, location_id, spot_id, order_id):
+        serializer = PaySerializer(
+            data=request.data,
+            context={
+                'order_id': order_id,
+                'location_id': location_id,
+                'spot_id': spot_id
+            }
         )
-        if order.user != request.user:
-            return Response('КТО ТЫ ВОИН?', status=status.HTTP_403_FORBIDDEN)
+        serializer.is_valid(raise_exception=True)
+        order = serializer.validated_data.get('order')
+        self.check_object_permissions(request, order)
+        if order.status != WAIT_PAY:
+            raise OrderStatusError
         order.status = PAID
         order.save()
         order_finished_email(order)
@@ -34,4 +41,3 @@ def confirmation_pay(request, location_id, spot_id, order_id):
             serializer.data,
             status=status.HTTP_200_OK
         )
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

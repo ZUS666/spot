@@ -12,7 +12,8 @@ class OrderSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault()
     )
     spot = SpotDetailSerializer(
-        default=GetSpot()
+        default=GetSpot(),
+        read_only=True
     )
     start_time = serializers.TimeField(
         format=settings.TIME_FORMAT
@@ -29,6 +30,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'date', 'start_time',
             'end_time', 'bill',
         )
+        read_only_fields = ('bill',)
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""
