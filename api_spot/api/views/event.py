@@ -1,11 +1,20 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework.permissions import AllowAny
 
 from api.mixins import RetrieveListViewSet
+from api.paginations import ThreePageNumberPagination
 from api.serializers import EventSerializer
 from spots.models import Event
 
 
+@extend_schema(
+    tags=('events',)
+)
 class EventViewSet(RetrieveListViewSet):
+    """
+    Представление для вывода мероприятий.
+    """
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = (AllowAny,)
+    pagination_class = ThreePageNumberPagination

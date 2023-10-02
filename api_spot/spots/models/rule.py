@@ -2,6 +2,9 @@ from django.db import models
 
 
 class Rule(models.Model):
+    """
+    Модель для Правила использования сервиса.
+    """
     title = models.CharField(max_length=255)
     text = models.TextField()
 

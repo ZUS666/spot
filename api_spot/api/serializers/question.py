@@ -4,6 +4,9 @@ from spots.models import Question
 
 
 class QuestionSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для вывода частозадваемых вопросов.
+    """
 
     class Meta:
         model = Question

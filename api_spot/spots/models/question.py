@@ -2,6 +2,9 @@ from django.db import models
 
 
 class Question(models.Model):
+    """
+    Модель для часто задаваемых вопросов.
+    """
     question = models.CharField(max_length=128)
     answer = models.TextField()
 

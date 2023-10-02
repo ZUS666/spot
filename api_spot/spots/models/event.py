@@ -2,6 +2,9 @@ from django.db import models
 
 
 class Event(models.Model):
+    """
+    Модель для мероприятий.
+    """
     name = models.CharField('Название Мероприятия', max_length=128)
     image = models.ImageField(
         'Фото',
@@ -9,7 +12,7 @@ class Event(models.Model):
     )
     address = models.CharField('Адрес', max_length=255)
     meeting_quantity = models.PositiveSmallIntegerField('Количество мест')
-    url = models.URLField('Ссылка')
+    url = models.URLField('Ссылка', unique=True)
     date = models.DateField('Дата')
 
     class Meta:
