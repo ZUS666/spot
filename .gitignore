@@ -165,3 +165,7 @@ images/
 .vscode/
 
 *.rdb
+
+static/
+
+**/locconf.py
