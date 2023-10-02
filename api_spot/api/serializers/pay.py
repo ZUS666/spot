@@ -3,14 +3,12 @@ from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 
 from api.fields import GetOrderPay
-from api.serializers.order import OrderUpdateSerializer
 
 
 class PaySerializer(serializers.Serializer):
     """Сериадизатор для оплаты."""
-    order = OrderUpdateSerializer(
+    order = serializers.HiddenField(
         default=GetOrderPay(),
-        read_only=True
     )
     name_owner = serializers.CharField(
         max_length=30, validators=(RegexValidator(r'^[A-Za-z]+$'),)

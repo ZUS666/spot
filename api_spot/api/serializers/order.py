@@ -21,11 +21,6 @@ class OrderSerializer(serializers.ModelSerializer):
     end_time = serializers.TimeField(
         format=settings.TIME_FORMAT
     )
-    bill = serializers.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        read_only=True
-    )
 
     class Meta:
         """Класс мета для модели Order."""
@@ -35,6 +30,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'date', 'start_time',
             'end_time', 'bill',
         )
+        read_only_fields = ('bill',)
 
     def validate(self, data):
         """Проверка на пересечение с другими бронями."""
