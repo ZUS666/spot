@@ -5,8 +5,8 @@ class Question(models.Model):
     """
     Модель для часто задаваемых вопросов.
     """
-    question = models.CharField(max_length=128)
-    answer = models.TextField()
+    question = models.CharField('Вопрос', max_length=128)
+    answer = models.TextField('Ответ',)
 
     class Meta:
         verbose_name = 'Вопрос - ответ'

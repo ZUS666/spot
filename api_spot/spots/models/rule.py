@@ -5,8 +5,8 @@ class Rule(models.Model):
     """
     Модель для Правила использования сервиса.
     """
-    title = models.CharField(max_length=255)
-    text = models.TextField()
+    title = models.CharField('Правило', max_length=255)
+    text = models.TextField('Текст правила',)
 
     class Meta:
         verbose_name = 'Правило'
