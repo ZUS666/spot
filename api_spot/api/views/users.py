@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from api.exceptions import (ConfirmationCodeInvalidError, EmailNotFoundError,
                             UserIsActiveError)
 from api.mixins import CreateDestroyViewSet
-from api.permissions import IsOwnerOrReadOnly
+from api.permissions import UserDeletePermission
 from api.serializers.users import (ChangePasswordSerializer,
                                    ConfirmationCodeSerializer,
                                    ResetPasswordSerializer, SendCodeSerializer,
@@ -29,7 +29,7 @@ class UserViewSet(CreateDestroyViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (UserDeletePermission,)
 
     def get_permissions(self):
         """
