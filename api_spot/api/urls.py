@@ -1,11 +1,11 @@
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
-from api.views import (EquipmentViewSet, FavoriteViewSet,
+from api.views import (EquipmentViewSet, EventViewSet, FavoriteViewSet,
                        LocationShortListAPIView, LocationViewSet,
-                       OrderGetViewSet, OrderViewSet, ReviewCreateViewSet,
-                       ReviewGetViewSet, SpotViewSet, UserViewSet,
-                       PayView)
+                       OrderGetViewSet, OrderViewSet, PayView, QuestionViewSet,
+                       ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet,
+                       SpotViewSet, UserViewSet)
 
 app_name = 'api'
 
@@ -56,7 +56,21 @@ router_api_v1.register(
     SpotViewSet,
     basename='spots'
 )
-
+router_api_v1.register(
+    r'events',
+    EventViewSet,
+    basename='events',
+)
+router_api_v1.register(
+    r'questions',
+    QuestionViewSet,
+    basename='questions',
+)
+router_api_v1.register(
+    r'rules',
+    RuleViewSet,
+    basename='rules'
+)
 
 view_url = [
     re_path(
