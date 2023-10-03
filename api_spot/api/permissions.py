@@ -1,4 +1,5 @@
-from rest_framework.permissions import SAFE_METHODS, BasePermission
+from rest_framework.permissions import (BasePermission, IsAuthenticated,
+                                        SAFE_METHODS)
 
 
 class IsOwnerOrReadOnly(BasePermission):
@@ -12,3 +13,11 @@ class IsOwnerOrReadOnly(BasePermission):
         return (
             request.method in SAFE_METHODS or obj.user == request.user
         )
+
+
+class UserDeletePermission(IsAuthenticated):
+    """
+    Пользователь может удалить только свой аккаунт.
+    """
+    def has_object_permission(self, request, view, obj):
+        return obj == request.user
