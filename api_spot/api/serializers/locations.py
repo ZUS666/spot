@@ -75,7 +75,7 @@ class LocationGetSerializer(serializers.ModelSerializer):
             'is_favorited',
         )
 
-    def get_is_favorited(self, instance, *args, **kwargs):
+    def get_is_favorited(self, instance, *args, **kwargs) -> bool:
         """
         Отображение наличия location в избранном при листинге location.
         """

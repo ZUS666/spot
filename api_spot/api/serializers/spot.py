@@ -45,7 +45,7 @@ class SpotSerializer(serializers.ModelSerializer):
             'is_ordered',
         )
 
-    def get_is_ordered(self, instance, *args, **kwargs):
+    def get_is_ordered(self, instance, *args, **kwargs) -> bool:
         """
         Получение булевого значение по параметрам запроса о
         возможности бронирования.
