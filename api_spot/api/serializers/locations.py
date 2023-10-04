@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.conf import settings
 from rest_framework import serializers
 
@@ -53,15 +55,17 @@ class LocationGetSerializer(serializers.ModelSerializer):
         source='location_extra_photo'
     )
     is_favorited = serializers.SerializerMethodField()
+    coordinates = serializers.SerializerMethodField()
 
     class Meta:
         model = Location
         fields = (
             'id',
             'name',
+            'get_full_address_str',
             'city',
-            'street',
-            'house_number',
+            # 'street',
+            # 'house_number',
             'metro',
             'open_time',
             'close_time',
@@ -73,6 +77,9 @@ class LocationGetSerializer(serializers.ModelSerializer):
             'low_price',
             'description',
             'is_favorited',
+            'count_workspace',
+            'count_meeting_room',
+            'coordinates'
         )
 
     def get_is_favorited(self, instance, *args, **kwargs):
@@ -83,3 +90,9 @@ class LocationGetSerializer(serializers.ModelSerializer):
         if not user.is_authenticated:
             return False
         return instance.favorites.filter(user_id=user.id).exists()
+
+    def get_coordinates(self, instance) -> list[Decimal]:
+        """
+        Список координат
+        """
+        return [instance.latitude, instance.longitude, ]
