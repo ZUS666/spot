@@ -40,7 +40,7 @@ class Review(models.Model):
         auto_now_add=True
     )
 
-    def clean(self):
+    def clean(self) -> None:
         if self.booked_spot.status != constants.FINISH:
             msg = 'Нельзя оставлять отзывы на не завершенный заказ.'
             raise ValidationError({
@@ -60,5 +60,5 @@ class Review(models.Model):
             ),
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'Отзыв {self.pk}'

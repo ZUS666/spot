@@ -20,7 +20,10 @@ class PayView(APIView):
     """
     permission_classes = (IsOwnerOrReadOnly, )
 
-    def patch(self, request, location_id, spot_id, order_id):
+    def patch(
+            self, request, location_id: int, spot_id: int, order_id: int
+    ) -> Response:
+        """Метод patch, для оплачивания заказа."""
         serializer = PaySerializer(
             data=request.data,
             context={

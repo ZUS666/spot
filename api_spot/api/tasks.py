@@ -9,7 +9,7 @@ from spots.models.order import Order
 
 
 @shared_task()
-def change_status_task(order_id):
+def change_status_task(order_id: int) -> str:
     """Таска изменения статуса после n секнуд."""
     order = get_object_or_404(Order, pk=order_id)
     if order.status != PAID:

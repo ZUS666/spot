@@ -1,9 +1,8 @@
 from PIL import Image, ImageOps
 
 
-def prepare_image(image, filepath):
+def prepare_image(image, filepath: str) -> None:
     """Обработка изображения перед сохранением в базу данных"""
-
     img = Image.open(image)
     fixed_width = 1080
     img = Image.open(filepath)

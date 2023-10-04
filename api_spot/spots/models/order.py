@@ -51,7 +51,7 @@ class Order(models.Model):
         decimal_places=2,
     )
 
-    def get_bill(self):
+    def get_bill(self) -> Decimal:
         """Получнения итогово счета."""
         start = datetime.datetime.strptime(
             f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
@@ -66,7 +66,7 @@ class Order(models.Model):
         return self.bill
 
     @property
-    def date_finish(self):
+    def date_finish(self) -> datetime:
         """Свойство , возращает datetime конца брони."""
         return datetime.datetime.strptime(
             f'{self.date} {self.end_time}', '%Y-%m-%d %H:%M:%S'
@@ -76,11 +76,11 @@ class Order(models.Model):
         super(Order, self).validate_unique(*args, **kwargs)
         check_spot_order(self)
 
-    def clean(self):
+    def clean(self) -> None:
         check_date_time(self)
         return super().clean()
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         self.get_bill()
         return super().save(*args, **kwargs)
 
