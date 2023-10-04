@@ -108,23 +108,23 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
-    def count_workspace(self, *args, **kwargs):
+    def count_workspace(self, *args, **kwargs) -> int:
         """
         Получение количества рабочих мест.
         """
         return count_spots(self, WORK_SPACE, NAME_CACHE_WORKSPACE)
 
-    def count_meeting_room(self, *args, **kwargs):
+    def count_meeting_room(self, *args, **kwargs) -> int:
         """
         Получение количества переговорных.
         """
         return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
 
-    def rating(self, *args, **kwargs):
+    def rating(self, *args, **kwargs) -> float:
         return get_rating_location(self)
 
-    def low_price(self, *args, **kwargs):
+    def low_price(self, *args, **kwargs) -> int:
         return get_low_price(self)
 
-    def get_full_address_str(self):
+    def get_full_address_str(self) -> str:
         return f'г. {self.city}, ул. {self.street}, {self.house_number}'
