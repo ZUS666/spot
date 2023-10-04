@@ -1,40 +1,40 @@
 import datetime
 
 # Review
-MIN_EVALUATION = 1
-MAX_EVALUATION = 5
+MIN_EVALUATION: int = 1
+MAX_EVALUATION: int = 5
 # order
-SECONDS_IN_HOUR = 60 * 60
-MAX_LENGTH_STATUS = 16
-MAX_LENGTH_DESC = 100
-WAIT_PAY = 'Ожидается оплата'
-PAID = 'Оплачено'
-FINISH = 'Завершен'
-CANCEL = 'Отменен'
-NOT_PAID = 'Не оплачено'
-ORDER_STATUS_CHOICES = (
+SECONDS_IN_HOUR: int = 60 * 60
+MAX_LENGTH_STATUS: int = 16
+MAX_LENGTH_DESC: int = 100
+WAIT_PAY: str = 'Ожидается оплата'
+PAID: str = 'Оплачено'
+FINISH: str = 'Завершен'
+CANCEL: str = 'Отменен'
+NOT_PAID: str = 'Не оплачено'
+ORDER_STATUS_CHOICES: tuple[str, str] = (
     (WAIT_PAY, WAIT_PAY),
     (NOT_PAID, NOT_PAID),
     (PAID, PAID),
     (FINISH, FINISH),
     (CANCEL, CANCEL)
 )
-MINUTES = 'minutes'
-START_CHOICES = tuple([
+MINUTES: str = 'minutes'
+START_CHOICES: tuple[datetime.time, datetime.time] = tuple([
     (
         datetime.time(x),
         datetime.time(x).isoformat(MINUTES)
     )
     for x in range(0, 23)
 ])
-END_CHOICES = tuple([
+END_CHOICES: tuple[datetime.time, datetime.time] = tuple([
     (
         datetime.time(x),
         datetime.time(x - 1, 55).isoformat(MINUTES)
     )
     for x in range(1, 24)
 ])
-MAX_COUNT_DAYS = 60
+MAX_COUNT_DAYS: int = 60
 # Price
 MIN_VALUE = 1
 ZERO = 0
