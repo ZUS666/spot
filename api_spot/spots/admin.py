@@ -6,7 +6,7 @@ from spots.models import (Equipment, Event, ExtraPhoto, Favorite, Location, Orde
 
 @admin.register(ExtraPhoto)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('location', 'id', 'image', 'description')
+    list_display = ('location', 'id', 'image',)
 
 
 class ImageInline(admin.TabularInline):

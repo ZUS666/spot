@@ -16,11 +16,6 @@ class ExtraPhoto(models.Model):
         upload_to='images/',
         help_text='Фото места',
     )
-    description = models.CharField(
-        'Описание',
-        max_length=100,
-        blank=True,
-    )
 
     def save(self, *args, **kwargs):
         """Обработка изображения перед сохранением в базу данных"""
