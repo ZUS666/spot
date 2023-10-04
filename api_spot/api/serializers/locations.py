@@ -75,11 +75,13 @@ class LocationGetSerializer(serializers.ModelSerializer):
             'extra_photo',
             'rating',
             'low_price',
+            'short_annotation',
             'description',
             'is_favorited',
             'count_workspace',
             'count_meeting_room',
-            'coordinates'
+            'coordinates',
+            'days_open'
         )
 
     def get_is_favorited(self, instance, *args, **kwargs):

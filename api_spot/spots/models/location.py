@@ -4,7 +4,7 @@ from django.db import models
 from spots.constants import (LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
                              LONG_MIN, LONG_MSG_ERROR, MEETING_ROOM,
                              NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE,
-                             WORK_SPACE)
+                             WORK_SPACE, DAYS_CHOICES)
 from spots.services import count_spots, get_low_price, get_rating_location
 from spots.utils import prepare_image
 
@@ -81,10 +81,21 @@ class Location(models.Model):
         help_text='План коворкинга',
         blank=True,
     )
+    short_annotation = models.CharField(
+        'Краткая аннотация',
+        max_length=100,
+        blank=True,
+    )
     description = models.TextField(
         'Описание',
         max_length=500,
         blank=True,
+    )
+    days_open = models.CharField(
+        'Дни недели через -',
+        max_length=5,
+        choices=DAYS_CHOICES,
+        default=DAYS_CHOICES[0]
     )
 
     def save(self, *args, **kwargs):
