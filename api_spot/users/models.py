@@ -83,6 +83,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(
         'Дата регистрации', default=timezone.now
     )
+    occupation = models.CharField(
+        'Род деятельности',
+        max_length=128,
+        blank=True,
+        default='',
+    )
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'

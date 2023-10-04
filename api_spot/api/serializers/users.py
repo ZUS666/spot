@@ -63,7 +63,8 @@ class UserMeSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'phone',
-            'birth_date'
+            'birth_date',
+            'occupation',
         )
         read_only_fields = ('email',)
 
