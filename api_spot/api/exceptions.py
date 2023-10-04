@@ -20,3 +20,10 @@ class UserIsActiveError(exceptions.ValidationError):
     default_detail = {
         'error': 'email подтвержден'
     }
+
+
+class OrderStatusError(exceptions.ValidationError):
+    default_code = 'order not wait_pay'
+    default_detail = {
+        'error': 'заказ не ждет оплаты'
+    }

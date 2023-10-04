@@ -11,7 +11,8 @@ class UserAdmin(DjangoUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'),
-         {'fields': ('first_name', 'last_name', 'phone', 'birth_date')}),
+         {'fields': ('first_name', 'last_name', 'phone',
+                     'birth_date', 'occupation')}),
         (
             _('Permissions'),
             {
@@ -36,8 +37,12 @@ class UserAdmin(DjangoUserAdmin):
         ),
     )
     list_display = (
-        'email', 'first_name', 'last_name', 'phone', 'birth_date', 'is_staff'
+        'email', 'first_name', 'last_name',
+        'phone', 'birth_date', 'occupation',
     )
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    search_fields = ('phone', 'first_name', 'last_name', 'email', 'birth_date')
+    search_fields = (
+        'phone', 'first_name', 'last_name',
+        'email', 'birth_date', 'occupation',
+    )
     ordering = ('last_name', 'first_name')

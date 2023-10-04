@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from spots.models import (Equipment, ExtraPhoto, Favorite, Location, Order,
-                          Price, Review, Spot, SpotEquipment)
+from spots.models import (Equipment, Event, ExtraPhoto, Favorite, Location, Order,
+                          Price, Question, Review, Rule, Spot, SpotEquipment)
 
 
 @admin.register(ExtraPhoto)
@@ -79,3 +79,30 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'pk', 'description')
+
+
+@admin.register(Event)
+class EquipmentAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+        'date',
+        'meeting_quantity',
+        'url',
+    )
+
+
+@admin.register(Question)
+class EquipmentAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'question',
+    )
+
+
+@admin.register(Rule)
+class EquipmentAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'title',
+    )
