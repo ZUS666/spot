@@ -5,7 +5,7 @@ from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 import spots.constants as constants
 
 
-def check_date_time(self):
+def check_date_time(self) -> None:
     """Проверка дат."""
     if self.date > (
         datetime.datetime.now() + datetime.timedelta(
@@ -46,7 +46,7 @@ def check_date_time(self):
         })
 
 
-def check_spot_order(self):
+def check_spot_order(self) -> None:
     """Проверка на то, что данный спот свободен в данное время."""
     qs = self.__class__._default_manager.exclude(
         status__in=[constants.CANCEL, constants.FINISH]

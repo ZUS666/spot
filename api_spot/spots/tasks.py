@@ -6,7 +6,7 @@ from spots.constants import FINISH, PAID
 
 
 @app.task
-def repeat_orders_finish():
+def repeat_orders_finish() -> str:
     """Периодичная задача, которая завершает заказы, которые закончились."""
     hour = int(datetime.datetime.now().time().isoformat('hours'))
     orders = Order.objects.filter(
