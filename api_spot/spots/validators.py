@@ -6,6 +6,7 @@ import spots.constants as constants
 
 
 def date_gt_two_months(date: datetime.datetime) -> None:
+    """Проверка что дата больше чем через 60 дней."""
     if date > (
         datetime.datetime.now() + datetime.timedelta(
             days=constants.MAX_COUNT_DAYS
@@ -17,6 +18,7 @@ def date_gt_two_months(date: datetime.datetime) -> None:
 
 
 def date_time_lt_now(date_time: datetime.datetime) -> None:
+    """Проверка что время меньше текущего."""
     if date_time < datetime.datetime.now():
         raise ValidationError({
             'start_time': 'Нельзя забронировать в прошлом.'
@@ -24,6 +26,7 @@ def date_time_lt_now(date_time: datetime.datetime) -> None:
 
 
 def time_in_location_time(start_time, end_time, spot) -> None:
+    """Проверка что время в границах открытия локации."""
     if start_time < spot.location.open_time:
         raise ValidationError({
             'start_time': 'Локация еще не будет открыта'
@@ -35,9 +38,23 @@ def time_in_location_time(start_time, end_time, spot) -> None:
 
 
 def start_lte_end(start_time, end_time) -> None:
+    """Проверка что конец брони позже начала."""
     if end_time <= start_time:
         raise ValidationError({
             'end_time': 'Конец брони должен быть позже начала'
+        })
+
+
+def date_in_location_date(date, spot) -> None:
+    """Проверка что date в границах открытия локации."""
+    index = int(spot.location.days_open[0])
+    days = constants.DAYS_CHOICES[index][0]
+    last_day = days[-2:]
+    int_last_day = constants.DAYS_DICT[last_day]
+    print(date.weekday())
+    if date.weekday() > int_last_day:
+        raise ValidationError({
+            'date': 'В данный день закрыто'
         })
 
 
@@ -48,6 +65,7 @@ def check_date_time(self) -> None:
         f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
     )
     date_time_lt_now(date_time)
+    date_in_location_date(self.date, self.spot)
     time_in_location_time(self.start_time, self.end_time, self.spot)
     start_lte_end(self.start_time, self.end_time)
 
