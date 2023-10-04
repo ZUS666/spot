@@ -25,13 +25,13 @@ def date_time_lt_now(date_time: datetime.datetime) -> None:
         })
 
 
-def time_in_location_time(start_time, end_time, spot) -> None:
+def time_in_location_time(start_time, end_time, location) -> None:
     """Проверка что время в границах открытия локации."""
-    if start_time < spot.location.open_time:
+    if start_time < location.open_time:
         raise ValidationError({
             'start_time': 'Локация еще не будет открыта'
         })
-    if end_time > spot.location.close_time:
+    if end_time > location.close_time:
         raise ValidationError({
             'end_time': 'Локация уже будет закрыта'
         })
@@ -45,13 +45,12 @@ def start_lte_end(start_time, end_time) -> None:
         })
 
 
-def date_in_location_date(date, spot) -> None:
+def date_in_location_date(date, location) -> None:
     """Проверка что date в границах открытия локации."""
-    index = int(spot.location.days_open[0])
+    index = int(location.days_open[0])
     days = constants.DAYS_CHOICES[index][0]
     last_day = days[-2:]
     int_last_day = constants.DAYS_DICT[last_day]
-    print(date.weekday())
     if date.weekday() > int_last_day:
         raise ValidationError({
             'date': 'В данный день закрыто'
@@ -65,8 +64,8 @@ def check_date_time(self) -> None:
         f'{self.date} {self.start_time}', '%Y-%m-%d %H:%M:%S'
     )
     date_time_lt_now(date_time)
-    date_in_location_date(self.date, self.spot)
-    time_in_location_time(self.start_time, self.end_time, self.spot)
+    date_in_location_date(self.date, self.spot.location)
+    time_in_location_time(self.start_time, self.end_time, self.spot.location)
     start_lte_end(self.start_time, self.end_time)
 
 
