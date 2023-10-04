@@ -6,14 +6,15 @@ import spots.constants as constants
 
 
 def date_gt_two_months(date: datetime.datetime) -> None:
-    """Проверка что дата больше чем через 60 дней."""
+    """Проверка что дата больше чем через MAX_COUNT_DAYS дней."""
     if date > (
         datetime.datetime.now() + datetime.timedelta(
             days=constants.MAX_COUNT_DAYS
         )
     ).date():
         raise ValidationError({
-            'date': 'Нельзя забронировать на 60 дней вперед.'
+            'date': 'Нельзя забронировать на '
+                    f'{constants.MAX_COUNT_DAYS} дней вперед.'
         })
 
 
