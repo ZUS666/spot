@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'gmailapi_backend',
     'django_celery_beat',
+    'corsheaders',
 
     'users',
     'spots',
@@ -41,6 +42,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -108,6 +110,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost',
+    os.getenv('CRSF_HOST')
+]
 
 CSRF_TRUSTED_ORIGINS = (
     'http://localhost',
