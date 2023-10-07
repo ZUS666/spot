@@ -1,6 +1,7 @@
 import datetime
 from decimal import Decimal
 
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -77,7 +78,13 @@ class Order(models.Model):
         check_spot_order(self)
 
     def clean(self) -> None:
-        check_date_time(self)
+        check_date_time(
+            self.date,
+            self.start_time,
+            self.end_time,
+            self.spot.location,
+            ValidationError
+        )
         return super().clean()
 
     def save(self, *args, **kwargs) -> None:

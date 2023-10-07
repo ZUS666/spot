@@ -28,9 +28,9 @@ class SpotSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='total_price'
     )
-    location = LocationGetPlanNameSerializer(
-        read_only=True,
-    )
+    # location = LocationGetPlanNameSerializer(
+    #     read_only=True,
+    # )
     is_ordered = serializers.SerializerMethodField(default=False)
 
     class Meta:
@@ -40,7 +40,7 @@ class SpotSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'price',
-            'location',
+            'location_id',
             'category',
             'is_ordered',
         )
