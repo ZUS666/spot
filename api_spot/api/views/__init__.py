@@ -4,6 +4,7 @@ from .favorite import FavoriteViewSet
 from .locations import LocationShortListAPIView, LocationViewSet
 from .order import OrderGetViewSet, OrderViewSet
 from .pay import PayView
+from .plan_photo import PlanPhotoAPIView
 from .question import QuestionViewSet
 from .review import ReviewCreateViewSet, ReviewGetViewSet
 from .rule import RuleViewSet
@@ -18,6 +19,7 @@ LocationShortListAPIView
 OrderGetViewSet
 OrderViewSet
 PayView
+PlanPhotoAPIView
 QuestionViewSet
 ReviewCreateViewSet
 ReviewGetViewSet

@@ -3,9 +3,10 @@ from rest_framework.routers import DefaultRouter
 
 from api.views import (EquipmentViewSet, EventViewSet, FavoriteViewSet,
                        LocationShortListAPIView, LocationViewSet,
-                       OrderGetViewSet, OrderViewSet, PayView, QuestionViewSet,
-                       ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet,
-                       SpotViewSet, UserViewSet)
+                       OrderGetViewSet, OrderViewSet, PayView,
+                       PlanPhotoAPIView, QuestionViewSet,
+                       ReviewCreateViewSet, ReviewGetViewSet,
+                       RuleViewSet, SpotViewSet, UserViewSet)
 
 app_name = 'api'
 
@@ -78,7 +79,11 @@ view_url = [
         r'/order/(?P<order_id>\d+)/pay/',
         PayView.as_view(), name='pay'
     ),
-    path('short_locations/', LocationShortListAPIView.as_view())
+    path('short_locations/', LocationShortListAPIView.as_view()),
+    re_path(
+        r'locations/(?P<location_id>\d+)/plan_photo/',
+        PlanPhotoAPIView.as_view()
+    ),
 ]
 
 urlpatterns = [
