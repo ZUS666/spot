@@ -48,9 +48,7 @@ def start_lte_end(start_time, end_time, error) -> None:
 
 def date_in_location_date(date, location, error) -> None:
     """Проверка что date в границах открытия локации."""
-    index = int(location.days_open[0])
-    days = constants.DAYS_CHOICES[index][0]
-    last_day = days[-2:]
+    last_day = location.days_open[-2:]
     int_last_day = constants.DAYS_DICT[last_day]
     if date.weekday() > int_last_day:
         raise error({
@@ -66,7 +64,7 @@ def check_date_time(date, start_time, end_time,
         f'{date} {start_time}', '%Y-%m-%d %H:%M:%S'
     )
     date_time_lt_now(date_time, error)
-    # date_in_location_date(date, location, error)
+    date_in_location_date(date, location, error)
     time_in_location_time(start_time, end_time, location, error)
     start_lte_end(start_time, end_time, error)
 
