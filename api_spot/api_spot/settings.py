@@ -11,7 +11,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = (os.getenv('ALLOWED_HOSTS'), )
+ALLOWED_HOSTS = (os.getenv('ALLOWED_HOSTS'), 'localhost', '127.0.0.1', '[::1]')
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -113,12 +114,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost',
-    os.getenv('CRSF_HOST')
+    'http://' + os.getenv('HOST')
 ]
 
 CSRF_TRUSTED_ORIGINS = (
     'http://localhost',
-    os.getenv('CRSF_HOST')
+    'http://' + os.getenv('HOST')
 )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
