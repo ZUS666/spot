@@ -58,7 +58,8 @@ def date_in_location_date(date, location, error) -> None:
         })
 
 
-def check_date_time(date, start_time, end_time, location, error) -> None:
+def check_date_time(date, start_time, end_time,
+                    location, error=ValidationError) -> None:
     """Проверка дат."""
     date_gt_two_months(date, error)
     date_time = datetime.datetime.strptime(

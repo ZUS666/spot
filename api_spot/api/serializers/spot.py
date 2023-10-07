@@ -36,7 +36,6 @@ class SpotSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'price',
-            'location_id',
             'category',
             'is_ordered',
         )

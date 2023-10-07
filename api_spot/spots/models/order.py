@@ -1,7 +1,7 @@
 import datetime
+
 from decimal import Decimal
 
-from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -83,7 +83,6 @@ class Order(models.Model):
             self.start_time,
             self.end_time,
             self.spot.location,
-            ValidationError
         )
         return super().clean()
 
