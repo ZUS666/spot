@@ -8,20 +8,6 @@ from spots.models import Location
 from .extra_photo import ExtraPhotoGetSerializer
 
 
-class LocationGetPlanNameSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для вывода краткой информации о локации.
-    Используется при выборе места бронирования.
-    """
-    class Meta:
-        model = Location
-        fields = (
-            'id',
-            'name',
-            'plan_photo',
-        )
-
-
 class LocationGetShortSerializer(serializers.ModelSerializer):
     """
     Сериализатор для вывода краткой информации о локации.
@@ -33,9 +19,7 @@ class LocationGetShortSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'city',
-            'street',
-            'house_number',
+            'get_full_address_str',
             'metro',
             'rating',
             'low_price',
@@ -63,9 +47,6 @@ class LocationGetSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'get_full_address_str',
-            'city',
-            # 'street',
-            # 'house_number',
             'metro',
             'open_time',
             'close_time',

@@ -75,12 +75,6 @@ class Location(models.Model):
         help_text='Главное фото локации',
         blank=True,
     )
-    plan_photo = models.ImageField(
-        'План',
-        upload_to='images/plans/',
-        help_text='План коворкинга',
-        blank=True,
-    )
     short_annotation = models.CharField(
         'Краткая аннотация',
         max_length=100,
@@ -107,10 +101,6 @@ class Location(models.Model):
             filepath = self.main_photo.path
             prepare_image(self.main_photo, filepath)
 
-        if self.plan_photo:
-            filepath = self.plan_photo.path
-            prepare_image(self.plan_photo, filepath)
-
     class Meta:
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
@@ -132,10 +122,19 @@ class Location(models.Model):
         return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
 
     def rating(self, *args, **kwargs) -> float:
+        """
+        Получение среднего рейтинга по отзывам.
+        """
         return get_rating_location(self)
 
     def low_price(self, *args, **kwargs) -> int:
+        """
+        Минимальная цена.
+        """
         return get_low_price(self)
 
     def get_full_address_str(self) -> str:
+        """
+        Полный адрес.
+        """
         return f'г. {self.city}, ул. {self.street}, {self.house_number}'
