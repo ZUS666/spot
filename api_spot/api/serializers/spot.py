@@ -1,7 +1,6 @@
 from django.conf import settings
 from rest_framework import serializers
 
-from api.serializers import LocationGetPlanNameSerializer
 from api.services.orders import is_ordered_spot
 from spots.models import Spot
 
@@ -28,9 +27,6 @@ class SpotSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='total_price'
     )
-    location = LocationGetPlanNameSerializer(
-        read_only=True,
-    )
     is_ordered = serializers.SerializerMethodField(default=False)
 
     class Meta:
@@ -40,7 +36,6 @@ class SpotSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'price',
-            'location',
             'category',
             'is_ordered',
         )

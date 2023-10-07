@@ -7,11 +7,12 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', default='default_key')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default=['*'])
+ALLOWED_HOSTS = (os.getenv('ALLOWED_HOSTS'), 'localhost', '127.0.0.1', '[::1]')
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'gmailapi_backend',
     'django_celery_beat',
+    'corsheaders',
 
     'users',
     'spots',
@@ -41,6 +43,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -109,9 +112,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost',
+    'http://' + os.getenv('HOST')
+]
+
 CSRF_TRUSTED_ORIGINS = (
     'http://localhost',
-    os.getenv('HOST', default='http://185.41.160.27')
+    'http://' + os.getenv('HOST')
 )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -145,7 +153,7 @@ TIMEOUT_CACHED_LOW_PRICE = 5 * 60
 TIME_CHANGE_STATUS = 60 * 10
 LEN_CONFIRMATION_CODE = 6
 
-COMPANY_NAME = os.getenv('COMPANY_NAME', default='SPOT')
+COMPANY_NAME = os.getenv('COMPANY_NAME')
 
 EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
 
@@ -153,15 +161,15 @@ GMAIL_API_CLIENT_ID = os.getenv('GMAIL_API_CLIENT_ID')
 GMAIL_API_CLIENT_SECRET = os.getenv('GMAIL_API_CLIENT_SECRET')
 GMAIL_API_REFRESH_TOKEN = os.getenv('GMAIL_API_REFRESH_TOKEN')
 
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER', default='redis://redis:6379/0')
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER')
 CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_TASK_TRACK_STARTED = True
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': os.getenv('REDIS_ADDRESS', default='redis://redis:6379'),
+        'LOCATION': os.getenv('REDIS_ADDRESS'),
     }
 }
 

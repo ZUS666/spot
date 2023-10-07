@@ -4,7 +4,7 @@ from django.db import models
 from spots.constants import (LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
                              LONG_MIN, LONG_MSG_ERROR, MEETING_ROOM,
                              NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE,
-                             WORK_SPACE)
+                             WORK_SPACE, DAYS_CHOICES)
 from spots.services import count_spots, get_low_price, get_rating_location
 from spots.utils import prepare_image
 
@@ -75,16 +75,21 @@ class Location(models.Model):
         help_text='Главное фото локации',
         blank=True,
     )
-    plan_photo = models.ImageField(
-        'План',
-        upload_to='images/plans/',
-        help_text='План коворкинга',
+    short_annotation = models.CharField(
+        'Краткая аннотация',
+        max_length=100,
         blank=True,
     )
     description = models.TextField(
         'Описание',
         max_length=500,
         blank=True,
+    )
+    days_open = models.CharField(
+        'Дни недели через -',
+        max_length=32,
+        choices=DAYS_CHOICES,
+        default=DAYS_CHOICES[0]
     )
 
     def save(self, *args, **kwargs):
@@ -95,10 +100,6 @@ class Location(models.Model):
         if self.main_photo:
             filepath = self.main_photo.path
             prepare_image(self.main_photo, filepath)
-
-        if self.plan_photo:
-            filepath = self.plan_photo.path
-            prepare_image(self.plan_photo, filepath)
 
     class Meta:
         verbose_name = 'Локация'
@@ -121,10 +122,19 @@ class Location(models.Model):
         return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
 
     def rating(self, *args, **kwargs) -> float:
+        """
+        Получение среднего рейтинга по отзывам.
+        """
         return get_rating_location(self)
 
     def low_price(self, *args, **kwargs) -> int:
+        """
+        Минимальная цена.
+        """
         return get_low_price(self)
 
     def get_full_address_str(self) -> str:
+        """
+        Полный адрес.
+        """
         return f'г. {self.city}, ул. {self.street}, {self.house_number}'

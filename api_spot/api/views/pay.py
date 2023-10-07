@@ -12,13 +12,13 @@ from spots.constants import PAID, WAIT_PAY
 
 @extend_schema(
     tags=('pay',),
-    request=PaySerializer
 )
 class PayView(APIView):
     """
     Оплачивание заказа(изменения статуса).
     """
     permission_classes = (IsOwnerOrReadOnly, )
+    serializer_class = PaySerializer
 
     def patch(
             self, request, location_id: int, spot_id: int, order_id: int

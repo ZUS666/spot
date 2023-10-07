@@ -1,18 +1,23 @@
 from django.contrib import admin
 
-from spots.models import (Equipment, Event, ExtraPhoto, Favorite, Location, Order,
-                          Price, Question, Review, Rule, Spot, SpotEquipment)
+from spots.models import (Equipment, Event, ExtraPhoto, Favorite,
+                          Location, Order, PlanPhoto, Price, Question,
+                          Review, Rule, Spot, SpotEquipment)
 
 
 @admin.register(ExtraPhoto)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('location', 'id', 'image', 'description')
+    list_display = ('location', 'id', 'image',)
 
 
 class ImageInline(admin.TabularInline):
     model = ExtraPhoto
     extra = 0
     min_num = 1
+
+
+class PlanPhotoInline(admin.StackedInline):
+    model = PlanPhoto
 
 
 @admin.register(Location)
@@ -29,7 +34,7 @@ class LocationAdmin(admin.ModelAdmin):
     )
     list_filter = ('street', 'house_number')
     search_fields = ('street', 'house_number')
-    inlines = [ImageInline]
+    inlines = (ImageInline, PlanPhotoInline)
 
 
 @admin.register(Price)

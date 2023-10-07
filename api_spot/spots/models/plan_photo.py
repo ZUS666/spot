@@ -4,29 +4,28 @@ from spots.models.location import Location
 from spots.utils import prepare_image
 
 
-class ExtraPhoto(models.Model):
-    location = models.ForeignKey(
+class PlanPhoto(models.Model):
+    location = models.OneToOneField(
         Location,
-        related_name='location_extra_photo',
+        related_name='plan_photo',
         on_delete=models.CASCADE,
     )
     image = models.ImageField(
-        'Фото',
+        'Фото-план',
         blank=False,
-        upload_to='images/',
-        help_text='Фото места',
+        upload_to='images/plans/',
     )
 
     def save(self, *args, **kwargs):
         """Обработка изображения перед сохранением в базу данных"""
-        super(ExtraPhoto, self).save(*args, **kwargs)
+        super(PlanPhoto, self).save(*args, **kwargs)
         if self.image:
             filepath = self.image.path
             prepare_image(self.image, filepath)
 
     class Meta:
-        verbose_name = 'Фотография'
-        verbose_name_plural = 'Фотографии'
+        verbose_name = 'Фото-план'
+        verbose_name_plural = 'Фото-планы'
         ordering = ('location',)
 
     def __str__(self) -> str:

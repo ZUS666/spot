@@ -2,7 +2,6 @@ from django.conf import settings
 from rest_framework import serializers
 
 from api.fields import GetSpot
-from api.serializers.spot import SpotDetailSerializer
 from spots.models.order import Order
 
 
@@ -11,9 +10,8 @@ class OrderSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    spot = SpotDetailSerializer(
+    spot = serializers.HiddenField(
         default=GetSpot(),
-        read_only=True
     )
     start_time = serializers.TimeField(
         format=settings.TIME_FORMAT

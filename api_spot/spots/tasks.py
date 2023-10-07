@@ -9,12 +9,9 @@ from spots.constants import FINISH, PAID
 def repeat_orders_finish() -> str:
     """Периодичная задача, которая завершает заказы, которые закончились."""
     hour = int(datetime.datetime.now().time().isoformat('hours'))
-    orders = Order.objects.filter(
+    Order.objects.filter(
         date__lte=datetime.datetime.now().date(),
         end_time=datetime.time(hour),
         status=PAID
-    )
-    for order in orders:
-        order.status = FINISH
-        order.save()
+    ).update(status=FINISH)
     return "Статусы заказов, которые закончились изменены"
