@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework.exceptions import ValidationError as DRFValidationError
 from rest_framework.permissions import AllowAny
 
@@ -12,7 +12,21 @@ from spots.validators import check_date_time
 
 
 @extend_schema(
-    tags=('spots',)
+    tags=('spots',),
+    parameters=[
+        OpenApiParameter(
+            name='date', location='query', required=True,
+            description='Дата в формате гггг-мм-дд',
+        ),
+        OpenApiParameter(
+            name='start_time', location='query', required=True,
+            description='Время в формате чч:мм',
+        ),
+        OpenApiParameter(
+            name='end_time', location='query', required=True,
+            description='Время в формате чч:мм',
+        ),
+    ]
 )
 class SpotViewSet(RetrieveListViewSet):
     """
