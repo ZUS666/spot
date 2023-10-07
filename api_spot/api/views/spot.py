@@ -16,15 +16,15 @@ from spots.validators import check_date_time
     parameters=[
         OpenApiParameter(
             name='date', location='query', required=True,
-            description='Дата в формате гггг-мм-дд',
+            description='Дата в формате YYYYY-MM-DD',
         ),
         OpenApiParameter(
             name='start_time', location='query', required=True,
-            description='Время в формате чч:мм',
+            description='Время в формате HH:MM',
         ),
         OpenApiParameter(
             name='end_time', location='query', required=True,
-            description='Время в формате чч:мм',
+            description='Время в формате HH:MM',
         ),
     ]
 )
