@@ -77,6 +77,8 @@ jobs:
             rm .env
             touch .env
             
+            ls
+            
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             echo HOST=${{ secrets.HOST }} >> .env
