@@ -77,9 +77,10 @@ jobs:
             rm .env
             touch .env
             
-            echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+            export SECRET_KEY=${{ secrets.SECRET_KEY }}
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             echo HOST=${{ secrets.HOST }} >> .env
+            echo SUPER_SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             
 
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
