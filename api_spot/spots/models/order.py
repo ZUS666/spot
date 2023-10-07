@@ -1,4 +1,5 @@
 import datetime
+
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
@@ -77,7 +78,12 @@ class Order(models.Model):
         check_spot_order(self)
 
     def clean(self) -> None:
-        check_date_time(self)
+        check_date_time(
+            self.date,
+            self.start_time,
+            self.end_time,
+            self.spot.location,
+        )
         return super().clean()
 
     def save(self, *args, **kwargs) -> None:
