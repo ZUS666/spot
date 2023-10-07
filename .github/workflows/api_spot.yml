@@ -77,10 +77,9 @@ jobs:
             rm .env
             touch .env
             
-            export SECRET_KEY=${{ secrets.SECRET_KEY }}
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             echo HOST=${{ secrets.HOST }} >> .env
-            echo SUPER_SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+            echo ${{ secrets.SECRET_KEY }} >> .env
             
 
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
@@ -102,7 +101,6 @@ jobs:
             echo GMAIL_API_CLIENT_SECRET=${{ secrets.GMAIL_API_CLIENT_SECRET }} >> .env
             echo GMAIL_API_REFRESH_TOKEN=${{ secrets.GMAIL_API_REFRESH_TOKEN }} >> .env
             echo COMPANY_NAME=${{ secrets.COMPANY_NAME }} >> .env
-            echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
 
             cd infra
             
