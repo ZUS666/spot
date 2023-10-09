@@ -17,6 +17,7 @@ class ImageInline(admin.TabularInline):
 
 class PlanPhotoInline(admin.StackedInline):
     model = PlanPhoto
+    max_num = 1
     min_num = 1
 
 
