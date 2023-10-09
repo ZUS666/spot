@@ -1,6 +1,6 @@
 # Spot
 
-[![api_spot](https://github.com/ZUS666/spot/actions/workflows/api_spot.yml/badge.svg?branch=main)](https://github.com/ZUS666/spot/actions/workflows/api_spot.yml)
+[![api_spot](https://github.com/ZUS666/spot/actions/workflows/api_spot.yml/badge.svg)](https://github.com/ZUS666/spot/actions/workflows/api_spot.yml)
 
 ## Описание
 
