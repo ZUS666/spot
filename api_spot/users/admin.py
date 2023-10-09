@@ -37,7 +37,7 @@ class UserAdmin(DjangoUserAdmin):
         ),
     )
     list_display = (
-        'email', 'first_name', 'last_name',
+        'id', 'email', 'first_name', 'last_name',
         'phone', 'birth_date', 'occupation',
     )
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
