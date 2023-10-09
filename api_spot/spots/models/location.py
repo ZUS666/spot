@@ -137,4 +137,4 @@ class Location(models.Model):
         """
         Полный адрес.
         """
-        return f'г. {self.city}, ул. {self.street}, {self.house_number}'
+        return f'г. {self.city}, {self.street}, {self.house_number}'
