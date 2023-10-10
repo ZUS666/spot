@@ -78,6 +78,7 @@ class OrderAdmin(admin.ModelAdmin):
         'pk', 'spot', 'user', 'date',
         'start_time', 'end_time', 'status'
     )
+    exclude = ('bill',)
     empty_value_display = '-пусто)))-'
 
 
