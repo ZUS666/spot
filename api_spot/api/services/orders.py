@@ -1,11 +1,10 @@
-from django.db.models import Q
-
 from api.constants import (ORDER_CANCEL_TEMPLATE, ORDER_CONFIRMATION_TEMPLATE,
                            ORDER_FINISH_TEMPLATE, SUBJECT_EMAIL_ORDER_CANCEL,
                            SUBJECT_EMAIL_ORDER_CONFRIMATION,
                            SUBJECT_EMAIL_ORDER_FINISH)
 from api.services.users import get_user_email_context
 from api.tasks import send_mail_task
+from spots.constants import (CANCEL, NOT_PAID)
 
 
 def is_ordered_spot(instance, date, start_time, end_time):
@@ -13,15 +12,11 @@ def is_ordered_spot(instance, date, start_time, end_time):
     Получение информации о наличии бронирований в заданный
     промежуток даты и времени.
     """
-    return instance.orders.filter(
-        Q(
-            date=date,
-            start_time__lt=end_time,
-            end_time__gt=start_time
-        ) | Q(
-            date=date,
-            start_time__lt=start_time,
-            end_time__gt=end_time)).exists()
+    return instance.orders.exclude(status__in=[CANCEL, NOT_PAID]).filter(
+        date=date,
+        start_time__lt=end_time,
+        end_time__gt=start_time,
+    ).exists()
 
 
 def get_order_context(order):

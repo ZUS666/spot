@@ -46,7 +46,8 @@ class SpotViewSet(RetrieveListViewSet):
 
     def get_queryset(self):
         location_id = self.kwargs.get('location_id')
-        return super().get_queryset().filter(location_id=location_id)
+        return super().get_queryset().filter(
+            location_id=location_id).select_related('price')
 
     def get_serializer_context(self):
         """
