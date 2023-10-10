@@ -13,11 +13,12 @@ class ImageAdmin(admin.ModelAdmin):
 class ImageInline(admin.TabularInline):
     model = ExtraPhoto
     extra = 0
-    min_num = 1
 
 
 class PlanPhotoInline(admin.StackedInline):
     model = PlanPhoto
+    max_num = 1
+    min_num = 1
 
 
 @admin.register(Location)
