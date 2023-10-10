@@ -6,7 +6,7 @@ from api.views import (EquipmentViewSet, EventViewSet, FavoriteViewSet,
                        OrderGetViewSet, OrderViewSet, PayView,
                        PlanPhotoAPIView, QuestionViewSet,
                        ReviewCreateViewSet, ReviewGetViewSet,
-                       RuleViewSet, SpotViewSet, UserViewSet)
+                       RuleViewSet, SpotViewSet, UserViewSet,)
 
 app_name = 'api'
 
