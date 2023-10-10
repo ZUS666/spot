@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
 
 
 class Question(models.Model):
@@ -7,6 +8,10 @@ class Question(models.Model):
     """
     question = models.CharField('Вопрос', max_length=128)
     answer = models.TextField('Ответ',)
+    icon = models.FileField(
+        upload_to='icons/question/',
+        validators=(FileExtensionValidator(('svg',)),)
+    )
 
     class Meta:
         verbose_name = 'Вопрос - ответ'
