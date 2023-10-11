@@ -1,4 +1,4 @@
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import (OpenApiExample, OpenApiResponse,
                                    extend_schema)
@@ -7,6 +7,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
+from api.exceptions import AddSpotsError
 from api.serializers import AddSpotsSerializer
 from spots.models import Location, Spot, SpotEquipment
 
@@ -43,12 +44,15 @@ class AddSpotsAPIView(CreateAPIView):
             location_id=location_id,
             category=category,
             description=description) for name in list_names]
-        new_spots = Spot.objects.bulk_create(bulk)
+        try:
+            new_spots = Spot.objects.bulk_create(bulk)
+        except IntegrityError:
+            raise AddSpotsError
         bulk2 = [
             SpotEquipment(
-                spot=spot,
-                equipment=equipment
-            ) for spot in new_spots for equipment in equipments
+                spot=sp,
+                equipment=eq
+            ) for sp in new_spots for eq in equipments
         ]
         SpotEquipment.objects.bulk_create(bulk2)
         return Response(

@@ -1,4 +1,3 @@
-
 from rest_framework import exceptions
 
 
@@ -27,4 +26,10 @@ class OrderStatusError(exceptions.ValidationError):
     default_code = 'order not wait_pay'
     default_detail = {
         'error': 'Заказ не ждет оплаты.'
+    }
+
+class AddSpotsError(exceptions.ValidationError):
+    default_code = 'unique name in location'
+    default_detail = {
+        'error': 'название уже есть в локации'
     }
