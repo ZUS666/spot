@@ -1,7 +1,6 @@
 from django.db import models
 
 from spots.models.location import Location
-from spots.utils import prepare_image
 
 
 class ExtraPhoto(models.Model):
@@ -16,13 +15,6 @@ class ExtraPhoto(models.Model):
         upload_to='images/',
         help_text='Фото места',
     )
-
-    def save(self, *args, **kwargs):
-        """Обработка изображения перед сохранением в базу данных"""
-        super(ExtraPhoto, self).save(*args, **kwargs)
-        if self.image:
-            filepath = self.image.path
-            prepare_image(self.image, filepath)
 
     class Meta:
         verbose_name = 'Фотография'
