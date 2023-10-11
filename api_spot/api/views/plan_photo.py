@@ -18,12 +18,13 @@ class PlanPhotoAPIView(RetrieveAPIView):
     Представление для вывода фотографии плана локации.
     """
     permission_classes = (AllowAny,)
+    serializer_class = PlanPhotoGetSerializer
 
     def get_object(self, location_id):
         return get_object_or_404(PlanPhoto, location_id=location_id)
 
     def get(self, request, location_id, *args, **kwargs):
-        serializer = PlanPhotoGetSerializer(
+        serializer = self.get_serializer(
             self.get_object(location_id),
             context=self.get_serializer_context()
         )
