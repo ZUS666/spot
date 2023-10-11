@@ -5,7 +5,7 @@ from django.db import models
 from django.utils import timezone
 from phonenumber_field import modelfields
 
-from users.validators import validate_birth_day
+from users.validators import NamesValidator, validate_birth_day
 
 
 class MyUserManager(BaseUserManager):
@@ -56,8 +56,16 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField('Имя', max_length=150)
-    last_name = models.CharField('Фамилия', max_length=150)
+    first_name = models.CharField(
+        'Имя',
+        max_length=150,
+        validators=(NamesValidator(),)
+    )
+    last_name = models.CharField(
+        'Фамилия',
+        max_length=150,
+        validators=(NamesValidator(),)
+    )
     email = models.EmailField('Электронная почта', unique=True)
     phone = modelfields.PhoneNumberField(
         'Телефон',

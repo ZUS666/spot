@@ -8,13 +8,13 @@ class Favorite(models.Model):
     """Класс избранного"""
     user = models.ForeignKey(
         User,
-        verbose_name='Автор',
+        verbose_name='Пользователь',
         on_delete=models.CASCADE,
         related_name='favorites'
     )
     location = models.ForeignKey(
         'spots.Location',
-        verbose_name='Коворкинг',
+        verbose_name='Локация',
         on_delete=models.CASCADE,
         related_name='favorites'
     )

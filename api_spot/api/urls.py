@@ -6,7 +6,7 @@ from api.views import (EquipmentViewSet, EventViewSet, FavoriteViewSet,
                        OrderGetViewSet, OrderViewSet, PayView,
                        PlanPhotoAPIView, QuestionViewSet,
                        ReviewCreateViewSet, ReviewGetViewSet,
-                       RuleViewSet, SpotViewSet, UserViewSet)
+                       RuleViewSet, SpotViewSet, UserViewSet,)
 
 app_name = 'api'
 
@@ -30,12 +30,6 @@ router_api_v1.register(
     r'locations/(?P<location_id>\d+)/equipments',
     EquipmentViewSet,
     basename='get_equipments'
-)
-
-router_api_v1.register(
-    r'locations/(?P<location_id>\d+)/favorite',
-    FavoriteViewSet,
-    basename='favorite'
 )
 router_api_v1.register(
     r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)/order',
@@ -84,6 +78,10 @@ view_url = [
         r'locations/(?P<location_id>\d+)/plan_photo/',
         PlanPhotoAPIView.as_view()
     ),
+    re_path(
+        r'locations/(?P<location_id>\d+)/favorite',
+        FavoriteViewSet.as_view(
+            {'post': 'create', 'delete': 'delete'})),
 ]
 
 urlpatterns = [

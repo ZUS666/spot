@@ -13,11 +13,12 @@ class ImageAdmin(admin.ModelAdmin):
 class ImageInline(admin.TabularInline):
     model = ExtraPhoto
     extra = 0
-    min_num = 1
 
 
 class PlanPhotoInline(admin.StackedInline):
     model = PlanPhoto
+    max_num = 1
+    min_num = 1
 
 
 @admin.register(Location)
@@ -78,12 +79,13 @@ class OrderAdmin(admin.ModelAdmin):
         'pk', 'spot', 'user', 'date',
         'start_time', 'end_time', 'status'
     )
+    exclude = ('bill',)
     empty_value_display = '-пусто)))-'
 
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'pk', 'description')
+    list_display = ('pk', 'name', )
 
 
 @admin.register(Event)
