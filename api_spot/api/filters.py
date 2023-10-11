@@ -35,6 +35,10 @@ class LocationFilter(filters.FilterSet):
         field_name='metro',
         lookup_expr='istartswith',
     )
+    city = filters.CharFilter(
+        field_name='city',
+        lookup_expr='istartswith',
+    )
     category = filters.ChoiceFilter(
         distinct=True,
         field_name='spots__category',
@@ -55,6 +59,7 @@ class LocationFilter(filters.FilterSet):
         fields = (
             'name',
             'metro',
+            'city',
             'category',
             'is_favorited',
         )
