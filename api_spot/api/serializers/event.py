@@ -13,6 +13,7 @@ class EventSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'image',
             'address',
             'meeting_quantity',
             'url',
