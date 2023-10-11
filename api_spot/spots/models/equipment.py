@@ -7,10 +7,6 @@ class Equipment(models.Model):
         max_length=100,
         verbose_name='Название оборудования'
     )
-    description = models.TextField(
-        max_length=500,
-        verbose_name='Описание'
-    )
     icon = models.FileField(
         upload_to='icons/equipment/',
         validators=(FileExtensionValidator(('svg',)),)

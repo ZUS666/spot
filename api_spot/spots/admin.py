@@ -85,7 +85,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'pk', 'description')
+    list_display = ('pk', 'name', )
 
 
 @admin.register(Event)
