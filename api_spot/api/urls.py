@@ -1,12 +1,11 @@
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
-from api.views import (EquipmentViewSet, EventViewSet, FavoriteViewSet,
-                       LocationShortListAPIView, LocationViewSet,
-                       OrderGetViewSet, OrderViewSet, PayView,
-                       PlanPhotoAPIView, QuestionViewSet,
-                       ReviewCreateViewSet, ReviewGetViewSet,
-                       RuleViewSet, SpotViewSet, UserViewSet,)
+from api.views import (AddSpotsAPIView, EquipmentViewSet, EventViewSet,
+                       FavoriteViewSet, LocationShortListAPIView,
+                       LocationViewSet, OrderGetViewSet, OrderViewSet, PayView,
+                       PlanPhotoAPIView, QuestionViewSet, ReviewCreateViewSet,
+                       ReviewGetViewSet, RuleViewSet, SpotViewSet, UserViewSet)
 
 app_name = 'api'
 
@@ -79,9 +78,12 @@ view_url = [
         PlanPhotoAPIView.as_view()
     ),
     re_path(
-        r'locations/(?P<location_id>\d+)/favorite',
+        r'locations/(?P<location_id>\d+)/favorite/',
         FavoriteViewSet.as_view(
             {'post': 'create', 'delete': 'delete'})),
+    re_path(
+        r'locations/(?P<location_id>\d+)/add_spots/',
+        AddSpotsAPIView.as_view()),
 ]
 
 urlpatterns = [
