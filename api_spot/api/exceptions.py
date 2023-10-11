@@ -1,29 +1,30 @@
+
 from rest_framework import exceptions
 
 
 class EmailNotFoundError(exceptions.ValidationError):
     default_code = 'email not found'
     default_detail = {
-        'error': 'Пользователь с таким email не зарегистрирован'
+        'error': 'Этот адрес не зарегистрирован.'
     }
 
 
 class ConfirmationCodeInvalidError(exceptions.ValidationError):
     default_code = 'confirmation code invalid'
     default_detail = {
-        'error': 'Не действительный код подтверждения'
+        'error': 'Не действительный код подтверждения.'
     }
 
 
 class UserIsActiveError(exceptions.ValidationError):
     default_code = 'user is active'
     default_detail = {
-        'error': 'email подтвержден'
+        'error': 'Адрес уже подтвержден.'
     }
 
 
 class OrderStatusError(exceptions.ValidationError):
     default_code = 'order not wait_pay'
     default_detail = {
-        'error': 'заказ не ждет оплаты'
+        'error': 'Заказ не ждет оплаты.'
     }
