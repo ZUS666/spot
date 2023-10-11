@@ -31,12 +31,6 @@ router_api_v1.register(
     EquipmentViewSet,
     basename='get_equipments'
 )
-
-router_api_v1.register(
-    r'locations/(?P<location_id>\d+)/favorite',
-    FavoriteViewSet,
-    basename='favorite'
-)
 router_api_v1.register(
     r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)/order',
     OrderViewSet,
@@ -84,6 +78,10 @@ view_url = [
         r'locations/(?P<location_id>\d+)/plan_photo/',
         PlanPhotoAPIView.as_view()
     ),
+    re_path(
+        r'locations/(?P<location_id>\d+)/favorite',
+        FavoriteViewSet.as_view(
+            {'post': 'create', 'delete': 'delete'})),
 ]
 
 urlpatterns = [
