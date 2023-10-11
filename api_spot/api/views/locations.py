@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 
 from api.filters import LocationFilter
 from api.mixins import RetrieveListViewSet
-from api.paginations import SixPageNumberPagination
+from api.paginations import FourPageNumberPagination
 from api.serializers import LocationGetSerializer, LocationGetShortSerializer
 from spots.models import Location
 
@@ -20,7 +20,7 @@ class LocationViewSet(RetrieveListViewSet):
     queryset = Location.objects.all()
     serializer_class = LocationGetSerializer
     permission_classes = (AllowAny,)
-    pagination_class = LimitOffsetPagination
+    pagination_class = FourPageNumberPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = LocationFilter
 
@@ -36,7 +36,7 @@ class LocationShortListAPIView(ListAPIView):
     queryset = Location.objects.all()
     serializer_class = LocationGetShortSerializer
     permission_classes = (AllowAny,)
-    pagination_class = SixPageNumberPagination
+    pagination_class = LimitOffsetPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filterset_class = LocationFilter
     search_fields = ('^name',)
