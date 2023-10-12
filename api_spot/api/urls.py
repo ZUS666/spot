@@ -1,8 +1,9 @@
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
+
 from api.views import (AddSpotsAPIView, EquipmentViewSet, EventViewSet,
-                       FavoriteViewSet, LocationShortListAPIView,
+                       FavoriteViewSet, LocationMapListAPIView, LocationShortListAPIView,
                        LocationViewSet, OrderGetViewSet, OrderViewSet, PayView,
                        PlanPhotoAPIView, QuestionViewSet, ReviewCreateViewSet,
                        ReviewGetViewSet, RuleViewSet, SpotViewSet, UserViewSet)
@@ -73,6 +74,7 @@ view_url = [
         PayView.as_view(), name='pay'
     ),
     path('short_locations/', LocationShortListAPIView.as_view()),
+    path('map_locations/', LocationMapListAPIView.as_view()),
     re_path(
         r'locations/(?P<location_id>\d+)/plan_photo/',
         PlanPhotoAPIView.as_view()

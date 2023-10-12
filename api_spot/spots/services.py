@@ -35,7 +35,9 @@ def get_rating_location(location):
                   rating,
                   settings.TIMEOUT_CACHED_RATING
                   )
-    return round(rating, 1)
+    if rating:
+        rating = round(rating, 1)
+    return rating
 
 
 def get_low_price(location):
