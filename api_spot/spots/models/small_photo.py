@@ -6,7 +6,7 @@ from spots.constants import SMALL_HEIGHT, SMALL_WIDTH
 
 
 class SmallMainPhoto(models.Model):
-    """Модель для укроченых фотограция(для карт)."""
+    """Модель для укороченных фотографий(для карт)."""
     location = models.OneToOneField(
         Location,
         related_name='small_main_photo',
