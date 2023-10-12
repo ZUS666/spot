@@ -3,12 +3,12 @@ from django.utils.safestring import mark_safe
 
 from spots.models import (Equipment, Event, ExtraPhoto, Favorite,
                           Location, Order, PlanPhoto, Price, Question,
-                          Review, Rule, Spot, SpotEquipment, SmallImage)
+                          Review, Rule, Spot, SpotEquipment, SmallMainPhoto)
 
 
-@admin.register(SmallImage)
-class SmallImageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'preview')
+@admin.register(SmallMainPhoto)
+class SmallMainPhotoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'location', 'preview')
     readonly_fields = ('preview', )
 
     def preview(self, obj):
