@@ -85,6 +85,8 @@ class LocationMapSerializer(LocationGetSerializer):
     """
     Сериализатор для отображения на карте.
     """
+    image = serializers.ImageField(source='small_image.image')
+
     class Meta:
         model = Location
         fields = (
@@ -92,6 +94,6 @@ class LocationMapSerializer(LocationGetSerializer):
             'name',
             'get_full_address_str',
             'rating',
-            'main_photo',
+            'image',
             'coordinates',
         )
