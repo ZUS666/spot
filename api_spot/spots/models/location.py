@@ -6,6 +6,23 @@ from spots.constants import (LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
                              NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE,
                              WORK_SPACE, DAYS_CHOICES)
 from spots.services import count_spots, get_low_price, get_rating_location
+from spots.utils import prepare_image
+
+
+class SmallImage(models.Model):
+    image = models.ImageField(
+        'Главное укороченное фото ',
+        upload_to='images/main_small_photo/',
+        help_text='Главное укороченное фото локации',
+        blank=True,
+    )
+
+    def save(self, *args, **kwargs):
+        """Обработка изображения после сохранения в базу данных"""
+        super(SmallImage, self).save(*args, **kwargs)
+
+        if self.image:
+            prepare_image(self.image.path)
 
 
 class Location(models.Model):
@@ -89,6 +106,11 @@ class Location(models.Model):
         max_length=32,
         choices=DAYS_CHOICES,
         default=DAYS_CHOICES[0]
+    )
+    small_image = models.OneToOneField(
+        SmallImage,
+        on_delete=models.CASCADE,
+        blank=True
     )
 
     class Meta:

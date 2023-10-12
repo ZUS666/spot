@@ -2,7 +2,7 @@ from .equipment import Equipment, SpotEquipment
 from .event import Event
 from .extra_photo import ExtraPhoto
 from .favorite import Favorite
-from .location import Location
+from .location import Location, SmallImage
 from .order import Order
 from .plan_photo import PlanPhoto
 from .price import Price
@@ -24,3 +24,4 @@ Review
 Rule
 Spot
 SpotEquipment
+SmallImage

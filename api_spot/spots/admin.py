@@ -1,13 +1,30 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from spots.models import (Equipment, Event, ExtraPhoto, Favorite,
                           Location, Order, PlanPhoto, Price, Question,
-                          Review, Rule, Spot, SpotEquipment)
+                          Review, Rule, Spot, SpotEquipment, SmallImage)
+
+
+@admin.register(SmallImage)
+class SmallImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'preview')
+    readonly_fields = ('preview', )
+
+    def preview(self, obj):
+        return mark_safe(
+            f'<img src="{obj.image.url}" style="max-height: 300px;">'
+        )
 
 
 @admin.register(ExtraPhoto)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('location', 'id', 'image',)
+    list_display = ('id', 'location', 'preview')
+
+    def preview(self, obj):
+        return mark_safe(
+            f'<img src="{obj.image.url}" style="max-height: 300px;">'
+        )
 
 
 class ImageInline(admin.TabularInline):
