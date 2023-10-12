@@ -1,8 +1,8 @@
 from django.db import models
 
+from spots.constants import SMALL_HEIGHT, SMALL_WIDTH
 from spots.models.location import Location
 from spots.utils import prepare_image
-from spots.constants import SMALL_HEIGHT, SMALL_WIDTH
 
 
 class SmallMainPhoto(models.Model):

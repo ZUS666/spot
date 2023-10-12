@@ -1,5 +1,6 @@
 import datetime
 
+
 # SmallImage
 SMALL_WIDTH: int = 246
 SMALL_HEIGHT: int = 165
