@@ -7,7 +7,6 @@ from rest_framework.permissions import AllowAny
 
 from api.filters import LocationFilter
 from api.mixins import RetrieveListViewSet
-from api.paginations import FourPageNumberPagination
 from api.serializers import LocationGetSerializer, LocationGetShortSerializer
 from spots.models import Location
 
