@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from spots.constants import CATEGORY_CHOICES, FINISH, CANCEL
+from spots.constants import CANCEL, CATEGORY_CHOICES, FINISH
 from spots.models import Location, Order, SpotEquipment
 
 

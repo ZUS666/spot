@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from api.fields import LowercaseEmailField
 
+
 User = get_user_model()
 
 

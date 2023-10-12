@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from spots.models import (Equipment, Event, ExtraPhoto, Favorite,
-                          Location, Order, PlanPhoto, Price, Question,
-                          Review, Rule, Spot, SpotEquipment, SmallMainPhoto)
+from spots.models import (
+    Equipment, Event, ExtraPhoto, Favorite, Location, Order, PlanPhoto, Price,
+    Question, Review, Rule, SmallMainPhoto, Spot, SpotEquipment,
+)
 
 
 @admin.register(SmallMainPhoto)
