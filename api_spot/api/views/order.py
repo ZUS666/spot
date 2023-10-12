@@ -4,14 +4,14 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 
-from api.services.orders import order_confirmation_email, order_cancel_email
 from api.filters import OrderFilter
 from api.mixins import CreateUpdateViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import OrderSerializer, OrderUpdateSerializer
+from api.services.orders import order_cancel_email, order_confirmation_email
 from api.tasks import change_status_task
-from spots.models import Order
 from spots.constants import CANCEL, PAID, WAIT_PAY
+from spots.models import Order
 
 
 @extend_schema(
