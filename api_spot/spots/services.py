@@ -35,6 +35,8 @@ def get_rating_location(location):
                   rating,
                   settings.TIMEOUT_CACHED_RATING
                   )
+    if rating:
+        rating = round(rating, 1)
     return rating
 
 

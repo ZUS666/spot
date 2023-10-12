@@ -33,7 +33,7 @@ class Review(models.Model):
     )
     description = models.TextField(
         'Текст отзыва',
-        max_length=constants.MAX_LENGTH_DESC
+        max_length=constants.MAX_LENGTH_DESC_REVIEW
     )
     pub_date = models.DateField(
         verbose_name='Дата создания',

@@ -3,6 +3,7 @@ import datetime
 # Review
 MIN_EVALUATION: int = 1
 MAX_EVALUATION: int = 5
+MAX_LENGTH_DESC_REVIEW: int = 300
 # order
 SECONDS_IN_HOUR: int = 60 * 60
 MAX_LENGTH_STATUS: int = 16

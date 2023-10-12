@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from api.mixins import CreateDestroyViewSet, RetrieveListViewSet
@@ -31,7 +31,7 @@ class ReviewGetViewSet(RetrieveListViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewGetSerializer
     permission_classes = (AllowAny,)
-    pagination_class = PageNumberPagination
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         """Получение выборки с отзывами текущей локации."""

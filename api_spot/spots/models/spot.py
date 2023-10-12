@@ -38,7 +38,9 @@ class Spot(models.Model):
     )
     description = models.TextField(
         max_length=500,
-        verbose_name='Описание'
+        verbose_name='Описание',
+        blank=True,
+        null=True
     )
 
     class Meta:
