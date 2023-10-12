@@ -110,7 +110,8 @@ class Location(models.Model):
     small_image = models.OneToOneField(
         SmallImage,
         on_delete=models.CASCADE,
-        blank=True
+        blank=True,
+        null=True
     )
 
     class Meta:
