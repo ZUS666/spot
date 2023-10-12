@@ -1,8 +1,8 @@
 from .equipment import EquipmentGetSerializer
 from .event import EventSerializer
 from .extra_photo import ExtraPhotoGetSerializer
-from .locations import (LocationGetSerializer,
-                        LocationGetShortSerializer)
+from .locations import (LocationGetSerializer, LocationGetShortSerializer,
+                        LocationMapSerializer)
 from .plan_photo import PlanPhotoGetSerializer
 from .question import QuestionSerializer
 from .rule import RuleSerializer
@@ -13,6 +13,7 @@ EventSerializer
 ExtraPhotoGetSerializer
 LocationGetSerializer
 LocationGetShortSerializer
+LocationMapSerializer
 PlanPhotoGetSerializer
 QuestionSerializer
 RuleSerializer

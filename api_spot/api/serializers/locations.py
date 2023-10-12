@@ -8,25 +8,6 @@ from spots.models import Location
 from .extra_photo import ExtraPhotoGetSerializer
 
 
-class LocationGetShortSerializer(serializers.ModelSerializer):
-    """
-    Сериализатор для вывода краткой информации о локации.
-    Используется на главной странице.
-    """
-
-    class Meta:
-        model = Location
-        fields = (
-            'id',
-            'name',
-            'get_full_address_str',
-            'metro',
-            'rating',
-            'low_price',
-            'main_photo',
-        )
-
-
 class LocationGetSerializer(serializers.ModelSerializer):
     """
     Сериализатор для вывода подбробной информации о локации.
@@ -50,7 +31,6 @@ class LocationGetSerializer(serializers.ModelSerializer):
             'metro',
             'open_time',
             'close_time',
-            'rating',
             'low_price',
             'main_photo',
             'extra_photo',
@@ -79,3 +59,39 @@ class LocationGetSerializer(serializers.ModelSerializer):
         Список координат
         """
         return [instance.latitude, instance.longitude, ]
+
+
+class LocationGetShortSerializer(LocationGetSerializer):
+    """
+    Сериализатор для вывода краткой информации о локации.
+    Используется на главной странице.
+    """
+
+    class Meta:
+        model = Location
+        fields = (
+            'id',
+            'name',
+            'get_full_address_str',
+            'metro',
+            'rating',
+            'low_price',
+            'main_photo',
+            'is_favorited',
+        )
+
+
+class LocationMapSerializer(LocationGetSerializer):
+    """
+    Сериализатор для отображения на карте.
+    """
+    class Meta:
+        model = Location
+        fields = (
+            'id',
+            'name',
+            'get_full_address_str',
+            'rating',
+            'main_photo',
+            'coordinates',
+        )

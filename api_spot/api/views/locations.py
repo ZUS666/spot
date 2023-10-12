@@ -8,7 +8,8 @@ from rest_framework.permissions import AllowAny
 from api.filters import LocationFilter
 from api.mixins import RetrieveListViewSet
 from api.paginations import FourPageNumberPagination
-from api.serializers import LocationGetSerializer, LocationGetShortSerializer
+from api.serializers import (LocationGetSerializer, LocationGetShortSerializer,
+                             LocationMapSerializer)
 from spots.models import Location
 
 
@@ -40,3 +41,18 @@ class LocationShortListAPIView(ListAPIView):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filterset_class = LocationFilter
     search_fields = ('^name',)
+
+
+@extend_schema(
+    tags=('locations',)
+)
+class LocationMapListAPIView(ListAPIView):
+    """
+    Представление краткой информации о локациях для отображения на карте.
+    """
+    queryset = Location.objects.all()
+    serializer_class = LocationMapSerializer
+    permission_classes = (AllowAny,)
+    pagination_class = LimitOffsetPagination
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = LocationFilter
