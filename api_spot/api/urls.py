@@ -1,10 +1,10 @@
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
-
 from api.views import (AddSpotsAPIView, EquipmentViewSet, EventViewSet,
-                       FavoriteViewSet, LocationMapListAPIView, LocationShortListAPIView,
-                       LocationViewSet, OrderGetViewSet, OrderViewSet, PayView,
+                       FavoriteViewSet, LocationMapListAPIView,
+                       LocationShortListAPIView, LocationViewSet,
+                       OrderGetViewSet, OrderViewSet, PayView,
                        PlanPhotoAPIView, QuestionViewSet, ReviewCreateViewSet,
                        ReviewGetViewSet, RuleViewSet, SpotViewSet, UserViewSet)
 
