@@ -28,6 +28,7 @@ class OrderStatusError(exceptions.ValidationError):
         'error': 'Заказ не ждет оплаты.'
     }
 
+
 class AddSpotsError(exceptions.ValidationError):
     default_code = 'unique name in location'
     default_detail = {
