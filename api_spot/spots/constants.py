@@ -1,5 +1,9 @@
 import datetime
 
+
+# SmallImage
+SMALL_WIDTH: int = 246
+SMALL_HEIGHT: int = 165
 # Review
 MIN_EVALUATION: int = 1
 MAX_EVALUATION: int = 5

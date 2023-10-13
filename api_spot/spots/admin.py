@@ -1,13 +1,31 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
-from spots.models import (Equipment, Event, ExtraPhoto, Favorite,
-                          Location, Order, PlanPhoto, Price, Question,
-                          Review, Rule, Spot, SpotEquipment)
+from spots.models import (
+    Equipment, Event, ExtraPhoto, Favorite, Location, Order, PlanPhoto, Price,
+    Question, Review, Rule, SmallMainPhoto, Spot, SpotEquipment,
+)
+
+
+@admin.register(SmallMainPhoto)
+class SmallMainPhotoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'location', 'preview')
+    readonly_fields = ('preview', )
+
+    def preview(self, obj):
+        return mark_safe(
+            f'<img src="{obj.image.url}" style="max-height: 300px;">'
+        )
 
 
 @admin.register(ExtraPhoto)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('location', 'id', 'image',)
+    list_display = ('id', 'location', 'preview')
+
+    def preview(self, obj):
+        return mark_safe(
+            f'<img src="{obj.image.url}" style="max-height: 300px;">'
+        )
 
 
 class ImageInline(admin.TabularInline):
@@ -17,6 +35,12 @@ class ImageInline(admin.TabularInline):
 
 class PlanPhotoInline(admin.StackedInline):
     model = PlanPhoto
+    max_num = 1
+    min_num = 1
+
+
+class SmallMainPhotoInline(admin.StackedInline):
+    model = SmallMainPhoto
     max_num = 1
     min_num = 1
 
@@ -35,7 +59,7 @@ class LocationAdmin(admin.ModelAdmin):
     )
     list_filter = ('street', 'house_number')
     search_fields = ('street', 'house_number')
-    inlines = (ImageInline, PlanPhotoInline)
+    inlines = (ImageInline, PlanPhotoInline, SmallMainPhotoInline)
 
 
 @admin.register(Price)

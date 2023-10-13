@@ -9,7 +9,9 @@ from .price import Price
 from .question import Question
 from .review import Review
 from .rule import Rule
+from .small_photo import SmallMainPhoto
 from .spot import Spot
+
 
 Equipment
 Event
@@ -24,3 +26,4 @@ Review
 Rule
 Spot
 SpotEquipment
+SmallMainPhoto
