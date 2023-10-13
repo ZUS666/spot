@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from spots.models import Event
+from core.models import Event
 
 
 class EventSerializer(serializers.ModelSerializer):

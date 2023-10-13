@@ -34,6 +34,7 @@ INSTALLED_APPS = [
 
     'users',
     'spots',
+    'core',
     'api',
 
     'django_cleanup.apps.CleanupConfig',

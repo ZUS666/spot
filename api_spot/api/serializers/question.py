@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from spots.models import Question
+from core.models import Question
 
 
 class QuestionSerializer(serializers.ModelSerializer):
