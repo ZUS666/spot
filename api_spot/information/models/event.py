@@ -8,7 +8,7 @@ class Event(models.Model):
     name = models.CharField('Название Мероприятия', max_length=128)
     image = models.ImageField(
         'Фото',
-        upload_to='images/',
+        upload_to='images/event/',
     )
     address = models.CharField('Адрес', max_length=255)
     meeting_quantity = models.PositiveSmallIntegerField('Количество мест')
