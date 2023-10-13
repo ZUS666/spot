@@ -39,6 +39,12 @@ class PlanPhotoInline(admin.StackedInline):
     min_num = 1
 
 
+class SmallMainPhotoInline(admin.StackedInline):
+    model = SmallMainPhoto
+    max_num = 1
+    min_num = 1
+
+
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     list_display = (
@@ -53,7 +59,7 @@ class LocationAdmin(admin.ModelAdmin):
     )
     list_filter = ('street', 'house_number')
     search_fields = ('street', 'house_number')
-    inlines = (ImageInline, PlanPhotoInline)
+    inlines = (ImageInline, PlanPhotoInline, SmallMainPhotoInline)
 
 
 @admin.register(Price)
