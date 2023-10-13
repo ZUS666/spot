@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 
 from api.mixins import RetrieveListViewSet
 from api.serializers import RuleSerializer
-from core.models import Rule
+from information.models import Rule
 
 
 @extend_schema(

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.models import Event
+from information.models import Event
 
 
 class EventSerializer(serializers.ModelSerializer):

@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny
 
 from api.mixins import RetrieveListViewSet
 from api.serializers import EventSerializer
-from core.models import Event
+from information.models import Event
 
 
 @extend_schema(

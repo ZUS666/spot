@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.models import Event, Question, Rule
+from information.models import Event, Question, Rule
 
 
 @admin.register(Event)
