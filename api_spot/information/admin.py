@@ -4,7 +4,7 @@ from information.models import Event, Question, Rule
 
 
 @admin.register(Event)
-class EquipmentAdmin(admin.ModelAdmin):
+class EventAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'name',
@@ -15,7 +15,7 @@ class EquipmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(Question)
-class EquipmentAdmin(admin.ModelAdmin):
+class QuestionAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'question',
@@ -23,7 +23,7 @@ class EquipmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(Rule)
-class EquipmentAdmin(admin.ModelAdmin):
+class RuleAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'title',
