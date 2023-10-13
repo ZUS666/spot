@@ -91,17 +91,6 @@ class Location(models.Model):
         default=DAYS_CHOICES[0]
     )
 
-    def save(self, *args, **kwargs) -> None:
-        super().save(*args, **kwargs)
-        if self.main_photo:
-            from spots.models.small_photo import SmallMainPhoto
-            SmallMainPhoto.objects.update_or_create(
-                location_id=self.id,
-                defaults={
-                    "image": self.main_photo,
-                },
-            )
-
     class Meta:
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
