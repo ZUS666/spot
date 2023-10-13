@@ -1,8 +1,8 @@
 import datetime
 
 from api_spot.celery import app
-from spots.models import Order
 from spots.constants import FINISH, PAID
+from spots.models import Order
 
 
 @app.task

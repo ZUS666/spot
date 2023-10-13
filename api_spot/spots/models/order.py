@@ -1,5 +1,4 @@
 import datetime
-
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
@@ -8,6 +7,7 @@ from django.db import models
 import spots.constants as constants
 from spots.models.spot import Spot
 from spots.validators import check_date_time, check_spot_order
+
 
 User = get_user_model()
 

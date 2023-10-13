@@ -5,8 +5,9 @@ from rest_framework.exceptions import ValidationError as DRFValidationError
 from rest_framework.permissions import AllowAny
 
 from api.mixins import RetrieveListViewSet
-from api.serializers import (SpotDetailSerializer, SpotQuerySerializer,
-                             SpotSerializer)
+from api.serializers import (
+    SpotDetailSerializer, SpotQuerySerializer, SpotSerializer,
+)
 from spots.models import Location, Spot
 from spots.validators import check_date_time
 

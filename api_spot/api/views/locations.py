@@ -7,9 +7,9 @@ from rest_framework.permissions import AllowAny
 
 from api.filters import LocationFilter
 from api.mixins import RetrieveListViewSet
-from api.serializers import (LocationGetSerializer, LocationGetShortSerializer,
-                             LocationMapSerializer)
-from api.serializers import LocationGetSerializer, LocationGetShortSerializer
+from api.serializers import (
+    LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer,
+)
 from spots.models import Location
 
 

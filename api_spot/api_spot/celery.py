@@ -3,6 +3,7 @@ import os
 from celery import Celery
 from celery.schedules import crontab
 
+
 app_name = "api_spot"
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"{app_name}.settings")
 app = Celery(app_name, broker=os.getenv('CELERY_BROKER'))
