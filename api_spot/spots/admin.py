@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from spots.models import (
-    Equipment, ExtraPhoto, Favorite, Location, Order, PlanPhoto, Price,
-    Review, SmallMainPhoto, Spot, SpotEquipment,
+    Equipment, ExtraPhoto, Favorite, Location, Order, PlanPhoto, Price, Review,
+    SmallMainPhoto, Spot, SpotEquipment,
 )
 
 
