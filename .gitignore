@@ -170,3 +170,6 @@ images/
 static/
 
 **/locconf.py
+
+*.json
+*.sql

@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from spots.models import (
-    Equipment, Event, ExtraPhoto, Favorite, Location, Order, PlanPhoto, Price,
-    Question, Review, Rule, SmallMainPhoto, Spot, SpotEquipment,
+    Equipment, ExtraPhoto, Favorite, Location, Order, PlanPhoto, Price, Review,
+    SmallMainPhoto, Spot, SpotEquipment,
 )
 
 
@@ -110,30 +110,3 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', )
-
-
-@admin.register(Event)
-class EquipmentAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'name',
-        'date',
-        'meeting_quantity',
-        'url',
-    )
-
-
-@admin.register(Question)
-class EquipmentAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'question',
-    )
-
-
-@admin.register(Rule)
-class EquipmentAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'title',
-    )
