@@ -25,7 +25,8 @@
   * users: модель пользователя;
 
 ## API-документация:
-[https://sharewithme.acceleratorpracticum.ru/swagger/](http://185.41.160.27/api/docs/)
+
+http://185.41.160.27/api/docs/
 
 
 ## Запуск проекта
