@@ -13,9 +13,9 @@ services:
     restart: always
   
   backend:
-    image: spotit2709/backend:latest
-    # build:
-    #   context: ../api_spot
+    # image: spotit2709/backend:latest
+    build:
+      context: ../api_spot
     restart: always
     volumes:
       - static_value:/app/static
@@ -26,9 +26,9 @@ services:
       - ../.env
     
   celery:
-    image: spotit2709/backend:latest
-    # build:
-    #   context: ../api_spot
+    # image: spotit2709/backend:latest
+    build:
+      context: ../api_spot
     command: celery -A api_spot worker --loglevel=info
     restart: always
     depends_on:
@@ -64,9 +64,9 @@ services:
       - flower
 
   celery_beat:
-    image: spotit2709/backend:latest
-    # build:
-    #   context: ../api_spot
+    # image: spotit2709/backend:latest
+    build:
+      context: ../api_spot
     command: celery -A api_spot beat --loglevel=info
     restart: always
     depends_on:

@@ -87,7 +87,7 @@ class Location(models.Model):
     )
     days_open = models.CharField(
         'Дни недели через -',
-        max_length=5,
+        max_length=20,
         choices=DAYS_CHOICES,
         default=DAYS_CHOICES[0]
     )
