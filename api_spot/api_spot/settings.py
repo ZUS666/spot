@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'gmailapi_backend',
     'django_celery_beat',
     'corsheaders',
+    'ckeditor',
 
     'users',
     'spots',
