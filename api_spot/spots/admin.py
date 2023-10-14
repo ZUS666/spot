@@ -1,23 +1,48 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
-from spots.models import (Equipment, Event, ExtraPhoto, Favorite,
-                          Location, Order, PlanPhoto, Price, Question,
-                          Review, Rule, Spot, SpotEquipment)
+from spots.models import (
+    Equipment, ExtraPhoto, Favorite, Location, Order, PlanPhoto, Price, Review,
+    SmallMainPhoto, Spot, SpotEquipment,
+)
+
+
+@admin.register(SmallMainPhoto)
+class SmallMainPhotoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'location', 'preview')
+    readonly_fields = ('preview', )
+
+    def preview(self, obj):
+        return mark_safe(
+            f'<img src="{obj.image.url}" style="max-height: 300px;">'
+        )
 
 
 @admin.register(ExtraPhoto)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('location', 'id', 'image',)
+    list_display = ('id', 'location', 'preview')
+
+    def preview(self, obj):
+        return mark_safe(
+            f'<img src="{obj.image.url}" style="max-height: 300px;">'
+        )
 
 
 class ImageInline(admin.TabularInline):
     model = ExtraPhoto
     extra = 0
-    min_num = 1
 
 
 class PlanPhotoInline(admin.StackedInline):
     model = PlanPhoto
+    max_num = 1
+    min_num = 1
+
+
+class SmallMainPhotoInline(admin.StackedInline):
+    model = SmallMainPhoto
+    max_num = 1
+    min_num = 1
 
 
 @admin.register(Location)
@@ -34,7 +59,7 @@ class LocationAdmin(admin.ModelAdmin):
     )
     list_filter = ('street', 'house_number')
     search_fields = ('street', 'house_number')
-    inlines = (ImageInline, PlanPhotoInline)
+    inlines = (ImageInline, PlanPhotoInline, SmallMainPhotoInline)
 
 
 @admin.register(Price)
@@ -78,36 +103,10 @@ class OrderAdmin(admin.ModelAdmin):
         'pk', 'spot', 'user', 'date',
         'start_time', 'end_time', 'status'
     )
+    exclude = ('bill',)
     empty_value_display = '-пусто)))-'
 
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'pk', 'description')
-
-
-@admin.register(Event)
-class EquipmentAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'name',
-        'date',
-        'meeting_quantity',
-        'url',
-    )
-
-
-@admin.register(Question)
-class EquipmentAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'question',
-    )
-
-
-@admin.register(Rule)
-class EquipmentAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'title',
-    )
+    list_display = ('pk', 'name', )

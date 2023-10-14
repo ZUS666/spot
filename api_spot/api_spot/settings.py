@@ -3,6 +3,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,8 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False
+ALLOWED_HOSTS = (os.getenv('ALLOWED_HOSTS'), 'localhost', '127.0.0.1', '[::1]')
 
-ALLOWED_HOSTS = (os.getenv('ALLOWED_HOSTS'), )
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -33,7 +34,10 @@ INSTALLED_APPS = [
 
     'users',
     'spots',
+    'information',
     'api',
+
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -111,14 +115,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost',
-    os.getenv('CRSF_HOST')
-]
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost',
+#     'http://' + os.getenv('HOST')
+# ]
 
 CSRF_TRUSTED_ORIGINS = (
     'http://localhost',
-    os.getenv('CRSF_HOST')
+    'http://' + os.getenv('HOST')
 )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

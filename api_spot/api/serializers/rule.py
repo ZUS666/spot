@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from spots.models import Rule
+from information.models import Rule
 
 
 class RuleSerializer(serializers.ModelSerializer):

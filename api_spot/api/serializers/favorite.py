@@ -13,13 +13,13 @@ class FavoriteSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    street = StringRelatedField(
-        source='location.street', read_only=True
+    location_name = StringRelatedField(
+        source='location.name', read_only=True
     )
 
     class Meta:
         model = Favorite
-        fields = ('id', 'location', 'user', 'street',)
+        fields = ('id', 'location', 'user', 'location_name',)
         validators = (
             serializers.UniqueTogetherValidator(
                 queryset=model.objects.all(),

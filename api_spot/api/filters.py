@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from spots.constants import CATEGORY_CHOICES, FINISH, CANCEL
+from spots.constants import CANCEL, CATEGORY_CHOICES, FINISH
 from spots.models import Location, Order, SpotEquipment
 
 
@@ -35,6 +35,10 @@ class LocationFilter(filters.FilterSet):
         field_name='metro',
         lookup_expr='istartswith',
     )
+    city = filters.CharFilter(
+        field_name='city',
+        lookup_expr='istartswith',
+    )
     category = filters.ChoiceFilter(
         distinct=True,
         field_name='spots__category',
@@ -55,6 +59,7 @@ class LocationFilter(filters.FilterSet):
         fields = (
             'name',
             'metro',
+            'city',
             'category',
             'is_favorited',
         )

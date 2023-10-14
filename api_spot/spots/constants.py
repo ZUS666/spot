@@ -1,8 +1,13 @@
 import datetime
 
+
+# SmallImage
+SMALL_WIDTH: int = 246
+SMALL_HEIGHT: int = 165
 # Review
 MIN_EVALUATION: int = 1
 MAX_EVALUATION: int = 5
+MAX_LENGTH_DESC_REVIEW: int = 300
 # order
 SECONDS_IN_HOUR: int = 60 * 60
 MAX_LENGTH_STATUS: int = 16
@@ -25,14 +30,18 @@ START_CHOICES: tuple[datetime.time, datetime.time] = tuple([
         datetime.time(x),
         datetime.time(x).isoformat(MINUTES)
     )
-    for x in range(0, 23)
+    for x in range(0, 24)
 ])
 END_CHOICES: tuple[datetime.time, datetime.time] = tuple([
     (
         datetime.time(x),
         datetime.time(x - 1, 55).isoformat(MINUTES)
     )
-    for x in range(1, 24)
+    if x != 24 else (
+        datetime.time(0),
+        datetime.time(23, 55).isoformat(MINUTES)
+    )
+    for x in range(1, 25)
 ])
 MAX_COUNT_DAYS: int = 60
 # Price

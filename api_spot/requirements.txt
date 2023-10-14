@@ -5,12 +5,13 @@ django-cors-headers==3.8.0
 django-filter==23.2
 django-gmailapi-backend==0.3.2
 django-phonenumber-field[phonenumberslite]==7.1.0
+django-cleanup==8.0.0
 djangorestframework==3.14.0
 djoser==2.2.0
 drf-spectacular==0.26.4
 flower==2.0.1
 gunicorn==21.2.0
 phonenumbers==8.13.20
-Pillow==10.0.0
+Pillow==10.0.1
 psycopg2-binary==2.9.7
 python-dotenv==1.0.0

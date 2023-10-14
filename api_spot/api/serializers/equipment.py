@@ -12,8 +12,9 @@ class EquipmentGetSerializer(serializers.ModelSerializer):
         default=GetLocation()
     )
     name = serializers.CharField(source='equipment.name')
+    icon = serializers.CharField(source='equipment.icon')
     category = serializers.CharField(source='spot.category')
 
     class Meta:
         model = SpotEquipment
-        fields = ('id', 'name', 'location', 'category',)
+        fields = ('id', 'name', 'icon', 'location', 'category',)

@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 import spots.constants as constants
 from spots.models.order import Order
+
 
 User = get_user_model()
 
@@ -33,7 +34,7 @@ class Review(models.Model):
     )
     description = models.TextField(
         'Текст отзыва',
-        max_length=constants.MAX_LENGTH_DESC
+        max_length=constants.MAX_LENGTH_DESC_REVIEW
     )
     pub_date = models.DateField(
         verbose_name='Дата создания',

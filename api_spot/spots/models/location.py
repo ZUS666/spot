@@ -1,12 +1,12 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from spots.constants import (LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
-                             LONG_MIN, LONG_MSG_ERROR, MEETING_ROOM,
-                             NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE,
-                             WORK_SPACE, DAYS_CHOICES)
+from spots.constants import (
+    DAYS_CHOICES, LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX, LONG_MIN,
+    LONG_MSG_ERROR, MEETING_ROOM, NAME_CACHE_MEETING_ROOM,
+    NAME_CACHE_WORKSPACE, WORK_SPACE,
+)
 from spots.services import count_spots, get_low_price, get_rating_location
-from spots.utils import prepare_image
 
 
 class Location(models.Model):
@@ -87,19 +87,10 @@ class Location(models.Model):
     )
     days_open = models.CharField(
         'Дни недели через -',
-        max_length=20,
+        max_length=32,
         choices=DAYS_CHOICES,
         default=DAYS_CHOICES[0]
     )
-
-    def save(self, *args, **kwargs):
-        """Обработка изображения перед сохранением в базу данных"""
-
-        super(Location, self).save(*args, **kwargs)
-
-        if self.main_photo:
-            filepath = self.main_photo.path
-            prepare_image(self.main_photo, filepath)
 
     class Meta:
         verbose_name = 'Локация'
@@ -137,4 +128,4 @@ class Location(models.Model):
         """
         Полный адрес.
         """
-        return f'г. {self.city}, ул. {self.street}, {self.house_number}'
+        return f'г. {self.city}, {self.street}, {self.house_number}'

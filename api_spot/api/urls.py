@@ -1,12 +1,14 @@
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
-from api.views import (EquipmentViewSet, EventViewSet, FavoriteViewSet,
-                       LocationShortListAPIView, LocationViewSet,
-                       OrderGetViewSet, OrderViewSet, PayView,
-                       PlanPhotoAPIView, QuestionViewSet,
-                       ReviewCreateViewSet, ReviewGetViewSet,
-                       RuleViewSet, SpotViewSet, UserViewSet)
+from api.views import (
+    AddSpotsAPIView, EquipmentViewSet, EventViewSet, FavoriteViewSet,
+    LocationMapListAPIView, LocationShortListAPIView, LocationViewSet,
+    OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView, QuestionViewSet,
+    ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet, SpotViewSet,
+    UserViewSet,
+)
+
 
 app_name = 'api'
 
@@ -30,12 +32,6 @@ router_api_v1.register(
     r'locations/(?P<location_id>\d+)/equipments',
     EquipmentViewSet,
     basename='get_equipments'
-)
-
-router_api_v1.register(
-    r'locations/(?P<location_id>\d+)/favorite',
-    FavoriteViewSet,
-    basename='favorite'
 )
 router_api_v1.register(
     r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)/order',
@@ -80,10 +76,18 @@ view_url = [
         PayView.as_view(), name='pay'
     ),
     path('short_locations/', LocationShortListAPIView.as_view()),
+    path('map_locations/', LocationMapListAPIView.as_view()),
     re_path(
         r'locations/(?P<location_id>\d+)/plan_photo/',
         PlanPhotoAPIView.as_view()
     ),
+    re_path(
+        r'locations/(?P<location_id>\d+)/favorite/',
+        FavoriteViewSet.as_view(
+            {'post': 'create', 'delete': 'delete'})),
+    re_path(
+        r'locations/(?P<location_id>\d+)/add_spots/',
+        AddSpotsAPIView.as_view()),
 ]
 
 urlpatterns = [

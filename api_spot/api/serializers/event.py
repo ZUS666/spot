@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from spots.models import Event
+from information.models import Event
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -13,6 +13,7 @@ class EventSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'image',
             'address',
             'meeting_quantity',
             'url',
