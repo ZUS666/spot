@@ -11,5 +11,5 @@ class RuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rule
         fields = (
-            'id', 'title', 'text',
+            'id', 'title', 'text', 'icon'
         )

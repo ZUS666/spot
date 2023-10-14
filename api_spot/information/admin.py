@@ -27,4 +27,5 @@ class RuleAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'title',
+        'text'
     )
