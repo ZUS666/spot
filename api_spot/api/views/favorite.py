@@ -33,5 +33,5 @@ class FavoriteViewSet(CreateDestroyViewSet):
         favorite.delete()
         return Response(
             {'message': 'Локация успешно удалена из избранного'},
-            status=status.HTTP_204_NO_CONTENT
+            status=status.HTTP_200_OK
         )
