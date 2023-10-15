@@ -6,7 +6,7 @@ from spots.models import SpotEquipment
 
 class EquipmentGetSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для вывода cнаряжений.
+    Сериализатор для вывода оборудование.
     """
     location = serializers.HiddenField(
         default=GetLocation()

@@ -49,6 +49,15 @@ class UserViewSet(CreateDestroyViewSet):
         user = serializer.save(*args, **kwargs)
         cache_and_send_confirmation_code(user, registration_email)
 
+    def destroy(self, request, *args, **kwargs):
+        """Удаление пользователя."""
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(
+            {'message': 'Пользователь успешно удален'},
+            status=status.HTTP_200_OK
+        )
+
     @action(
         detail=False,
         methods=['post'],

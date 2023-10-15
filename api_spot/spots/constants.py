@@ -73,7 +73,6 @@ DAYS_DICT = {
     'сб': 5,
     'пт': 4,
 }
-
 # Spot
 WORK_SPACE = 'Рабочее место'
 MEETING_ROOM = 'Переговорная'
