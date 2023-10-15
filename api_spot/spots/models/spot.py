@@ -5,9 +5,10 @@ from spots.constants import (
     CATEGORY_CHOICES, NAME_CACHE_LOW_PRICE, NAME_CACHE_MEETING_ROOM,
     NAME_CACHE_WORKSPACE,
 )
-from spots.models.equipment import Equipment
+from spots.models import Equipment
 from spots.models.location import Location
 from spots.models.price import Price
+from spots.services import delete_location_cache_in_spot
 
 
 class Spot(models.Model):
@@ -60,13 +61,9 @@ class Spot(models.Model):
         return f'{self.name} в {self.location}'
 
     def save(self, *args, **kwargs):
-        cache.delete(f'{self.location_id}{NAME_CACHE_WORKSPACE}')
-        cache.delete(f'{self.location_id}{NAME_CACHE_MEETING_ROOM}')
-        cache.delete(f'{self.location_id}{NAME_CACHE_LOW_PRICE}')
+        delete_location_cache_in_spot(self.location_id)
         return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        cache.delete(f'{self.location_id}{NAME_CACHE_WORKSPACE}')
-        cache.delete(f'{self.location_id}{NAME_CACHE_MEETING_ROOM}')
-        cache.delete(f'{self.location_id}{NAME_CACHE_LOW_PRICE}')
+        delete_location_cache_in_spot(self.location_id)
         return super().delete(*args, **kwargs)

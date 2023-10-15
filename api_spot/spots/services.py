@@ -2,7 +2,10 @@ from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Avg, Min
 
-from spots.constants import NAME_CACHE_LOW_PRICE, NAME_CACHE_RATING
+from spots.constants import (
+    NAME_CACHE_LOW_PRICE, NAME_CACHE_MEETING_ROOM, NAME_CACHE_RATING,
+    NAME_CACHE_WORKSPACE,
+)
 
 
 def count_spots(location, category, name_cache):
@@ -53,3 +56,9 @@ def get_low_price(location):
                   low_price,
                   settings.TIMEOUT_CACHED_LOW_PRICE)
     return low_price
+
+
+def delete_location_cache_in_spot(location_id):
+    cache.delete(f'{location_id}{NAME_CACHE_WORKSPACE}')
+    cache.delete(f'{location_id}{NAME_CACHE_MEETING_ROOM}')
+    cache.delete(f'{location_id}{NAME_CACHE_LOW_PRICE}')

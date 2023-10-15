@@ -71,6 +71,7 @@ class UserViewSet(CreateDestroyViewSet):
         user.is_active = True
         user.save()
         finish_activation_email(user)
+        cache.delete(user.id)
         return Response(
             {'message': 'Электронная почта верифицирована'},
             status=status.HTTP_200_OK
@@ -119,6 +120,7 @@ class UserViewSet(CreateDestroyViewSet):
         user.set_password(password)
         user.save(update_fields=['password'])
         user.auth_token.delete()
+        cache.delete(user.id)
         finish_reset_password_email(user)
         return Response(
             {'message': 'Пароль изменен'},
