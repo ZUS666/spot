@@ -73,24 +73,6 @@ DAYS_DICT = {
     'сб': 5,
     'пт': 4,
 }
-START_CHOICES_LOCATION: tuple[datetime.time, datetime.time] = tuple([
-    (
-        datetime.time(x).isoformat(MINUTES),
-        datetime.time(x).isoformat(MINUTES)
-    )
-    for x in range(0, 24)
-])
-END_CHOICES_LOCATION: tuple[datetime.time, datetime.time] = tuple([
-    (
-        datetime.time(x).isoformat(MINUTES),
-        datetime.time(x).isoformat(MINUTES)
-    )
-    if x != 24 else (
-        datetime.time(0).isoformat(MINUTES),
-        datetime.time(0).isoformat(MINUTES)
-    )
-    for x in range(1, 25)
-])
 # Spot
 WORK_SPACE = 'Рабочее место'
 MEETING_ROOM = 'Переговорная'
