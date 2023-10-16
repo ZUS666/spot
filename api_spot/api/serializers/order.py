@@ -37,6 +37,12 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class OrderGetSerializer(serializers.ModelSerializer):
+    start_time = serializers.TimeField(
+        format=settings.TIME_FORMAT
+    )
+    end_time = serializers.TimeField(
+        format=settings.TIME_FORMAT
+    )
     location_name = serializers.StringRelatedField(source='spot.location.name')
     location_photo = serializers.ImageField(source='spot.location.main_photo')
 

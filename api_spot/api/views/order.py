@@ -3,6 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 from api.filters import OrderFilter
 from api.mixins import CreateUpdateViewSet, RetrieveListViewSet
@@ -61,11 +62,9 @@ class OrderGetViewSet(RetrieveListViewSet):
     filter_backends = (DjangoFilterBackend,
                        filters.OrderingFilter)
     filterset_class = OrderFilter
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
         """Получение выборки с заказами для текущего пользователя."""
-        if self.request.user.is_authenticated:
-            return super().get_queryset().filter(user=self.request.user)
-        return super().get_queryset().none()
+        return super().get_queryset().filter(user=self.request.user)
