@@ -27,7 +27,7 @@
 
 ## API-документация:
 
-http://185.41.160.27/api/docs/
+http://spotit.acceleratorpracticum.ru/api/docs/
 
 
 ## Запуск проекта
@@ -116,5 +116,5 @@ celery -A api_spot flower --port=5001
 
 ## Авторы:
 
-- **Изимов Арсений**  - https://github.com/Arseny13
 - **Тагиров Руслан**  - https://github.com/ZUS666
+- **Изимов Арсений**  - https://github.com/Arseny13
