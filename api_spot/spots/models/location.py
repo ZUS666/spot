@@ -2,9 +2,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from spots.constants import (
-    DAYS_CHOICES, LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX, LONG_MIN,
-    LONG_MSG_ERROR, MEETING_ROOM, NAME_CACHE_MEETING_ROOM,
-    NAME_CACHE_WORKSPACE, WORK_SPACE,
+    DAYS_CHOICES, END_CHOICES, LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
+    LONG_MIN, LONG_MSG_ERROR, MEETING_ROOM, NAME_CACHE_MEETING_ROOM,
+    NAME_CACHE_WORKSPACE, START_CHOICES, WORK_SPACE,
+
 )
 from spots.services import count_spots, get_low_price, get_rating_location
 
@@ -17,9 +18,13 @@ class Location(models.Model):
     )
     open_time = models.TimeField(
         'Время открытия',
+        choices=START_CHOICES,
+        default=START_CHOICES[0][0],
     )
     close_time = models.TimeField(
-        'время закрытия',
+        'Время закрытия',
+        choices=END_CHOICES,
+        default=END_CHOICES[0][0],
     )
     street = models.CharField(
         'Улица',
