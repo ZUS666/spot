@@ -7,7 +7,9 @@ from rest_framework.pagination import PageNumberPagination
 from api.filters import OrderFilter
 from api.mixins import CreateUpdateViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
-from api.serializers.order import OrderSerializer, OrderUpdateSerializer
+from api.serializers.order import (
+    OrderSerializer, OrderGetSerializer, OrderUpdateSerializer
+)
 from api.services.orders import order_cancel_email, order_confirmation_email
 from api.tasks import change_status_task
 from spots.constants import CANCEL, PAID, WAIT_PAY
@@ -55,7 +57,7 @@ class OrderGetViewSet(RetrieveListViewSet):
     фильтрации по статусу "завершен".
     """
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    serializer_class = OrderGetSerializer
     filter_backends = (DjangoFilterBackend,
                        filters.OrderingFilter)
     filterset_class = OrderFilter

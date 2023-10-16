@@ -36,6 +36,20 @@ class OrderSerializer(serializers.ModelSerializer):
         return super().validate(data)
 
 
+class OrderGetSerializer(OrderSerializer):
+    location_name = serializers.StringRelatedField(source='spot.location.name')
+
+    class Meta:
+        """Класс мета для модели Order."""
+        model = Order
+        fields = (
+            'id', 'user', 'spot',
+            'date', 'start_time',
+            'end_time', 'bill', 'status', 'location_name'
+        )
+        read_only_fields = ('bill',)
+
+
 class OrderUpdateSerializer(serializers.ModelSerializer):
     """Сериализатор для изменения брони."""
     user = serializers.HiddenField(
