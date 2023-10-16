@@ -55,7 +55,7 @@ class Price(models.Model):
     def __str__(self):
         return self.description[:20]
 
-    def get_total_price(self):
+    def _get_total_price(self):
         if self.discount:
             self.total_price = self.price - self.price * self.discount / 100
         else:
@@ -63,5 +63,5 @@ class Price(models.Model):
         return self.total_price
 
     def save(self, *args, **kwargs):
-        self.get_total_price()
+        self._get_total_price()
         return super().save(*args, **kwargs)

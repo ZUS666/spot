@@ -41,7 +41,20 @@ services:
       - redis
     env_file:
       - ../.env
-  
+
+  celery_beat:
+      image: spotit2709/backend:latest
+      # build:
+      #   context: ../api_spot
+      command: celery -A api_spot beat --loglevel=info
+      restart: always
+      depends_on:
+        - backend
+        - redis
+        - celery
+      env_file:
+        - ../.env
+
   flower:
     image: mher/flower
     restart: always
@@ -53,6 +66,7 @@ services:
       - backend
       - redis
       - celery
+      - celery_beat
   
   nginx:
     image: nginx:1.21.3-alpine
@@ -70,18 +84,6 @@ services:
       - flower
       - frontend
 
-  celery_beat:
-    image: spotit2709/backend:latest
-    # build:
-    #   context: ../api_spot
-    command: celery -A api_spot beat --loglevel=info
-    restart: always
-    depends_on:
-      - backend
-      - redis
-      - celery
-    env_file:
-      - ../.env
   
 volumes:
   static_value:
