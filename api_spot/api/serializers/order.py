@@ -36,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
         return super().validate(data)
 
 
-class OrderGetSerializer(OrderSerializer):
+class OrderGetSerializer(serializers.ModelSerializer):
     location_name = serializers.StringRelatedField(source='spot.location.name')
     location_photo = serializers.ImageField(source='spot.location.main_photo')
 
@@ -45,9 +45,8 @@ class OrderGetSerializer(OrderSerializer):
         model = Order
 
         fields = (
-            'id', 'user', 'spot',
-            'date', 'start_time',
-            'end_time', 'status',
+            'id', 'date',
+            'start_time', 'end_time', 'status',
             'location_name', 'location_photo',
             'bill'
         )
