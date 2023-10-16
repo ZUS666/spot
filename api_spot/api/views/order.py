@@ -3,11 +3,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 from api.filters import OrderFilter
 from api.mixins import CreateUpdateViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
-from api.serializers.order import OrderSerializer, OrderUpdateSerializer
+from api.serializers.order import (
+    OrderGetSerializer, OrderSerializer, OrderUpdateSerializer,
+)
 from api.services.orders import order_cancel_email, order_confirmation_email
 from api.tasks import change_status_task
 from spots.constants import CANCEL, PAID, WAIT_PAY
@@ -55,15 +58,13 @@ class OrderGetViewSet(RetrieveListViewSet):
     фильтрации по статусу "завершен".
     """
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    serializer_class = OrderGetSerializer
     filter_backends = (DjangoFilterBackend,
                        filters.OrderingFilter)
     filterset_class = OrderFilter
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
         """Получение выборки с заказами для текущего пользователя."""
-        if self.request.user.is_authenticated:
-            return super().get_queryset().filter(user=self.request.user)
-        return super().get_queryset()
+        return super().get_queryset().filter(user=self.request.user)
