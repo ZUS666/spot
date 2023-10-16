@@ -38,16 +38,19 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderGetSerializer(OrderSerializer):
     location_name = serializers.StringRelatedField(source='spot.location.name')
+    location_photo = serializers.ImageField(source='spot.location.main_photo')
 
     class Meta:
         """Класс мета для модели Order."""
         model = Order
+
         fields = (
             'id', 'user', 'spot',
             'date', 'start_time',
-            'end_time', 'bill', 'status', 'location_name'
+            'end_time', 'status',
+            'location_name', 'location_photo',
+            'bill'
         )
-        read_only_fields = ('bill',)
 
 
 class OrderUpdateSerializer(serializers.ModelSerializer):

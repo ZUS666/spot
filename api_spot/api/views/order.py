@@ -8,7 +8,7 @@ from api.filters import OrderFilter
 from api.mixins import CreateUpdateViewSet, RetrieveListViewSet
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import (
-    OrderSerializer, OrderGetSerializer, OrderUpdateSerializer
+    OrderGetSerializer, OrderSerializer, OrderUpdateSerializer,
 )
 from api.services.orders import order_cancel_email, order_confirmation_email
 from api.tasks import change_status_task
@@ -68,4 +68,4 @@ class OrderGetViewSet(RetrieveListViewSet):
         """Получение выборки с заказами для текущего пользователя."""
         if self.request.user.is_authenticated:
             return super().get_queryset().filter(user=self.request.user)
-        return super().get_queryset()
+        return super().get_queryset().none()
