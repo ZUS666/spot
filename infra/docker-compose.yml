@@ -26,7 +26,7 @@ services:
       - ../.env
   
   frontend:
-    image: spotit2709/front:latest
+    image: spotit2709/frontend:latest
     volumes:
       - frontend:/app/result_build/build/
 
