@@ -54,7 +54,7 @@ class OrderGetSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'date',
             'start_time', 'end_time', 'status',
-            'location_id',
+            'location_id', 'spot',
             'location_name', 'location_photo',
             'bill'
         )
