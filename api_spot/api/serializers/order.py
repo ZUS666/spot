@@ -43,6 +43,7 @@ class OrderGetSerializer(serializers.ModelSerializer):
     end_time = serializers.TimeField(
         format=settings.TIME_FORMAT
     )
+    location_id = serializers.IntegerField(source='spot.location.id')
     location_name = serializers.StringRelatedField(source='spot.location.name')
     location_photo = serializers.ImageField(source='spot.location.main_photo')
 
@@ -53,6 +54,7 @@ class OrderGetSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'date',
             'start_time', 'end_time', 'status',
+            'location_id',
             'location_name', 'location_photo',
             'bill'
         )
