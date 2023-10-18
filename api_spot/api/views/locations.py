@@ -1,6 +1,7 @@
+from django.db.models import Min, Count, F, OuterRef, Subquery, Avg
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
-from rest_framework import filters
+from rest_framework import filters, viewsets, mixins
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny
@@ -8,9 +9,9 @@ from rest_framework.permissions import AllowAny
 from api.filters import LocationFilter
 from api.mixins import RetrieveListViewSet
 from api.serializers import (
-    LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer,
+    LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer, LocationGetArsenySerializer
 )
-from spots.models import Location
+from spots.models import Location, Price, Spot
 
 
 class LocationViewSet(RetrieveListViewSet):
@@ -50,9 +51,56 @@ class LocationMapListAPIView(ListAPIView):
     """
     Представление краткой информации о локациях для отображения на карте.
     """
-    queryset = Location.objects.all().prefetch_related('small_main_photo')
+    queryset = Location.objects.prefetch_related('small_main_photo').all()
     serializer_class = LocationMapSerializer
     permission_classes = (AllowAny,)
     pagination_class = LimitOffsetPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = LocationFilter
+
+
+class LocationArsenyViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+    """
+    Представление подробной информации о локациях с возможностью фильтрации
+    по названию, категориям, метро и избранному.
+    """
+    queryset = Location.objects.all()
+    serializer_class = LocationGetArsenySerializer
+    permission_classes = (AllowAny,)
+    # pagination_class = LimitOffsetPagination
+    # filter_backends = (DjangoFilterBackend,)
+    # filterset_class = LocationFilter
+
+    def get_queryset(self):
+        qs = Spot.objects.filter(category='Переговорная').values('id')
+        qs = Location.objects.all().annotate(
+            minprice=Subquery(
+                Spot.objects.filter(location=OuterRef('id'))
+                .values('location')
+                .annotate(min=Min('price__total_price'))
+                .values('min')
+            ),
+            rating_1=Subquery(
+                Spot.objects.filter(location=OuterRef('id'))
+                .values('location')
+                .annotate(avg=Avg('orders__reviews__rating'))
+                .values('avg')
+            ),
+            workspace=Subquery(
+                Spot.objects.filter(
+                    location=OuterRef('id'),
+                    category='Рабочее место'
+                ).values('location')
+                .annotate(count=Count('pk'))
+                .values('count')
+            ),
+            meetings=Subquery(
+                Spot.objects.filter(
+                    location=OuterRef('id'),
+                    category='Переговорная'
+                ).values('location')
+                .annotate(count=Count('pk'))
+                .values('count')
+            ),
+        )
+        return qs

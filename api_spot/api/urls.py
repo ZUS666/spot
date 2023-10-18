@@ -6,7 +6,7 @@ from api.views import (
     LocationMapListAPIView, LocationShortListAPIView, LocationViewSet,
     OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView, QuestionViewSet,
     ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet, SpotViewSet,
-    UserViewSet,
+    UserViewSet, LocationArsenyViewSet
 )
 
 
@@ -48,6 +48,14 @@ router_api_v1.register(
     LocationViewSet,
     basename='locations'
 )
+
+router_api_v1.register(
+    r'locations_arseny',
+    LocationArsenyViewSet,
+    basename='locations_1'
+)
+
+
 router_api_v1.register(
     r'locations/(?P<location_id>\d+)/spots',
     SpotViewSet,

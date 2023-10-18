@@ -3,7 +3,7 @@ from .equipment import EquipmentViewSet
 from .event import EventViewSet
 from .favorite import FavoriteViewSet
 from .locations import (
-    LocationMapListAPIView, LocationShortListAPIView, LocationViewSet,
+    LocationMapListAPIView, LocationShortListAPIView, LocationViewSet, LocationArsenyViewSet
 )
 from .order import OrderGetViewSet, OrderViewSet
 from .pay import PayView

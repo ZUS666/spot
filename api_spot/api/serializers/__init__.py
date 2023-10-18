@@ -3,7 +3,7 @@ from .equipment import EquipmentGetSerializer
 from .event import EventSerializer
 from .extra_photo import ExtraPhotoGetSerializer
 from .locations import (
-    LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer,
+    LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer, LocationGetArsenySerializer
 )
 from .plan_photo import PlanPhotoGetSerializer
 from .question import QuestionSerializer
