@@ -67,4 +67,6 @@ class OrderGetViewSet(RetrieveListViewSet):
 
     def get_queryset(self):
         """Получение выборки с заказами для текущего пользователя."""
-        return super().get_queryset().filter(user=self.request.user)
+        return super().get_queryset().prefetch_related('spot').filter(
+            user=self.request.user
+        )
