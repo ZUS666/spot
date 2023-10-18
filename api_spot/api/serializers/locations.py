@@ -12,57 +12,42 @@ class LocationGetArsenySerializer(serializers.Serializer):
     """
     Сериализатор для вывода подбробной информации о локации.
     """
-    # open_time = serializers.TimeField(format=settings.TIME_FORMAT)
-    # close_time = serializers.TimeField(format=settings.TIME_FORMAT)
-    # extra_photo = ExtraPhotoGetSerializer(
-    #     many=True,
-    #     read_only=True,
-    #     source='location_extra_photo'
-    # )
-    # is_favorited = serializers.SerializerMethodField()
-    # coordinates = serializers.SerializerMethodField()
+    id = serializers.IntegerField()
     name = serializers.CharField()
+    get_full_address_str = serializers.CharField()
+    metro = serializers.CharField()
+    open_time = serializers.TimeField(format=settings.TIME_FORMAT)
+    close_time = serializers.TimeField(format=settings.TIME_FORMAT)
+    extra_photo = ExtraPhotoGetSerializer(
+        many=True,
+        read_only=True,
+        source='location_extra_photo'
+    )
+    main_photo = serializers.ImageField()
+    is_favorited = serializers.SerializerMethodField()
+    coordinates = serializers.SerializerMethodField()
+    short_annotation = serializers.CharField()
+    description = serializers.CharField()
+    days_open = serializers.CharField()
     minprice = serializers.DecimalField(max_digits=10, decimal_places=2)
     workspace = serializers.IntegerField()
     meetings = serializers.IntegerField()
     rating_1 = serializers.DecimalField(max_digits=3, decimal_places=2)
 
-    # class Meta:
-    #     model = Location
-    #     fields = (
-    #         'id',
-    #         'name',
-    #         'get_full_address_str',
-    #         'metro',
-    #         'open_time',
-    #         'close_time',
-    #         'price',
-    #         'main_photo',
-    #         'extra_photo',
-    #         # 'rating',
-    #         'short_annotation',
-    #         'description',
-    #         'is_favorited',
-    #         # 'count_workspace',
-    #         # 'count_meeting_room',
-    #         'coordinates',
-    #         'days_open'
-    #     )
+    def get_is_favorited(self, instance, *args, **kwargs) -> bool:
+        """
+        Отображение наличия location в избранном при листинге location.
+        """
+        user = self.context['request'].user
+        if not user.is_authenticated:
+            return False
+        return instance.favorites.filter(user_id=user.id).exists()
 
-    # def get_is_favorited(self, instance, *args, **kwargs) -> bool:
-    #     """
-    #     Отображение наличия location в избранном при листинге location.
-    #     """
-    #     user = self.context['request'].user
-    #     if not user.is_authenticated:
-    #         return False
-    #     return instance.favorites.filter(user_id=user.id).exists()
-
-    # def get_coordinates(self, instance) -> list[Decimal]:
-    #     """
-    #     Список координат
-    #     """
-    #     return [instance.latitude, instance.longitude, ]
+    def get_coordinates(self, instance) -> list[Decimal]:
+        """
+        Список координат
+        """
+        return [instance.latitude, instance.longitude, ]
 
 
 class LocationGetSerializer(serializers.ModelSerializer):

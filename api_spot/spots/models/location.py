@@ -5,7 +5,6 @@ from spots.constants import (
     DAYS_CHOICES, END_CHOICES, LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
     LONG_MIN, LONG_MSG_ERROR, MEETING_ROOM, NAME_CACHE_MEETING_ROOM,
     NAME_CACHE_WORKSPACE, START_CHOICES, WORK_SPACE,
-
 )
 from spots.services import count_spots, get_low_price, get_rating_location
 

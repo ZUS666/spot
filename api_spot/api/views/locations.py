@@ -1,7 +1,7 @@
-from django.db.models import Min, Count, F, OuterRef, Subquery, Avg
+from django.db.models import Avg, Count, Min, OuterRef, Subquery
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
-from rest_framework import filters, viewsets, mixins
+from rest_framework import filters, mixins, viewsets
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny
@@ -9,9 +9,10 @@ from rest_framework.permissions import AllowAny
 from api.filters import LocationFilter
 from api.mixins import RetrieveListViewSet
 from api.serializers import (
-    LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer, LocationGetArsenySerializer
+    LocationGetArsenySerializer, LocationGetSerializer,
+    LocationGetShortSerializer, LocationMapSerializer,
 )
-from spots.models import Location, Price, Spot
+from spots.models import Location, Spot
 
 
 class LocationViewSet(RetrieveListViewSet):
@@ -67,12 +68,11 @@ class LocationArsenyViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     queryset = Location.objects.all()
     serializer_class = LocationGetArsenySerializer
     permission_classes = (AllowAny,)
-    # pagination_class = LimitOffsetPagination
-    # filter_backends = (DjangoFilterBackend,)
-    # filterset_class = LocationFilter
+    pagination_class = LimitOffsetPagination
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = LocationFilter
 
     def get_queryset(self):
-        qs = Spot.objects.filter(category='Переговорная').values('id')
         qs = Location.objects.all().annotate(
             minprice=Subquery(
                 Spot.objects.filter(location=OuterRef('id'))
@@ -103,4 +103,4 @@ class LocationArsenyViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
                 .values('count')
             ),
         )
-        return qs
+        return qs.prefetch_related('location_extra_photo')

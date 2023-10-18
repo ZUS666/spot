@@ -3,10 +3,10 @@ from rest_framework.routers import DefaultRouter
 
 from api.views import (
     AddSpotsAPIView, EquipmentViewSet, EventViewSet, FavoriteViewSet,
-    LocationMapListAPIView, LocationShortListAPIView, LocationViewSet,
-    OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView, QuestionViewSet,
-    ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet, SpotViewSet,
-    UserViewSet, LocationArsenyViewSet
+    LocationArsenyViewSet, LocationMapListAPIView, LocationShortListAPIView,
+    LocationViewSet, OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView,
+    QuestionViewSet, ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet,
+    SpotViewSet, UserViewSet,
 )
 
 
