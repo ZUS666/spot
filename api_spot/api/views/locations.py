@@ -1,4 +1,5 @@
-from django.db.models import Avg, Count, Min, OuterRef, Subquery
+from django.db.models import Avg, Count, Min, OuterRef, Subquery, Value
+from django.db.models.functions import Coalesce
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters, mixins, viewsets
@@ -80,27 +81,27 @@ class LocationArsenyViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
                 .annotate(min=Min('price__total_price'))
                 .values('min')
             ),
-            rating_1=Subquery(
+            rating_1=Coalesce(Subquery(
                 Spot.objects.filter(location=OuterRef('id'))
                 .values('location')
                 .annotate(avg=Avg('orders__reviews__rating'))
                 .values('avg')
-            ),
-            workspace=Subquery(
+            ), Value(0.0)),
+            workspace=Coalesce(Subquery(
                 Spot.objects.filter(
                     location=OuterRef('id'),
                     category='Рабочее место'
                 ).values('location')
                 .annotate(count=Count('pk'))
                 .values('count')
-            ),
-            meetings=Subquery(
+            ), Value(0)),
+            meetings=Coalesce(Subquery(
                 Spot.objects.filter(
                     location=OuterRef('id'),
                     category='Переговорная'
                 ).values('location')
                 .annotate(count=Count('pk'))
                 .values('count')
-            ),
+            ), Value(0)),
         )
         return qs.prefetch_related('location_extra_photo')

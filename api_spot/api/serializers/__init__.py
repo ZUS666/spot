@@ -16,6 +16,7 @@ AddSpotsSerializer
 EquipmentGetSerializer
 EventSerializer
 ExtraPhotoGetSerializer
+LocationGetArsenySerializer
 LocationGetSerializer
 LocationGetShortSerializer
 LocationMapSerializer

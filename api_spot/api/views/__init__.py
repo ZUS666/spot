@@ -19,6 +19,7 @@ from .users import UserViewSet
 AddSpotsAPIView
 EquipmentViewSet
 EventViewSet
+LocationArsenyViewSet
 FavoriteViewSet
 LocationMapListAPIView
 LocationViewSet

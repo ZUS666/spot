@@ -18,21 +18,21 @@ class LocationGetArsenySerializer(serializers.Serializer):
     metro = serializers.CharField()
     open_time = serializers.TimeField(format=settings.TIME_FORMAT)
     close_time = serializers.TimeField(format=settings.TIME_FORMAT)
+    minprice = serializers.DecimalField(max_digits=10, decimal_places=2)
+    main_photo = serializers.ImageField()
     extra_photo = ExtraPhotoGetSerializer(
         many=True,
         read_only=True,
         source='location_extra_photo'
     )
-    main_photo = serializers.ImageField()
-    is_favorited = serializers.SerializerMethodField()
-    coordinates = serializers.SerializerMethodField()
+    rating_1 = serializers.DecimalField(max_digits=3, decimal_places=2)
     short_annotation = serializers.CharField()
     description = serializers.CharField()
-    days_open = serializers.CharField()
-    minprice = serializers.DecimalField(max_digits=10, decimal_places=2)
+    is_favorited = serializers.SerializerMethodField()
     workspace = serializers.IntegerField()
     meetings = serializers.IntegerField()
-    rating_1 = serializers.DecimalField(max_digits=3, decimal_places=2)
+    coordinates = serializers.SerializerMethodField()
+    days_open = serializers.CharField()
 
     def get_is_favorited(self, instance, *args, **kwargs) -> bool:
         """
@@ -77,7 +77,6 @@ class LocationGetSerializer(serializers.ModelSerializer):
             'main_photo',
             'extra_photo',
             'rating',
-            'low_price',
             'short_annotation',
             'description',
             'is_favorited',
