@@ -30,8 +30,7 @@ class EquipmentViewSet(RetrieveListViewSet):
         location_id = self.kwargs.get('location_id')
         get_object_or_404(Location, id=location_id)
         return super().get_queryset().select_related(
-            'spot'
-        ).select_related(
+            'spot',
             'equipment'
         ).filter(
             spot__location=location_id
