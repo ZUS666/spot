@@ -21,7 +21,9 @@ class FavoriteViewSet(CreateDestroyViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return self.request.user.favorites.all()
+        return self.request.user.favorites.all().select_related(
+            'location'
+        )
 
     def delete(self, request, location_id):
         """Удаление избраного."""
