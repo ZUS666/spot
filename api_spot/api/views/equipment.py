@@ -27,6 +27,10 @@ class EquipmentViewSet(RetrieveListViewSet):
     def get_queryset(self):
         """Получение выборки с обородуванием."""
         location_id = self.kwargs.get('location_id')
-        return super().get_queryset().filter(
+        return super().get_queryset().select_related(
+            'spot'
+        ).select_related(
+            'equipment'
+        ).filter(
             spot__location=location_id
         ).distinct('equipment')  # only postgers
