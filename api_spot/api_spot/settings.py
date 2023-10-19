@@ -10,8 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = False
-ALLOWED_HOSTS = (os.getenv('ALLOWED_HOSTS'), 'localhost', '127.0.0.1', '[::1]')
+DEBUG = True
+ALLOWED_HOSTS = (os.getenv('ALLOWED_HOSTS'), 'localhost:9000', '127.0.0.1', '[::1]')
 
 
 INSTALLED_APPS = [
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'corsheaders',
     'ckeditor',
+    'storages',
 
     'users',
     'spots',
@@ -110,11 +111,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOWED_ORIGINS = [
@@ -124,7 +121,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CSRF_TRUSTED_ORIGINS = (
     'http://localhost',
-    'https://' + os.getenv('ALLOWED_HOSTS')
+    'https://' + os.getenv('ALLOWED_HOSTS'),
+    'http://' + os.getenv('ALLOWED_HOSTS')
+    
 )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -181,5 +180,53 @@ CACHES = {
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
+    },
+}
+
+MINIO_ACCESS_KEY = os.getenv("MINIO_ROOT_USER")
+MINIO_SECRET_KEY = os.getenv("MINIO_ROOT_PASSWORD")
+# MINIO_BUCKET_NAME = os.getenv("MINIO_BUCKET_NAME")
+# MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT")
+
+# AWS_ACCESS_KEY_ID = MINIO_ACCESS_KEY
+# AWS_SECRET_ACCESS_KEY = MINIO_SECRET_KEY
+AWS_S3_ENDPOINT_URL = 'http://minio:9000'
+
+AWS_S3_USE_SSL = False
+AWS_S3_URL_PROTOCOL = 'http:'
+AWS_S3_REGION_NAME = 'eu-west-1'
+
+STATIC_URL = 'http://minio/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = "http://localhost/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'storages.backends.s3.S3Storage',
+        'OPTIONS': {
+            "bucket_name": 'media',
+            "region_name": AWS_S3_REGION_NAME,
+            'url_protocol': AWS_S3_URL_PROTOCOL,
+            'use_ssl': AWS_S3_USE_SSL,
+            'endpoint_url': AWS_S3_ENDPOINT_URL,
+            'querystring_auth': False,
+            'default_acl': 'public-read',
+        }
+    },
+    'staticfiles': {
+        'BACKEND': 'storages.backends.s3.S3Storage',
+        'OPTIONS': {
+            'access_key': 'qAgRpNXvgBN8VlNnSUsl',
+            'secret_key': 'lnw3QsilEQy0V0Yoe4lq3F2tj8MuSl2WUk5pc99A',
+            "bucket_name": 'static',
+            "region_name": AWS_S3_REGION_NAME,
+            'url_protocol': AWS_S3_URL_PROTOCOL,
+            'use_ssl': AWS_S3_USE_SSL,
+            'endpoint_url': AWS_S3_ENDPOINT_URL,
+            'querystring_auth': False,
+            # 'default_acl': 'public-read',
+        }
     },
 }
