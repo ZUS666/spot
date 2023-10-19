@@ -27,13 +27,23 @@ class LocationFilter(filters.FilterSet):
     """
     Фильтрация локаций по названию, метро, категориям спотов и избранному.
     """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.filters['metro'].extra['choices'] = self.get_metro_choices()
+
+    def get_metro_choices(self):
+        metro_list = Location.objects.values_list(
+            'metro', flat=True
+        ).distinct()
+        return [(metro, metro) for metro in metro_list]
+
     name = filters.CharFilter(
         field_name='name',
         lookup_expr='istartswith',
     )
-    metro = filters.CharFilter(
-        field_name='metro',
-        lookup_expr='istartswith',
+    metro = filters.MultipleChoiceFilter(
+        choices=[]
     )
     city = filters.CharFilter(
         field_name='city',
