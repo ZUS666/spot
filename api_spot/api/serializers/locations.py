@@ -134,6 +134,7 @@ class LocationMapSerializer(LocationGetSerializer):
             'id',
             'name',
             'get_full_address_str',
+            'metro',
             'rating',
             'small_photo',
             'coordinates',

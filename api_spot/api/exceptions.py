@@ -32,5 +32,5 @@ class OrderStatusError(exceptions.ValidationError):
 class AddSpotsError(exceptions.ValidationError):
     default_code = 'unique name in location'
     default_detail = {
-        'error': 'название уже есть в локации'
+        'error': 'Название уже есть в локации'
     }
