@@ -40,7 +40,7 @@ class LocationShortListAPIView(ListAPIView):
     pagination_class = LimitOffsetPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filterset_class = LocationFilter
-    search_fields = ('^name',)
+    search_fields = ('$name', )
 
 
 @extend_schema(
