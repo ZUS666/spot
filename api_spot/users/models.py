@@ -66,7 +66,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
         validators=(NamesValidator(),)
     )
-    email = models.EmailField('Электронная почта', unique=True)
+    email = models.EmailField(
+        'Электронная почта',
+        unique=True,
+        error_messages={
+            'unique': 'Этот адрес электронной почты уже зарегистрован.'
+        }
+    )
     phone = modelfields.PhoneNumberField(
         'Телефон',
         region='RU',
