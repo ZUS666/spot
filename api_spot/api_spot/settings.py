@@ -190,6 +190,7 @@ if not DEBUG:
     AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
     AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
     AWS_S3_USE_SSL = False
+    AWS_S3_URL_PROTOCOL = 'http:'
 
     STORAGES = {
         'default': {
@@ -201,6 +202,7 @@ if not DEBUG:
                 "region_name": AWS_S3_REGION_NAME,
                 'use_ssl': AWS_S3_USE_SSL,
                 'endpoint_url': AWS_S3_ENDPOINT_URL,
+                'url_protocol': AWS_S3_URL_PROTOCOL,
             }
         },
         'staticfiles': {
@@ -212,6 +214,7 @@ if not DEBUG:
                 "region_name": AWS_S3_REGION_NAME,
                 'use_ssl': AWS_S3_USE_SSL,
                 'endpoint_url': AWS_S3_ENDPOINT_URL,
+                'url_protocol': AWS_S3_URL_PROTOCOL,
             }
         },
     }
