@@ -71,7 +71,9 @@ class OrderGetViewSet(RetrieveListViewSet):
     Представление заказов авторизованного пользователя с возможностью
     фильтрации по статусу "завершен".
     """
-    queryset = Order.objects.all()
+    queryset = Order.objects.select_related(
+        'reviews',
+    ).all()
     serializer_class = OrderGetSerializer
     filter_backends = (DjangoFilterBackend,
                        filters.OrderingFilter)
@@ -81,6 +83,8 @@ class OrderGetViewSet(RetrieveListViewSet):
 
     def get_queryset(self):
         """Получение выборки с заказами для текущего пользователя."""
-        return super().get_queryset().prefetch_related('spot').filter(
+        return super().get_queryset().prefetch_related(
+            'spot', 'spot__location'
+        ).filter(
             user=self.request.user
         )

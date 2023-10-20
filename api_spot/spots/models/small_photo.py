@@ -2,7 +2,7 @@ from django.db import models
 
 from spots.constants import SMALL_HEIGHT, SMALL_WIDTH
 from spots.models.location import Location
-from spots.utils import prepare_image
+from spots.services import image_resize
 
 
 class SmallMainPhoto(models.Model):
@@ -19,9 +19,8 @@ class SmallMainPhoto(models.Model):
 
     def save(self, *args, **kwargs):
         """Обработка изображения после сохранения в базу данных"""
+        image_resize(self.image, SMALL_WIDTH, SMALL_HEIGHT)
         super(SmallMainPhoto, self).save(*args, **kwargs)
-        if self.image:
-            prepare_image(self.image.path, SMALL_WIDTH, SMALL_HEIGHT)
 
     class Meta:
         verbose_name = 'Укороченное фото'
