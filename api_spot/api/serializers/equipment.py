@@ -8,7 +8,7 @@ class EquipmentGetSerializer(serializers.ModelSerializer):
     Сериализатор для вывода оборудование.
     """
     name = serializers.CharField(source='equipment.name')
-    icon = serializers.CharField(source='equipment.icon')
+    icon = serializers.FileField(source='equipment.icon')
     category = serializers.CharField(source='spot.category')
 
     class Meta:
