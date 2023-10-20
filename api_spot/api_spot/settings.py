@@ -11,6 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False
+
 ALLOWED_HOSTS = (os.getenv('ALLOWED_HOSTS'), 'localhost', '127.0.0.1', '[::1]')
 
 
@@ -183,3 +184,38 @@ SWAGGER_SETTINGS = {
         'Token': {'type': 'apiKey', 'name': 'Authorization', 'in': 'header'},
     },
 }
+
+if not DEBUG:
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+    AWS_S3_URL_PROTOCOL = os.getenv('AWS_S3_URL_PROTOCOL')
+    AWS_S3_USE_SSL = os.getenv('AWS_S3_USE_SSL')
+    AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
+    
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.s3.S3Storage',
+            'OPTIONS': {
+                'bucket_name': 'media',
+                'access_key': AWS_ACCESS_KEY_ID,
+                'secret_key': AWS_SECRET_ACCESS_KEY,
+                "region_name": AWS_S3_REGION_NAME,
+                'url_protocol': AWS_S3_URL_PROTOCOL,
+                'use_ssl': AWS_S3_USE_SSL,
+                'endpoint_url': AWS_S3_ENDPOINT_URL,
+            }
+        },
+        'staticfiles': {
+            'BACKEND': 'storages.backends.s3.S3StaticStorage',
+            'OPTIONS': {
+                'bucket_name': 'static',
+                'access_key': AWS_ACCESS_KEY_ID,
+                'secret_key': AWS_SECRET_ACCESS_KEY,
+                "region_name": AWS_S3_REGION_NAME,
+                'url_protocol': AWS_S3_URL_PROTOCOL,
+                'use_ssl': AWS_S3_USE_SSL,
+                'endpoint_url': AWS_S3_ENDPOINT_URL,
+            }
+        },
+    }

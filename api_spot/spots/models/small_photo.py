@@ -2,7 +2,7 @@ from django.db import models
 
 from spots.constants import SMALL_HEIGHT, SMALL_WIDTH
 from spots.models.location import Location
-from spots.utils import image_resize
+from spots.services import image_resize
 
 
 class SmallMainPhoto(models.Model):
