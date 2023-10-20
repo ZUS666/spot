@@ -86,6 +86,5 @@ def image_resize(image, width, height):
         img_format = image_types[img_suffix]
         buffer = BytesIO()
         img.save(buffer, format=img_format)
-        print(img.width, img.height)
         file_object = ContentFile(buffer.getvalue())
         image.save(img_filename, file_object)

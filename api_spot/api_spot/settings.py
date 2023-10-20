@@ -1,6 +1,6 @@
 import os
-from pathlib import Path
 
+from pathlib import Path
 from dotenv import load_dotenv
 
 
@@ -188,20 +188,18 @@ SWAGGER_SETTINGS = {
 if not DEBUG:
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
-    AWS_S3_URL_PROTOCOL = os.getenv('AWS_S3_URL_PROTOCOL')
-    AWS_S3_USE_SSL = os.getenv('AWS_S3_USE_SSL')
     AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
+    AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+    AWS_S3_USE_SSL = False
     
     STORAGES = {
         'default': {
             'BACKEND': 'storages.backends.s3.S3Storage',
             'OPTIONS': {
-                'bucket_name': 'media',
+                'bucket_name': 'asd',
                 'access_key': AWS_ACCESS_KEY_ID,
                 'secret_key': AWS_SECRET_ACCESS_KEY,
                 "region_name": AWS_S3_REGION_NAME,
-                'url_protocol': AWS_S3_URL_PROTOCOL,
                 'use_ssl': AWS_S3_USE_SSL,
                 'endpoint_url': AWS_S3_ENDPOINT_URL,
             }
@@ -213,7 +211,6 @@ if not DEBUG:
                 'access_key': AWS_ACCESS_KEY_ID,
                 'secret_key': AWS_SECRET_ACCESS_KEY,
                 "region_name": AWS_S3_REGION_NAME,
-                'url_protocol': AWS_S3_URL_PROTOCOL,
                 'use_ssl': AWS_S3_USE_SSL,
                 'endpoint_url': AWS_S3_ENDPOINT_URL,
             }
