@@ -7,19 +7,22 @@ from spots.models.review import Review
 
 class ReviewSerializer(serializers.ModelSerializer):
     """Сериализатор модели отзывов."""
-    user = serializers.HiddenField(
-        default=serializers.CurrentUserDefault()
-    )
     booked_spot = serializers.HiddenField(default=GetOrder())
-    first_name = StringRelatedField(source='user.first_name', read_only=True)
-    last_name = StringRelatedField(source='user.last_name', read_only=True)
+    first_name = StringRelatedField(
+        source='booked_spot.user.first_name',
+        read_only=True
+    )
+    last_name = StringRelatedField(
+        source='booked_spot.user.last_name',
+        read_only=True
+    )
 
     class Meta:
         """Класс мета для модели Review."""
         model = Review
         fields = (
             'id', 'booked_spot',
-            'description', 'rating', 'user',
+            'description', 'rating',
             'first_name', 'last_name', 'pub_date',
         )
 
@@ -31,8 +34,14 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 class ReviewGetSerializer(serializers.ModelSerializer):
     """Сериализатор модели отзывов для получения."""
-    first_name = StringRelatedField(source='user.first_name', read_only=True)
-    last_name = StringRelatedField(source='user.last_name', read_only=True)
+    first_name = StringRelatedField(
+        source='booked_spot.user.first_name',
+        read_only=True
+    )
+    last_name = StringRelatedField(
+        source='booked_spot.user.last_name',
+        read_only=True
+    )
 
     class Meta:
         """Класс мета для модели Review."""

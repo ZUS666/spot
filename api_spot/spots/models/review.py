@@ -12,14 +12,7 @@ User = get_user_model()
 
 class Review(models.Model):
     """Класс для отзывов"""
-    user = models.ForeignKey(
-        User,
-        blank=True, null=True,
-        verbose_name='Автор',
-        on_delete=models.SET_NULL,
-        related_name='reviews'
-    )
-    booked_spot = models.ForeignKey(
+    booked_spot = models.OneToOneField(
         Order,
         verbose_name='Заказ',
         on_delete=models.CASCADE,
@@ -54,12 +47,6 @@ class Review(models.Model):
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
         ordering = ('id', )
-        constraints = (
-            models.UniqueConstraint(
-                fields=('user', 'booked_spot'),
-                name='unique_user_order_review'
-            ),
-        )
 
     def __str__(self) -> str:
         return f'Отзыв {self.pk}'
