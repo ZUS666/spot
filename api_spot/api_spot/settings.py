@@ -196,7 +196,7 @@ if not DEBUG:
         'default': {
             'BACKEND': 'storages.backends.s3.S3Storage',
             'OPTIONS': {
-                'bucket_name': 'asd',
+                'bucket_name': 'media',
                 'access_key': AWS_ACCESS_KEY_ID,
                 'secret_key': AWS_SECRET_ACCESS_KEY,
                 "region_name": AWS_S3_REGION_NAME,
