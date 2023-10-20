@@ -1,6 +1,6 @@
 import os
-
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 
@@ -191,7 +191,7 @@ if not DEBUG:
     AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
     AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
     AWS_S3_USE_SSL = False
-    
+
     STORAGES = {
         'default': {
             'BACKEND': 'storages.backends.s3.S3Storage',
