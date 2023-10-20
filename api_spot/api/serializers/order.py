@@ -56,7 +56,7 @@ class OrderGetSerializer(serializers.ModelSerializer):
             'start_time', 'end_time', 'status',
             'location_id', 'spot',
             'location_name', 'location_photo',
-            'bill'
+            'bill', 'reviews'
         )
 
 
