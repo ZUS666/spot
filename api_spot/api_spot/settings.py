@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "kolo.middleware.KoloMiddleware",
 ]
 
 ROOT_URLCONF = 'api_spot.urls'

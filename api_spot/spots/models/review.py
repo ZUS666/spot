@@ -16,7 +16,10 @@ class Review(models.Model):
         Order,
         verbose_name='Заказ',
         on_delete=models.CASCADE,
-        related_name='reviews'
+        related_name='reviews',
+        error_messages={
+            'unique': 'Отзыв у этого Заказа уже существует.'
+        }
     )
     rating = models.PositiveSmallIntegerField(
         'Оценка отзыва',
