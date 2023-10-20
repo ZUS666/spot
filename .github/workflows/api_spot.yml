@@ -80,7 +80,6 @@ jobs:
             echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
             echo HOST=${{ secrets.HOST }} >> .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
-            
 
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -101,6 +100,11 @@ jobs:
             echo GMAIL_API_CLIENT_SECRET=${{ secrets.GMAIL_API_CLIENT_SECRET }} >> .env
             echo GMAIL_API_REFRESH_TOKEN=${{ secrets.GMAIL_API_REFRESH_TOKEN }} >> .env
             echo COMPANY_NAME=${{ secrets.COMPANY_NAME }} >> .env
+
+            echo AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }} >> .env
+            echo AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY }} >> .env
+            echo AWS_S3_ENDPOINT_URL=${{ AWS_S3_ENDPOINT_URL }} >> .env
+            echo AWS_S3_REGION_NAME=${{ AWS_S3_REGION_NAME }} >> .env
 
             cd infra
             
