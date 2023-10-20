@@ -6,7 +6,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ../.envdocker
+      - ../.devenv
   
   redis:
     image: redis:latest
@@ -22,7 +22,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ../.envdocker
+      - ../.devenv
   
   frontend:
     image: spotit2709/frontend:latest
@@ -38,7 +38,7 @@ services:
       - backend
       - redis
     env_file:
-      - ../.envdocker
+      - ../.devenv
 
   celery_beat:
       build:
@@ -50,7 +50,7 @@ services:
         - redis
         - celery
       env_file:
-        - ../.envdocker
+        - ../.devenv
 
   flower:
     image: mher/flower
