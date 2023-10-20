@@ -1,7 +1,9 @@
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters
+from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
@@ -41,15 +43,26 @@ class OrderViewSet(CreateUpdateViewSet):
         )
         order_confirmation_email(instance)
 
-    def partial_update(self, serializer):
-        instance = serializer.instance
+    def update(self, request, location_id, spot_id, pk, *args, **kwargs):
+        instance = get_object_or_404(
+            Order, pk=pk,
+            spot=spot_id,
+            spot__location=location_id
+        )
         if instance.status == PAID:
             instance.status = CANCEL
             instance.save()
             order_cancel_email(instance)
+            message = (
+                'Заказ отменен, письмо о возврате'
+                ' средст направлено на почту'
+            )
+            return Response({'message': message})
         if instance.status == WAIT_PAY:
             instance.status = CANCEL
             instance.save()
+            return Response({'message': 'Заказ отменен'})
+        return Response({'message': 'Заказ не отменен'})
 
 
 class OrderGetViewSet(RetrieveListViewSet):
@@ -67,4 +80,6 @@ class OrderGetViewSet(RetrieveListViewSet):
 
     def get_queryset(self):
         """Получение выборки с заказами для текущего пользователя."""
-        return super().get_queryset().filter(user=self.request.user)
+        return super().get_queryset().prefetch_related('spot').filter(
+            user=self.request.user
+        )

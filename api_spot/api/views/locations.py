@@ -22,8 +22,9 @@ class LocationViewSet(RetrieveListViewSet):
     serializer_class = LocationGetSerializer
     permission_classes = (AllowAny,)
     pagination_class = LimitOffsetPagination
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filterset_class = LocationFilter
+    search_fields = ('$name', )
 
 
 @extend_schema(
@@ -40,7 +41,7 @@ class LocationShortListAPIView(ListAPIView):
     pagination_class = LimitOffsetPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     filterset_class = LocationFilter
-    search_fields = ('^name',)
+    search_fields = ('$name', )
 
 
 @extend_schema(
@@ -50,7 +51,7 @@ class LocationMapListAPIView(ListAPIView):
     """
     Представление краткой информации о локациях для отображения на карте.
     """
-    queryset = Location.objects.all()
+    queryset = Location.objects.all().prefetch_related('small_main_photo')
     serializer_class = LocationMapSerializer
     permission_classes = (AllowAny,)
     pagination_class = LimitOffsetPagination
