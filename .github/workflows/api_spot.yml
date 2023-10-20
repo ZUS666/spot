@@ -101,10 +101,10 @@ jobs:
             echo GMAIL_API_REFRESH_TOKEN=${{ secrets.GMAIL_API_REFRESH_TOKEN }} >> .env
             echo COMPANY_NAME=${{ secrets.COMPANY_NAME }} >> .env
 
-            echo AWS_ACCESS_KEY_ID=${{ AWS_ACCESS_KEY_ID }} >> .env
-            echo AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_ACCESS_KEY }} >> .env
-            echo AWS_S3_ENDPOINT_URL=${{ AWS_S3_ENDPOINT_URL }} >> .env
-            echo AWS_S3_REGION_NAME=${{ AWS_S3_REGION_NAME }} >> .env
+            echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> .env
+            echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
+            echo AWS_S3_ENDPOINT_URL=${{ secrets.AWS_S3_ENDPOINT_URL }} >> .env
+            echo AWS_S3_REGION_NAME=${{ secrets.AWS_S3_REGION_NAME }} >> .env
 
             cd infra
             
