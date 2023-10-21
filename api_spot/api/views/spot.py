@@ -1,3 +1,4 @@
+from django.db.models import Exists, OuterRef
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiParameter, extend_schema
@@ -8,7 +9,8 @@ from api.mixins import RetrieveListViewSet
 from api.serializers import (
     SpotDetailSerializer, SpotQuerySerializer, SpotSerializer,
 )
-from spots.models import Location, Spot
+from spots.constants import CANCEL, NOT_PAID
+from spots.models import Location, Order, Spot
 from spots.validators import check_date_time
 
 
@@ -45,10 +47,26 @@ class SpotViewSet(RetrieveListViewSet):
             return SpotDetailSerializer
         return super().get_serializer_class()
 
-    def get_queryset(self):
+    def get_queryset(self, *args, **kwargs):
         location_id = self.kwargs.get('location_id')
+        if self.action == 'retrieve':
+            return super().get_queryset().filter(
+                location_id=location_id).select_related(
+                    'price', 'location')
+        date = self.request.query_params.get('date')
+        start_time = self.request.query_params.get('start_time')
+        end_time = self.request.query_params.get('end_time')
+        subquery = Exists(
+            Order.objects.filter(
+                spot_id=OuterRef('id'),
+                date=date,
+                start_time__lt=end_time,
+                end_time__gt=start_time,
+            ).exclude(status__in=[CANCEL, NOT_PAID])
+        )
         return super().get_queryset().filter(
-            location_id=location_id).select_related('price')
+            location_id=location_id).annotate(
+                is_ordered=subquery).select_related('price')
 
     def get_serializer_context(self):
         """
@@ -71,7 +89,4 @@ class SpotViewSet(RetrieveListViewSet):
             location,
             DRFValidationError,
         )
-        context['date'] = date
-        context['start_time'] = start_time
-        context['end_time'] = end_time
         return context
