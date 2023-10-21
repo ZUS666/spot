@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.conf import settings
+from django.core import cache
 from rest_framework import serializers
 
 from spots.models import Location
@@ -52,7 +53,15 @@ class LocationGetSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if not user.is_authenticated:
             return False
-        return instance.favorites.filter(user_id=user.id).exists()
+        is_favorited = cache.get(f'{user.id}is_favorited{instance.id}')
+        if is_favorited is None:
+            is_favorited = instance.favorites.filter(user_id=user.id).exists()
+            cache.set(
+                f'{user.id}is_favorited{instance.id}',
+                is_favorited,
+                5 * 60
+            )
+        return is_favorited
 
     def get_coordinates(self, instance) -> list[Decimal]:
         """
@@ -98,3 +107,45 @@ class LocationMapSerializer(LocationGetSerializer):
             'small_photo',
             'coordinates',
         )
+
+
+class LocationGetBigQuerySerializer(serializers.Serializer):
+    """
+    Сериализатор для вывода подбробной информации о локации.
+    """
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    get_full_address_str = serializers.CharField()
+    metro = serializers.CharField()
+    open_time = serializers.TimeField(format=settings.TIME_FORMAT)
+    close_time = serializers.TimeField(format=settings.TIME_FORMAT)
+    minprice = serializers.DecimalField(max_digits=10, decimal_places=2)
+    main_photo = serializers.ImageField()
+    extra_photo = ExtraPhotoGetSerializer(
+        many=True,
+        read_only=True,
+        source='location_extra_photo'
+    )
+    rating_1 = serializers.DecimalField(max_digits=3, decimal_places=2)
+    short_annotation = serializers.CharField()
+    description = serializers.CharField()
+    is_favorited = serializers.SerializerMethodField()
+    workspace = serializers.IntegerField()
+    meetings = serializers.IntegerField()
+    coordinates = serializers.SerializerMethodField()
+    days_open = serializers.CharField()
+
+    def get_is_favorited(self, instance, *args, **kwargs) -> bool:
+        """
+        Отображение наличия location в избранном при листинге location.
+        """
+        user = self.context['request'].user
+        if not user.is_authenticated:
+            return False
+        return instance.favorites.filter(user_id=user.id).exists()
+
+    def get_coordinates(self, instance) -> list[Decimal]:
+        """
+        Список координат
+        """
+        return [instance.latitude, instance.longitude, ]

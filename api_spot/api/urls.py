@@ -8,6 +8,7 @@ from api.views import (
     ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet, SpotViewSet,
     UserViewSet,
 )
+from api.views.locations import LocationBigQueryViewSet
 
 
 app_name = 'api'
@@ -67,6 +68,11 @@ router_api_v1.register(
     r'rules',
     RuleViewSet,
     basename='rules'
+)
+router_api_v1.register(
+    r'locationbigquery',
+    LocationBigQueryViewSet,
+    basename='locationsbq'
 )
 
 view_url = [
