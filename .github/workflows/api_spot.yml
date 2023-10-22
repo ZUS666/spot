@@ -95,6 +95,7 @@ jobs:
 
             echo FLOWER_PORT=${{ secrets.FLOWER_PORT }} >> .env
             echo FLOWER_URL_PREFIX=${{ secrets.FLOWER_URL_PREFIX }} >> .env
+            echo FLOWER_BASIC_AUTH=${{ secrets.FLOWER_BASIC_AUTH}} >> .env
 
             echo GMAIL_API_CLIENT_ID=${{ secrets.GMAIL_API_CLIENT_ID }} >> .env
             echo GMAIL_API_CLIENT_SECRET=${{ secrets.GMAIL_API_CLIENT_SECRET }} >> .env
