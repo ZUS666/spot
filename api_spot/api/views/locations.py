@@ -40,7 +40,6 @@ class LocationViewSet(RetrieveListViewSet):
             )
         else:
             qs = super().get_queryset().annotate(
-                is_favorited=Value(False),
                 low_price=Min('spots__price__total_price'),
                 rating=Avg('spots__orders__reviews__rating'),
             ).prefetch_related(
@@ -73,12 +72,10 @@ class LocationShortListAPIView(ListAPIView):
                 low_price=Min('spots__price__total_price'),
                 rating=Avg('spots__orders__reviews__rating')
             )
-        else:
-            return super().get_queryset().annotate(
-                is_favorited=Value(False),
-                low_price=Min('spots__price__total_price'),
-                rating=Avg('spots__orders__reviews__rating'),
-            )
+        return super().get_queryset().annotate(
+            low_price=Min('spots__price__total_price'),
+            rating=Avg('spots__orders__reviews__rating'),
+        )
 
 
 @extend_schema(
