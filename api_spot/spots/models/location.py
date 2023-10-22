@@ -8,8 +8,6 @@ from spots.constants import (
 )
 from spots.services import count_spots
 
-# , get_low_price, get_rating_location
-
 
 class Location(models.Model):
     name = models.CharField(
@@ -117,18 +115,6 @@ class Location(models.Model):
         Получение количества переговорных.
         """
         return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
-
-    # def rating(self, *args, **kwargs) -> float:
-    #     """
-    #     Получение среднего рейтинга по отзывам.
-    #     """
-    #     return get_rating_location(self)
-
-    # def low_price(self, *args, **kwargs) -> int:
-    #     """
-    #     Минимальная цена.
-    #     """
-    #     return get_low_price(self)
 
     def get_full_address_str(self) -> str:
         """

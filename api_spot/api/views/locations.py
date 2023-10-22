@@ -19,7 +19,9 @@ class LocationViewSet(RetrieveListViewSet):
     Представление подробной информации о локациях с возможностью фильтрации
     по названию, категориям, метро и избранному.
     """
-    queryset = Location.objects.all()
+    queryset = Location.objects.all().prefetch_related(
+        Prefetch('location_extra_photo')
+    )
     serializer_class = LocationGetSerializer
     permission_classes = (AllowAny,)
     pagination_class = LimitOffsetPagination
@@ -30,21 +32,15 @@ class LocationViewSet(RetrieveListViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            qs = super().get_queryset().annotate(
+            return super().get_queryset().annotate(
                 is_favorited=Count('favorites', favorites__user=user),
                 low_price=Min('spots__price__total_price'),
                 rating=Avg('spots__orders__reviews__rating'),
-            ).prefetch_related(
-                Prefetch('location_extra_photo')
             )
-        else:
-            qs = super().get_queryset().annotate(
-                low_price=Min('spots__price__total_price'),
-                rating=Avg('spots__orders__reviews__rating'),
-            ).prefetch_related(
-                Prefetch('location_extra_photo')
-            )
-        return qs
+        return super().get_queryset().annotate(
+            low_price=Min('spots__price__total_price'),
+            rating=Avg('spots__orders__reviews__rating'),
+        )
 
 
 @extend_schema(
