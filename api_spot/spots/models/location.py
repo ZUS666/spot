@@ -7,6 +7,7 @@ from spots.constants import (
     NAME_CACHE_WORKSPACE, START_CHOICES, WORK_SPACE,
 )
 from spots.services import count_spots
+
 # , get_low_price, get_rating_location
 
 

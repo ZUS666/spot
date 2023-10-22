@@ -1,4 +1,4 @@
-from django.db.models import (Avg, Count, Min, Prefetch, Value,)
+from django.db.models import Avg, Count, Min, Prefetch, Value
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters
