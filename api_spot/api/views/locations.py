@@ -18,7 +18,7 @@ class LocationViewSet(RetrieveListViewSet):
     Представление подробной информации о локациях с возможностью фильтрации
     по названию, категориям, метро и избранному.
     """
-    queryset = Location.objects.all()
+    queryset = Location.objects.all().prefetch_related('location_extra_photo')
     serializer_class = LocationGetSerializer
     permission_classes = (AllowAny,)
     pagination_class = LimitOffsetPagination
