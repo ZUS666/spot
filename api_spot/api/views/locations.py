@@ -27,7 +27,9 @@ class LocationViewSet(RetrieveListViewSet):
     search_fields = ('$name', )
 
     def get_queryset(self):
-        from django.db.models import Avg, Q, Count, Min, Prefetch, Exists, Value
+        from django.db.models import (
+            Avg, Count, Exists, Min, Prefetch, Q, Value,
+        )
         user = self.request.user
         if user.is_authenticated:
             qs = Location.objects.annotate(
