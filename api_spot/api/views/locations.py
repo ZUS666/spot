@@ -80,7 +80,7 @@ class LocationMapListAPIView(ListAPIView):
     """
     Представление краткой информации о локациях для отображения на карте.
     """
-    queryset = Location.objects.all().prefetch_related('small_main_photo')
+    queryset = Location.objects.all().select_related('small_main_photo')
     serializer_class = LocationMapSerializer
     permission_classes = (AllowAny,)
     pagination_class = LimitOffsetPagination
