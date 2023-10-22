@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'spots',
     'information',
     'api',
+
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
