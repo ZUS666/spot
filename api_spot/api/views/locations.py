@@ -1,9 +1,11 @@
+from django.db.models import (Avg, Count, Min, Prefetch, Value,)
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny
+
 
 from api.filters import LocationFilter
 from api.mixins import RetrieveListViewSet
@@ -27,45 +29,25 @@ class LocationViewSet(RetrieveListViewSet):
     search_fields = ('$name', )
 
     def get_queryset(self):
-        from django.db.models import (
-            Avg, Count, Exists, Min, Prefetch, Q, Value,
-        )
         user = self.request.user
         if user.is_authenticated:
-            qs = Location.objects.annotate(
+            qs = super().get_queryset().annotate(
                 is_favorited=Count('favorites', favorites__user=user),
                 low_price=Min('spots__price__total_price'),
                 rating=Avg('spots__orders__reviews__rating'),
-                count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
-                count_meeting_room=Count('spots', filter=Q(spots__category='Переговорная')),
             ).prefetch_related(
                 Prefetch('location_extra_photo')
             )
         else:
-            qs = Location.objects.annotate(
+            qs = super().get_queryset().annotate(
                 is_favorited=Value(False),
                 low_price=Min('spots__price__total_price'),
                 rating=Avg('spots__orders__reviews__rating'),
-                count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
-                count_meeting_room=Count('spots', filter=Q(spots__category='Переговорная')),
             ).prefetch_related(
                 Prefetch('location_extra_photo')
             )
-        
-        # qs = Location.objects.annotate(
-        #     low_price=Min('spots__price__total_price'),
-        #     rating=Avg('spots__orders__reviews__rating'),
-        #     count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
-        #     count_meeting_room=Count('spots', filter=Q(spots__category='Переговорная')),
-        # ).prefetch_related(
-        #     Prefetch('location_extra_photo')
-        # )
-        # if user.is_authenticated:
-        #     qs.annotate(is_favorited=Exists(favorites__user=user),)
-        # else:
-        #     qs.annotate(is_favorited=Value(False),)
-
         return qs
+
 
 @extend_schema(
     tags=('locations',)
@@ -83,6 +65,21 @@ class LocationShortListAPIView(ListAPIView):
     filterset_class = LocationFilter
     search_fields = ('$name', )
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return super().get_queryset().annotate(
+                is_favorited=Count('favorites', favorites__user=user),
+                low_price=Min('spots__price__total_price'),
+                rating=Avg('spots__orders__reviews__rating')
+            )
+        else:
+            return super().get_queryset().annotate(
+                is_favorited=Value(False),
+                low_price=Min('spots__price__total_price'),
+                rating=Avg('spots__orders__reviews__rating'),
+            )
+
 
 @extend_schema(
     tags=('locations',)
@@ -97,3 +94,8 @@ class LocationMapListAPIView(ListAPIView):
     pagination_class = LimitOffsetPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = LocationFilter
+
+    def get_queryset(self):
+        return super().get_queryset().annotate(
+            rating=Avg('spots__orders__reviews__rating')
+        )

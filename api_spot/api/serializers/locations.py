@@ -22,10 +22,9 @@ class LocationGetSerializer(serializers.ModelSerializer):
     low_price = serializers.DecimalField(max_digits=10, decimal_places=2)
     rating = serializers.DecimalField(max_digits=3, decimal_places=2)
     is_favorited = serializers.BooleanField()
-    count_workspace = serializers.IntegerField()
-    count_meeting_room = serializers.IntegerField()
+    # count_workspace = serializers.IntegerField()
+    # count_meeting_room = serializers.IntegerField()
     coordinates = serializers.SerializerMethodField()
-
 
     class Meta:
         model = Location

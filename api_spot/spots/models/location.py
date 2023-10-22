@@ -3,12 +3,11 @@ from django.db import models
 
 from spots.constants import (
     DAYS_CHOICES, END_CHOICES, LAT_MAX, LAT_MIN, LAT_MSG_ERROR, LONG_MAX,
-    LONG_MIN, LONG_MSG_ERROR, START_CHOICES,
+    LONG_MIN, LONG_MSG_ERROR, MEETING_ROOM, NAME_CACHE_MEETING_ROOM,
+    NAME_CACHE_WORKSPACE, START_CHOICES, WORK_SPACE,
 )
-
-
-# MEETING_ROOM, NAME_CACHE_MEETING_ROOM, NAME_CACHE_WORKSPACE,  WORK_SPACE,
-# from spots.services import count_spots, get_low_price, get_rating_location
+from spots.services import count_spots
+# , get_low_price, get_rating_location
 
 
 class Location(models.Model):
@@ -106,17 +105,17 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
-    # def count_workspace(self, *args, **kwargs) -> int:
-    #     """
-    #     Получение количества рабочих мест.
-    #     """
-    #     return count_spots(self, WORK_SPACE, NAME_CACHE_WORKSPACE)
+    def count_workspace(self, *args, **kwargs) -> int:
+        """
+        Получение количества рабочих мест.
+        """
+        return count_spots(self, WORK_SPACE, NAME_CACHE_WORKSPACE)
 
-    # def count_meeting_room(self, *args, **kwargs) -> int:
-    #     """
-    #     Получение количества переговорных.
-    #     """
-    #     return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
+    def count_meeting_room(self, *args, **kwargs) -> int:
+        """
+        Получение количества переговорных.
+        """
+        return count_spots(self, MEETING_ROOM, NAME_CACHE_MEETING_ROOM)
 
     # def rating(self, *args, **kwargs) -> float:
     #     """
