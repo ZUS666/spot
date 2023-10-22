@@ -1,8 +1,8 @@
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
-from django.shortcuts import get_object_or_404
 
 from api.filters import SpotEquipmentFilter
 from api.mixins import RetrieveListViewSet
