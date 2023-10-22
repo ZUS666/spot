@@ -8,31 +8,46 @@ from spots.models import Location
 from .extra_photo import ExtraPhotoGetSerializer
 
 
-class LocationGetSerializer(serializers.Serializer):
+class LocationGetSerializer(serializers.ModelSerializer):
     """
     Сериализатор для вывода подбробной информации о локации.
     """
-    id = serializers.IntegerField()
-    name = serializers.CharField()
-    get_full_address_str = serializers.CharField()
-    metro = serializers.CharField()
     open_time = serializers.TimeField(format=settings.TIME_FORMAT)
     close_time = serializers.TimeField(format=settings.TIME_FORMAT)
-    minprice = serializers.DecimalField(max_digits=10, decimal_places=2)
-    main_photo = serializers.ImageField()
     extra_photo = ExtraPhotoGetSerializer(
         many=True,
         read_only=True,
         source='location_extra_photo'
     )
-    rating_1 = serializers.DecimalField(max_digits=3, decimal_places=2)
-    short_annotation = serializers.CharField()
-    description = serializers.CharField()
+    low_price = serializers.DecimalField(max_digits=10, decimal_places=2)
+    rating = serializers.DecimalField(max_digits=3, decimal_places=2)
     is_favorited = serializers.BooleanField()
-    workspace = serializers.IntegerField()
-    meetings = serializers.IntegerField()
+    count_workspace = serializers.IntegerField()
+    count_meeting_room = serializers.IntegerField()
     coordinates = serializers.SerializerMethodField()
-    days_open = serializers.CharField()
+
+
+    class Meta:
+        model = Location
+        fields = (
+            'id',
+            'name',
+            'get_full_address_str',
+            'metro',
+            'open_time',
+            'close_time',
+            'low_price',
+            'main_photo',
+            'extra_photo',
+            'rating',
+            'short_annotation',
+            'description',
+            'is_favorited',
+            'count_workspace',
+            'count_meeting_room',
+            'coordinates',
+            'days_open'
+        )
 
     def get_coordinates(self, instance) -> list[Decimal]:
         """
