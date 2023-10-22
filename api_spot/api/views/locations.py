@@ -27,23 +27,41 @@ class LocationViewSet(RetrieveListViewSet):
     search_fields = ('$name', )
 
     def get_queryset(self):
-        from django.db.models import Avg, Q, Count, Min, OuterRef, Prefetch, Subquery
-        from spots.models import Favorite
-        user_id = self.request.user
-        qs = Location.objects.annotate(
-            is_favorited=Subquery(
-                Favorite.objects.filter(
-                    location=OuterRef('id'),
-                    user=user_id
-                ).values('user')
-            ),
-            low_price=Min('spots__price__total_price'),
-            rating=Avg('spots__orders__reviews__rating'),
-            count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
-            count_meeting_room=Count('spots', filter=Q(spots__category='Переговорная')),
-        ).prefetch_related(
-            Prefetch('location_extra_photo')
-        )
+        from django.db.models import Avg, Q, Count, Min, Prefetch, Exists, Value
+        user = self.request.user
+        if user.is_authenticated:
+            qs = Location.objects.annotate(
+                is_favorited=Exists(favorites__user=user),
+                low_price=Min('spots__price__total_price'),
+                rating=Avg('spots__orders__reviews__rating'),
+                count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
+                count_meeting_room=Count('spots', filter=Q(spots__category='Переговорная')),
+            ).prefetch_related(
+                Prefetch('location_extra_photo')
+            )
+        else:
+            qs = Location.objects.annotate(
+                is_favorited=Value(False),
+                low_price=Min('spots__price__total_price'),
+                rating=Avg('spots__orders__reviews__rating'),
+                count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
+                count_meeting_room=Count('spots', filter=Q(spots__category='Переговорная')),
+            ).prefetch_related(
+                Prefetch('location_extra_photo')
+            )
+        
+        # qs = Location.objects.annotate(
+        #     low_price=Min('spots__price__total_price'),
+        #     rating=Avg('spots__orders__reviews__rating'),
+        #     count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
+        #     count_meeting_room=Count('spots', filter=Q(spots__category='Переговорная')),
+        # ).prefetch_related(
+        #     Prefetch('location_extra_photo')
+        # )
+        # if user.is_authenticated:
+        #     qs.annotate(is_favorited=Exists(favorites__user=user),)
+        # else:
+        #     qs.annotate(is_favorited=Value(False),)
 
         return qs
 
