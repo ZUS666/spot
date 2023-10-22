@@ -1,11 +1,10 @@
-from django.db.models import Avg, Count, Min, Prefetch, Value
+from django.db.models import Avg, Count, Min, Prefetch
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny
-
 
 from api.filters import LocationFilter
 from api.mixins import RetrieveListViewSet
