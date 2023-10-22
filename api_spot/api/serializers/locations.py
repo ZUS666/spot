@@ -8,51 +8,31 @@ from spots.models import Location
 from .extra_photo import ExtraPhotoGetSerializer
 
 
-class LocationGetSerializer(serializers.ModelSerializer):
+class LocationGetSerializer(serializers.Serializer):
     """
     Сериализатор для вывода подбробной информации о локации.
     """
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    get_full_address_str = serializers.CharField()
+    metro = serializers.CharField()
     open_time = serializers.TimeField(format=settings.TIME_FORMAT)
     close_time = serializers.TimeField(format=settings.TIME_FORMAT)
+    minprice = serializers.DecimalField(max_digits=10, decimal_places=2)
+    main_photo = serializers.ImageField()
     extra_photo = ExtraPhotoGetSerializer(
         many=True,
         read_only=True,
         source='location_extra_photo'
     )
-    is_favorited = serializers.SerializerMethodField()
+    rating_1 = serializers.DecimalField(max_digits=3, decimal_places=2)
+    short_annotation = serializers.CharField()
+    description = serializers.CharField()
+    is_favorited = serializers.BooleanField()
+    count_workspace = serializers.IntegerField()
+    meetings = serializers.IntegerField()
     coordinates = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Location
-        fields = (
-            'id',
-            'name',
-            'get_full_address_str',
-            'metro',
-            'open_time',
-            'close_time',
-            'low_price',
-            'main_photo',
-            'extra_photo',
-            'rating',
-            'low_price',
-            'short_annotation',
-            'description',
-            'is_favorited',
-            'count_workspace',
-            'count_meeting_room',
-            'coordinates',
-            'days_open'
-        )
-
-    def get_is_favorited(self, instance, *args, **kwargs) -> bool:
-        """
-        Отображение наличия location в избранном при листинге location.
-        """
-        user = self.context['request'].user
-        if not user.is_authenticated:
-            return False
-        return instance.favorites.filter(user_id=user.id).exists()
+    days_open = serializers.CharField()
 
     def get_coordinates(self, instance) -> list[Decimal]:
         """

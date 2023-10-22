@@ -18,7 +18,7 @@ class LocationViewSet(RetrieveListViewSet):
     Представление подробной информации о локациях с возможностью фильтрации
     по названию, категориям, метро и избранному.
     """
-    queryset = Location.objects.all().prefetch_related('location_extra_photo')
+    queryset = Location.objects.all()
     serializer_class = LocationGetSerializer
     permission_classes = (AllowAny,)
     pagination_class = LimitOffsetPagination
@@ -26,6 +26,26 @@ class LocationViewSet(RetrieveListViewSet):
     filterset_class = LocationFilter
     search_fields = ('$name', )
 
+    def get_queryset(self):
+        from django.db.models import Avg, Q, Count, Min, OuterRef, Prefetch, Subquery
+        from spots.models import Favorite
+        user_id = self.request.user
+        qs = Location.objects.annotate(
+            is_favorited=Subquery(
+                Favorite.objects.filter(
+                    location=OuterRef('id'),
+                    user=user_id
+                ).values('user')
+            ),
+            minprice=Min('spots__price__total_price'),
+            rating_1=Avg('spots__orders__reviews__rating'),
+            count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
+            meetings=Count('spots', filter=Q(spots__category='Переговорная')),
+        ).prefetch_related(
+            Prefetch('location_extra_photo')
+        )
+
+        return qs
 
 @extend_schema(
     tags=('locations',)
