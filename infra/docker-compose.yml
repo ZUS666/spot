@@ -48,7 +48,6 @@ services:
 
   flower:
     image: mher/flower
-    command: ["flower", "--basic-auth="admin:admin",]
     restart: always
     expose:
       - 5555
