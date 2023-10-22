@@ -39,7 +39,7 @@ class LocationViewSet(RetrieveListViewSet):
             ),
             minprice=Min('spots__price__total_price'),
             rating_1=Avg('spots__orders__reviews__rating'),
-            count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
+            workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
             meetings=Count('spots', filter=Q(spots__category='Переговорная')),
         ).prefetch_related(
             Prefetch('location_extra_photo')

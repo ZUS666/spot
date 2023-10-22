@@ -29,7 +29,7 @@ class LocationGetSerializer(serializers.Serializer):
     short_annotation = serializers.CharField()
     description = serializers.CharField()
     is_favorited = serializers.BooleanField()
-    count_workspace = serializers.IntegerField()
+    workspace = serializers.IntegerField()
     meetings = serializers.IntegerField()
     coordinates = serializers.SerializerMethodField()
     days_open = serializers.CharField()
