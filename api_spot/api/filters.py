@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from spots.constants import CANCEL, CATEGORY_CHOICES, FINISH
+from spots.constants import CANCEL, CATEGORY_CHOICES, FINISH, NOT_PAID
 from spots.models import Location, Order, SpotEquipment
 
 
@@ -11,10 +11,10 @@ class OrderFilter(filters.FilterSet):
         label='finished',
     )
 
-    def filter_finished(self, queryset, name, value):
+    def filter_finished(self, queryset, value):
         if value and self.request.user.is_authenticated:
             return queryset.filter(status__in=[FINISH, CANCEL])
-        return queryset.exclude(status__in=[FINISH, CANCEL])
+        return queryset.exclude(status__in=[FINISH, CANCEL, NOT_PAID])
 
     class Meta:
         model = Order
@@ -27,23 +27,16 @@ class LocationFilter(filters.FilterSet):
     """
     Фильтрация локаций по названию, метро, категориям спотов и избранному.
     """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.filters['metro'].extra['choices'] = self.get_metro_choices()
-
-    def get_metro_choices(self):
-        metro_list = Location.objects.values_list(
-            'metro', flat=True
-        ).distinct()
-        return [(metro, metro) for metro in metro_list]
-
     name = filters.CharFilter(
         field_name='name',
-        lookup_expr='istartswith',
+        lookup_expr='icontains',
     )
     metro = filters.MultipleChoiceFilter(
-        choices=[]
+        choices=[
+            (i, i) for i in Location.objects.values_list(
+                'metro', flat=True).distinct()
+        ],
+        field_name='metro',
     )
     city = filters.CharFilter(
         field_name='city',
