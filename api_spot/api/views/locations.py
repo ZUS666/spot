@@ -31,7 +31,7 @@ class LocationViewSet(RetrieveListViewSet):
         user = self.request.user
         if user.is_authenticated:
             qs = Location.objects.annotate(
-                is_favorited=Exists(favorites__user=user),
+                is_favorited=Count('favorites', favorites__user=user),
                 low_price=Min('spots__price__total_price'),
                 rating=Avg('spots__orders__reviews__rating'),
                 count_workspace=Count('spots', filter=Q(spots__category='Рабочее место')),
