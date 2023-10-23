@@ -57,8 +57,7 @@ class LocationAdmin(admin.ModelAdmin):
         'latitude',
         'longitude',
     )
-    list_filter = ('street', 'house_number')
-    search_fields = ('street', 'house_number')
+    list_filter = ('street', 'metro', 'city',)
     inlines = (ImageInline, PlanPhotoInline, SmallMainPhotoInline)
 
 
