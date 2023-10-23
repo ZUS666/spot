@@ -93,6 +93,9 @@ class ReviewAdmin(admin.ModelAdmin):
         'booked_spot',
         'pub_date',
     )
+    list_filter = ('booked_spot__spot__location',)
+    search_fields = ('pub_date',)
+    search_help_text = 'Поиск по дате публикации в формате гггг-мм-дд'
     readonly_fields = ('pub_date',)
 
 
