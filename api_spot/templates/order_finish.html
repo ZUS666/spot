@@ -1,24 +1,183 @@
-{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Отзыв и оценка</title>
+  </head>
 
-{% block html_body %}
-
-<p>{% blocktrans %} Здравствуйте, {{ first_name }} {{ last_name }} {% endblocktrans %}</p>
-
-
-<p>{% blocktrans %} Вы бронировали место в нашем коворкинге {{ location_name }} {% endblocktrans %}</p>
-
-<p>{% trans "Теперь вы можете оставить отзыв и оценку." %}</p>
-
-<p>{% trans "Мы ценим обратную свзять и улучшаем наш сервис." %}</p>
-
-<p>{% blocktrans %} Адрес: {{ full_address }} {% endblocktrans %}</p>
-
-<p>{% blocktrans %} Место: {{ spot_name }} {% endblocktrans %}</p>
-
-<p>{% blocktrans %} Дата: {{ date }} {% endblocktrans %}</p>
-
-<p>{% blocktrans %} Врмея: с {{ start_time }} до {{ end_time }} {% endblocktrans %}</p>
-
-<p>{% blocktrans %} The {{ company_name }} team {% endblocktrans %}</p>
-
-{% endblock html_body %}
+  <body bgcolor="#ffffff" style="font-family: 'Onest', sans-serif">
+    <table bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="margin: 0; padding: 0" width="100%">
+      <tr>
+        <td align="center">
+          <center style="max-width: 600px; width: 100%">
+            <table
+              align="center"
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              width="100%"
+              style="margin: 0; padding: 20px; color: #000000"
+            >
+              <tbody>
+                <tr>
+                  <td style="padding: 40px 0 50px 0">
+                    <img
+                      src="https://storage.yandexcloud.net/spotit/logo/logo.png"
+                      alt="Красивое изображение"
+                      width="160"
+                      height="30"
+                      style="display: block"
+                    />
+                  </td>
+                </tr>
+                <tr style="padding-top: 80px">
+                  <td align="left" style="padding: 20px 0" colspan="2">
+                    <h1 style="width: 300px; font-size: 40px; font-weight: 400; color: #000">Отзыв и оценка</h1>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <p style="line-height: 30px; font-size: 18px; color: #000000">
+                      Здравствуйте, {{ first_name }} {{ last_name }}!
+                    </p>
+                    <p style="line-height: 30px; font-size: 18px; color: #000000">
+                      Недавно вы бронировали место в&nbsp;нашем коворкинге {{ location_name }}, теперь вы&nbsp;можете
+                      написать отзыв и&nbsp;поставить оценку этому&nbsp;коворкингу. Мы очень ценим обратную связь
+                      и&nbsp;постоянно улучшаем наш&nbsp;сервис на&nbsp;основании отзывов пользователей.
+                    </p>
+                    <h3
+                      style="
+                        font-size: 20px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 30px;
+                        text-transform: uppercase;
+                        color: #000;
+                      "
+                    >
+                      Детали бронирования
+                    </h3>
+                    <p style="margin: 0; line-height: 30px; font-size: 18px; color: #000000">
+                      <b>Адрес:</b>
+                      <span>{{ full_address }} </span>
+                    </p>
+                    <p style="margin: 0; line-height: 30px; font-size: 18px; color: #000000">
+                      <b>Место:</b>
+                      <span>{{ spot_name }}</span>
+                    </p>
+                    <p style="margin: 0; line-height: 30px; font-size: 18px; color: #000000">
+                      <b>Дата:</b>
+                      <span>{{ date }}</span>
+                    </p>
+                    <p style="margin: 0; line-height: 30px; font-size: 18px; color: #000000">
+                      <b>Время:</b>
+                      <span>с {{ start_time }} до {{ end_time }} </span>
+                    </p>
+                  </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                  <td style="padding: 30px 0 60px 0" colspan="2">
+                    <a
+                      href="https://spotit.acceleratorpracticum.ru/profile/bookings"
+                      style="
+                        color: #5869d3;
+                        border: 2px solid #5869d3;
+                        padding: 12px 20px;
+                        border-radius: 20px;
+                        font-family: 'Onest', sans-serif;
+                        font-size: 20px;
+                        font-style: normal;
+                        font-weight: 400;
+                        text-decoration: none;
+                      "
+                      target="_blank"
+                      >Оставить отзыв</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <h3
+                      style="
+                        font-size: 20px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 30px;
+                        text-transform: uppercase;
+                        color: #000;
+                      "
+                    >
+                      Связаться с нами
+                    </h3>
+                  </td>
+                </tr>
+                <tr style="padding-top: 60px" height="200" valign="top">
+                  <td width="50%">
+                    <p style="width: 200px; font-size: 16px; color: #000000">Информационное взаимодействие</p>
+                    <p>
+                      <a
+                        href="mailto:press@itcoworking.com"
+                        style="color: #5869d3; text-decoration: none"
+                        target="_blank"
+                        >press@itcoworking.com</a
+                      >
+                    </p>
+                    <div>
+                      <a href="https://www.instagram.com" style="text-decoration: none" target="_blank">
+                        <img
+                          src="https://storage.yandexcloud.net/spotit/logo/instagram.png"
+                          alt="Instagram"
+                          width="32"
+                          height="32"
+                          style="padding-right: 10px"
+                        />
+                      </a>
+                      <a href="https://www.twitter.com" style="text-decoration: none" target="_blank">
+                        <img
+                          src="https://storage.yandexcloud.net/spotit/logo/twitter.png"
+                          alt="Twitter"
+                          width="32"
+                          height="32"
+                          style="padding-right: 10px"
+                        />
+                      </a>
+                      <a href="https://www.youtube.com" style="text-decoration: none" target="_blank">
+                        <img
+                          src="https://storage.yandexcloud.net/spotit/logo/youtube.png"
+                          alt="Youtube"
+                          width="32"
+                          height="32"
+                          style="padding-right: 10px"
+                        />
+                      </a>
+                      <a href="https://www.telegram.org" style="text-decoration: none" target="_blank">
+                        <img
+                          src="https://storage.yandexcloud.net/spotit/logo/telegram.png"
+                          alt="Telegram"
+                          width="32"
+                          height="32"
+                          style="padding-right: 10px"
+                        />
+                      </a>
+                    </div>
+                  </td>
+                  <td width="50%" valign="top">
+                    <div>
+                      <p style="width: 250px; font-size: 16px; color: #000000">Предложения и остальные вопросы</p>
+                      <p>
+                        <a href="mailto:info@example.com" style="color: #5869d3; text-decoration: none" target="_blank"
+                          >info@itcoworking.com</a
+                        >
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </center>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
