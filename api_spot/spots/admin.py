@@ -65,6 +65,7 @@ class LocationAdmin(admin.ModelAdmin):
 class PriceAdmin(admin.ModelAdmin):
     list_display = ('price', 'discount', 'total_price', 'description')
     exclude = ('total_price',)
+    list_filter = ('spots__location',)
     search_fields = ('spot', )
 
 
