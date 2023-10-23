@@ -1,8 +1,23 @@
 import datetime
 
+from django.shortcuts import get_object_or_404
+from celery import shared_task
+
 from api_spot.celery import app
-from spots.constants import FINISH, PAID
-from spots.models import Order
+from spots.constants import FINISH, NOT_PAID, PAID, WAIT_PAY
+
+from .models.order import Order
+
+
+@shared_task
+def change_status_task(order_id: int) -> str:
+    """Таска изменения статуса после n секнуд."""
+    order = get_object_or_404(Order, pk=order_id)
+    if order.status != PAID and order.status == WAIT_PAY:
+        order.status = NOT_PAID
+        order.save()
+        return f'Cтатус у {order_id} изменен'
+    return f'Cтатус у {order_id} не изменен'
 
 
 @app.task
