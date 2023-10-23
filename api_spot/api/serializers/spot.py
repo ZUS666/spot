@@ -1,7 +1,6 @@
 from django.conf import settings
 from rest_framework import serializers
 
-from api.services.orders import is_ordered_spot
 from spots.models import Spot
 
 
@@ -27,7 +26,7 @@ class SpotSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='total_price'
     )
-    is_ordered = serializers.SerializerMethodField(default=False)
+    is_ordered = serializers.BooleanField()
 
     class Meta:
         """Класс мета для модели Spot."""
@@ -39,16 +38,6 @@ class SpotSerializer(serializers.ModelSerializer):
             'category',
             'is_ordered',
         )
-
-    def get_is_ordered(self, instance, *args, **kwargs) -> bool:
-        """
-        Получение булевого значение по параметрам запроса о
-        возможности бронирования.
-        """
-        date = self.context.get('date')
-        start_time = self.context.get('start_time')
-        end_time = self.context.get('end_time')
-        return is_ordered_spot(instance, date, start_time, end_time)
 
 
 class SpotDetailSerializer(serializers.ModelSerializer):
