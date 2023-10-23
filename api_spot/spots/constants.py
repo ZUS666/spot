@@ -61,8 +61,6 @@ LONG_MIN = -180
 LONG_MSG_ERROR = 'Долгота должна быть в диапазоне от -180 до 180'
 NAME_CACHE_WORKSPACE = 'workspace'
 NAME_CACHE_MEETING_ROOM = 'meeting_room'
-NAME_CACHE_RATING = 'rating'
-NAME_CACHE_LOW_PRICE = 'low_price'
 DAYS_CHOICES: tuple[str, str] = (
     ('пн-вс', 'пн-вс'),
     ('пн-сб', 'пн-сб'),
