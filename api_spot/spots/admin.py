@@ -104,7 +104,9 @@ class OrderAdmin(admin.ModelAdmin):
         'start_time', 'end_time', 'status'
     )
     exclude = ('bill',)
-    empty_value_display = '-пусто)))-'
+    list_filter = ('spot__location', 'date',)
+    search_fields = ('date',)
+    search_help_text = 'Поиск по дате в формате гггг-мм-дд'
 
 
 @admin.register(Equipment)
