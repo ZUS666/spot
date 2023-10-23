@@ -20,7 +20,7 @@ class LocationGetSerializer(serializers.ModelSerializer):
         source='location_extra_photo'
     )
     low_price = serializers.DecimalField(max_digits=10, decimal_places=2)
-    rating = serializers.DecimalField(max_digits=3, decimal_places=2)
+    rating = serializers.DecimalField(max_digits=2, decimal_places=1)
     is_favorited = serializers.BooleanField(default=False)
     coordinates = serializers.SerializerMethodField()
 
