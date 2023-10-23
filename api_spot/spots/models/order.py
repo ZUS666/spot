@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db import models
+from django.db import models, transaction
 
 import spots.constants as constants
 from spots.models.spot import Spot
@@ -88,7 +88,6 @@ class Order(models.Model):
         return super().clean()
 
     def save(self, *args, **kwargs) -> None:
-        from django.db import transaction
         from ..tasks import change_status_task
 
         self.get_bill()

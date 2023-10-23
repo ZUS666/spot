@@ -4,7 +4,8 @@ from django.shortcuts import get_object_or_404
 from celery import shared_task
 
 from api_spot.celery import app
-from spots.constants import FINISH, PAID, NOT_PAID, WAIT_PAY
+from spots.constants import FINISH, NOT_PAID, PAID, WAIT_PAY
+
 from .models.order import Order
 
 
