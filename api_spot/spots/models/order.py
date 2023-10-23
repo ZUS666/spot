@@ -1,8 +1,9 @@
 import datetime
 from decimal import Decimal
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db import models
+from django.db import models, transaction
 
 import spots.constants as constants
 from spots.models.spot import Spot
@@ -87,8 +88,16 @@ class Order(models.Model):
         return super().clean()
 
     def save(self, *args, **kwargs) -> None:
+        from ..tasks import change_status_task
+
         self.get_bill()
-        return super().save(*args, **kwargs)
+        if not self.pk:
+            super().save(*args, **kwargs)
+            transaction.on_commit(lambda: change_status_task.apply_async(
+                args=[self.pk], countdown=settings.TIME_CHANGE_STATUS
+            ))
+        else:
+            super().save(*args, **kwargs)
 
     class Meta:
         """Класс Meta для Order описание метаданных."""
@@ -97,4 +106,4 @@ class Order(models.Model):
         ordering = ('date', 'start_time')
 
     def __str__(self) -> str:
-        return f'Локация = {self.spot.location} , спот = {self.spot}'
+        return f'Локация id = {self.spot.location.id}, спот={self.spot.id}'

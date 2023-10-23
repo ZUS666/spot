@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
@@ -14,7 +13,6 @@ from api.serializers.order import (
     OrderGetSerializer, OrderSerializer, OrderUpdateSerializer,
 )
 from api.services.orders import order_cancel_email, order_confirmation_email
-from api.tasks import change_status_task
 from spots.constants import CANCEL, PAID, WAIT_PAY
 from spots.models import Order
 
@@ -38,9 +36,6 @@ class OrderViewSet(CreateUpdateViewSet):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        change_status_task.apply_async(
-            args=[instance.id], countdown=settings.TIME_CHANGE_STATUS
-        )
         order_confirmation_email(instance)
 
     def update(self, request, location_id, spot_id, pk, *args, **kwargs):
