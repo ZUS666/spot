@@ -19,7 +19,9 @@ class LocationGetSerializer(serializers.ModelSerializer):
         read_only=True,
         source='location_extra_photo'
     )
-    is_favorited = serializers.SerializerMethodField()
+    low_price = serializers.DecimalField(max_digits=10, decimal_places=2)
+    rating = serializers.DecimalField(max_digits=3, decimal_places=2)
+    is_favorited = serializers.BooleanField(default=False)
     coordinates = serializers.SerializerMethodField()
 
     class Meta:
@@ -35,7 +37,6 @@ class LocationGetSerializer(serializers.ModelSerializer):
             'main_photo',
             'extra_photo',
             'rating',
-            'low_price',
             'short_annotation',
             'description',
             'is_favorited',
@@ -44,15 +45,6 @@ class LocationGetSerializer(serializers.ModelSerializer):
             'coordinates',
             'days_open'
         )
-
-    def get_is_favorited(self, instance, *args, **kwargs) -> bool:
-        """
-        Отображение наличия location в избранном при листинге location.
-        """
-        user = self.context['request'].user
-        if not user.is_authenticated:
-            return False
-        return instance.favorites.filter(user_id=user.id).exists()
 
     def get_coordinates(self, instance) -> list[Decimal]:
         """
