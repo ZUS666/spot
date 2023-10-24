@@ -57,8 +57,7 @@ class LocationAdmin(admin.ModelAdmin):
         'latitude',
         'longitude',
     )
-    list_filter = ('street', 'house_number')
-    search_fields = ('street', 'house_number')
+    list_filter = ('street', 'metro', 'city',)
     inlines = (ImageInline, PlanPhotoInline, SmallMainPhotoInline)
 
 
@@ -66,6 +65,7 @@ class LocationAdmin(admin.ModelAdmin):
 class PriceAdmin(admin.ModelAdmin):
     list_display = ('price', 'discount', 'total_price', 'description')
     exclude = ('total_price',)
+    list_filter = ('spots__location',)
     search_fields = ('spot', )
 
 
@@ -94,6 +94,9 @@ class ReviewAdmin(admin.ModelAdmin):
         'booked_spot',
         'pub_date',
     )
+    list_filter = ('booked_spot__spot__location',)
+    search_fields = ('pub_date',)
+    search_help_text = 'Поиск по дате публикации в формате гггг-мм-дд'
     readonly_fields = ('pub_date',)
 
 
@@ -104,7 +107,9 @@ class OrderAdmin(admin.ModelAdmin):
         'start_time', 'end_time', 'status'
     )
     exclude = ('bill',)
-    empty_value_display = '-пусто)))-'
+    list_filter = ('spot__location', 'date',)
+    search_fields = ('date',)
+    search_help_text = 'Поиск по дате в формате гггг-мм-дд'
 
 
 @admin.register(Equipment)
