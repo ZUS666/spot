@@ -49,7 +49,7 @@ class Review(models.Model):
         """Класс меты для Review"""
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
-        ordering = ('id', )
+        ordering = ('-pub_date', )
 
     def __str__(self) -> str:
         return f'Отзыв {self.pk}'
