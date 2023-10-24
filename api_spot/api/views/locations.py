@@ -11,7 +11,7 @@ from api.mixins import RetrieveListViewSet
 from api.serializers import (
     LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer,
 )
-from spots.models import Location, Favorite
+from spots.models import Favorite, Location
 
 
 class LocationViewSet(RetrieveListViewSet):
