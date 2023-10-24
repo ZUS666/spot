@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django_filters',
     'djoser',
     'phonenumber_field',
+    'drf_api_logger',
     'drf_spectacular',
     'gmailapi_backend',
     'django_celery_beat',
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware',
 ]
 
 ROOT_URLCONF = 'api_spot.urls'
@@ -76,14 +78,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api_spot.wsgi.application'
 
 DATABASES = {
-    "default": {
-        "ENGINE": os.getenv('DB_ENGINE'),
-        "NAME": os.getenv('DB_NAME'),
-        "USER": os.getenv('POSTGRES_USER'),
-        "PASSWORD": os.getenv('POSTGRES_PASSWORD'),
-        "HOST": os.getenv('DB_HOST'),
-        "PORT": os.getenv('DB_PORT'),
-    }
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -114,7 +116,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = "/media/"
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -198,7 +200,7 @@ if not DEBUG:
                 'bucket_name': 'media',
                 'access_key': AWS_ACCESS_KEY_ID,
                 'secret_key': AWS_SECRET_ACCESS_KEY,
-                "region_name": AWS_S3_REGION_NAME,
+                'region_name': AWS_S3_REGION_NAME,
                 'use_ssl': AWS_S3_USE_SSL,
                 'endpoint_url': AWS_S3_ENDPOINT_URL,
             }
@@ -209,9 +211,16 @@ if not DEBUG:
                 'bucket_name': 'static',
                 'access_key': AWS_ACCESS_KEY_ID,
                 'secret_key': AWS_SECRET_ACCESS_KEY,
-                "region_name": AWS_S3_REGION_NAME,
+                'region_name': AWS_S3_REGION_NAME,
                 'use_ssl': AWS_S3_USE_SSL,
                 'endpoint_url': AWS_S3_ENDPOINT_URL,
             }
         },
     }
+
+DRF_API_LOGGER_DATABASE = True
+DRF_LOGGER_QUEUE_MAX_SIZE = 50
+DRF_LOGGER_INTERVAL = 5
+DRF_API_LOGGER_EXCLUDE_KEYS = ['password', 'token', 'refresh']
+DRF_API_LOGGER_TIMEDELTA = 5 * 60
+DRF_API_LOGGER_ENABLE_TRACING = True
