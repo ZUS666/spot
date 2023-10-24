@@ -68,7 +68,12 @@ class LocationShortListAPIView(ListAPIView):
         user = self.request.user
         if user.is_authenticated:
             return super().get_queryset().annotate(
-                is_favorited=Count('favorites', favorites__user=user),
+                is_favorited=Count(
+                    Favorite.objects.filter(
+                        user=user,
+                        location=OuterRef('id')
+                    ).values('id')
+                ),
                 low_price=Min('spots__price__total_price'),
                 rating=Avg('spots__orders__reviews__rating')
             )
