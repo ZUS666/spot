@@ -1,4 +1,4 @@
-from django.db.models import Avg, Count, Min, Prefetch
+from django.db.models import Avg, Count, Min, OuterRef, Prefetch
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import filters
@@ -11,7 +11,7 @@ from api.mixins import RetrieveListViewSet
 from api.serializers import (
     LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer,
 )
-from spots.models import Location
+from spots.models import Favorite, Location
 
 
 class LocationViewSet(RetrieveListViewSet):
@@ -33,7 +33,12 @@ class LocationViewSet(RetrieveListViewSet):
         user = self.request.user
         if user.is_authenticated:
             return super().get_queryset().annotate(
-                is_favorited=Count('favorites', favorites__user=user),
+                is_favorited=Count(
+                    Favorite.objects.filter(
+                        user=user,
+                        location=OuterRef('id')
+                    ).values('id')
+                ),
                 low_price=Min('spots__price__total_price'),
                 rating=Avg('spots__orders__reviews__rating'),
             )
