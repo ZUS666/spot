@@ -56,6 +56,8 @@ class UserMeSerializer(serializers.ModelSerializer):
     Сериализатор для получения пользователем данных о себе
     и их изменения.
     """
+    image = serializers.ImageField(read_only=True, source='avatar.image')
+
     class Meta:
         model = User
         fields = (
@@ -66,6 +68,7 @@ class UserMeSerializer(serializers.ModelSerializer):
             'phone',
             'birth_date',
             'occupation',
+            'image'
         )
         read_only_fields = ('email',)
 
