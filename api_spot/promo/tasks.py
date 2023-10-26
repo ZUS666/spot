@@ -1,5 +1,3 @@
-# from celery
-# from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.forms.models import model_to_dict
 from django.template.loader import render_to_string
