@@ -4,7 +4,6 @@ from promo.constants import MAX_PROMO_DISCOUNT
 from promo.validators import (
     MaxDiscountValidator, validate_datetime_less_present,
 )
-from promo.services import create_task_after_save_promo_email
 
 
 class Promocode(models.Model):
@@ -42,17 +41,21 @@ class EmailNews(models.Model):
     text_message = models.TextField(
         'Текст письма'
     )
-    send_datetime = models.DateTimeField(
-        'Дата и время отправки',
+    send_date = models.DateField(
+        'Дата отправки',
         validators=(validate_datetime_less_present,),
         unique=True,
     )
-    promo_code = models.ForeignKey(
+    promocode = models.ForeignKey(
         Promocode,
-        related_name='promocode',
+        related_name='promocodes',
         on_delete=models.CASCADE,
         blank=True,
         null=True,
+    )
+    is_sent = models.BooleanField(
+        'Отправлен',
+        default=False,
     )
 
     def __str__(self):
@@ -61,8 +64,4 @@ class EmailNews(models.Model):
     class Meta:
         verbose_name = 'Email'
         verbose_name_plural = 'Emails'
-        ordering = ('send_datetime',)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        create_task_after_save_promo_email(self)
+        ordering = ('send_date',)
