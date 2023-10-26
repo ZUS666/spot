@@ -120,3 +120,24 @@ class User(AbstractBaseUser, PermissionsMixin):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
+
+
+class Avatar(models.Model):
+    user = models.OneToOneField(
+        User,
+        related_name='avatar',
+        on_delete=models.CASCADE,
+    )
+    image = models.ImageField(
+        'Аватар',
+        blank=False,
+        upload_to='images/users/',
+    )
+
+    class Meta:
+        verbose_name = 'Аватар'
+        verbose_name_plural = 'Аватарки'
+        ordering = ('user',)
+
+    def __str__(self) -> str:
+        return self.user.first_name
