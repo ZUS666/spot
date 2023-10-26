@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from api.mixins import CreateUpdateDeleteViewSet
+from api.mixins import UpdateDeleteViewSet
 from api.serializers.avatar import AvatarSerializer
 from users.models import Avatar
 
@@ -12,22 +12,13 @@ from users.models import Avatar
 @extend_schema(
     tags=('avatar',)
 )
-class AvatarViewSet(CreateUpdateDeleteViewSet):
+class AvatarViewSet(UpdateDeleteViewSet):
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializer
     permission_classes = (IsAuthenticated,)
 
-    def perform_create(self, serializer):
-        serializer.save(
-            user=self.request.user,
-        )
-
     def update(self, request,):
-        print(request.user)
-        instance = get_object_or_404(
-            Avatar,
-            user=request.user,
-        )
+        instance, _ = Avatar.objects.get_or_create(user=request.user,)
         serializer = self.get_serializer(
             instance, data=request.data,
         )
@@ -42,7 +33,8 @@ class AvatarViewSet(CreateUpdateDeleteViewSet):
             Avatar,
             user=request.user,
         )
-        avatar.delete()
+        avatar.image = ''
+        avatar.save()
         return Response(
             {'message': 'Аватрка удалена'},
             status=status.HTTP_200_OK

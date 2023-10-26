@@ -130,7 +130,8 @@ class Avatar(models.Model):
     )
     image = models.ImageField(
         'Аватар',
-        blank=False,
+        blank=True,
+        null=True,
         upload_to='images/users/',
     )
 

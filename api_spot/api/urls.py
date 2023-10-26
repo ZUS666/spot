@@ -92,7 +92,7 @@ view_url = [
     path(
         'avatar',
         AvatarViewSet.as_view(
-            {'post': 'create', 'put': 'update', 'delete': 'delete'}
+            {'put': 'update', 'delete': 'delete'}
         ),
     )
 ]
