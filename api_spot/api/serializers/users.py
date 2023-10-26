@@ -56,7 +56,7 @@ class UserMeSerializer(serializers.ModelSerializer):
     Сериализатор для получения пользователем данных о себе
     и их изменения.
     """
-    image = serializers.ImageField(source='avatar.image')
+    image = serializers.ImageField(read_only=True, source='avatar.image')
 
     class Meta:
         model = User

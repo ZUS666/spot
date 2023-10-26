@@ -2,9 +2,9 @@ from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from api.mixins import CreateUpdateDeleteViewSet
-from api.permissions import IsOwnerOrReadOnly
 from api.serializers.avatar import AvatarSerializer
 from users.models import Avatar
 
@@ -15,7 +15,7 @@ from users.models import Avatar
 class AvatarViewSet(CreateUpdateDeleteViewSet):
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         serializer.save(
