@@ -16,8 +16,6 @@ router_api_v1 = DefaultRouter()
 
 router_api_v1.register(r'users', UserViewSet, basename='users')
 
-router_api_v1.register(r'avatar', AvatarViewSet, basename='avatars')
-
 router_api_v1.register(
     r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)'
     r'/order/(?P<order_id>\d+)/reviews',
@@ -90,6 +88,13 @@ view_url = [
     re_path(
         r'locations/(?P<location_id>\d+)/add_spots/',
         AddSpotsAPIView.as_view()),
+
+    path(
+        'avatar',
+        AvatarViewSet.as_view(
+            {'post': 'create', 'put': 'update', 'delete': 'delete'}
+        ),
+    )
 ]
 
 urlpatterns = [
