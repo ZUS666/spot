@@ -43,7 +43,7 @@ def create_chunk_task_send_mail(email):
 def every_day_check_today_email_task():
     email = EmailNews.objects.filter(
         send_date=timezone.now()
-    ).first()
+    ).exclude(is_sent=True).first()
     dict_email = model_to_dict(email)
     if email:
         create_chunk_task_send_mail(dict_email)
