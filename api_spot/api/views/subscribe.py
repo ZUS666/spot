@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -7,8 +6,6 @@ from rest_framework.views import APIView
 
 from api.exceptions import NotSubscribedUserError, SubscribedUserError
 from api.services.subscribe import subscribe_service
-
-User = get_user_model()
 
 
 @extend_schema(
