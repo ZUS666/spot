@@ -1,5 +1,5 @@
-import uuid
 import os
+import uuid
 
 
 def get_avatar_path(instance, filename):
