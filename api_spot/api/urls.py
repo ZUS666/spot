@@ -77,7 +77,7 @@ view_url = [
     ),
     path('short_locations/', LocationShortListAPIView.as_view()),
     path('map_locations/', LocationMapListAPIView.as_view()),
-    path('subscribe/', SubscireAPIView.as_view(), name='subscribe'),
+    path('subscribe/', SubscireAPIView.as_view(),),
     re_path(
         r'locations/(?P<location_id>\d+)/plan_photo/',
         PlanPhotoAPIView.as_view()
