@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+
+from users.models import Avatar
 
 
 User = get_user_model()
@@ -13,7 +16,7 @@ class UserAdmin(DjangoUserAdmin):
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'),
          {'fields': ('first_name', 'last_name', 'phone',
-                     'birth_date', 'occupation')}),
+                     'birth_date', 'occupation', 'is_subscribed')}),
         (
             _('Permissions'),
             {
@@ -47,3 +50,16 @@ class UserAdmin(DjangoUserAdmin):
         'email', 'birth_date', 'occupation',
     )
     ordering = ('last_name', 'first_name')
+
+
+@admin.register(Avatar)
+class AvatarAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'preview')
+    readonly_fields = ('preview', )
+
+    def preview(self, obj):
+        if obj.image:
+            return mark_safe(
+                f'<img src="{obj.image.url}" style="max-height: 300px;">'
+            )
+        return ''

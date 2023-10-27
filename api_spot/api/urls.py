@@ -2,11 +2,11 @@ from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
 from api.views import (
-    AddSpotsAPIView, EquipmentViewSet, EventViewSet, FavoriteViewSet,
-    LocationMapListAPIView, LocationShortListAPIView, LocationViewSet,
-    OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView, QuestionViewSet,
-    ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet, SpotViewSet,
-    SubscireAPIView, UserViewSet,
+    AddSpotsAPIView, AvatarViewSet, EquipmentViewSet, EventViewSet,
+    FavoriteViewSet, LocationMapListAPIView, LocationShortListAPIView,
+    LocationViewSet, OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView,
+    QuestionViewSet, ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet,
+    SpotViewSet, SubscireAPIView, UserViewSet,
 )
 
 
@@ -91,6 +91,13 @@ view_url = [
     re_path(
         r'locations/(?P<location_id>\d+)/add_spots/',
         AddSpotsAPIView.as_view()),
+
+    path(
+        'avatar',
+        AvatarViewSet.as_view(
+            {'put': 'update', 'delete': 'delete'}
+        ),
+    )
 ]
 
 urlpatterns = [

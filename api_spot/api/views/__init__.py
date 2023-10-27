@@ -1,4 +1,5 @@
 from .add_spots import AddSpotsAPIView
+from .avatar import AvatarViewSet
 from .equipment import EquipmentViewSet
 from .event import EventViewSet
 from .favorite import FavoriteViewSet
@@ -16,6 +17,7 @@ from .subscribe import SubscireAPIView
 from .users import UserViewSet
 
 
+AvatarViewSet
 AddSpotsAPIView
 EquipmentViewSet
 EventViewSet
