@@ -4,6 +4,7 @@ from celery import shared_task
 from django.shortcuts import get_object_or_404
 
 from api_spot.celery import app
+from api.services.orders import order_finished_email
 from spots.constants import FINISH, NOT_PAID, PAID, WAIT_PAY
 
 from .models.order import Order
@@ -24,9 +25,13 @@ def change_status_task(order_id: int) -> str:
 def repeat_orders_finish() -> str:
     """Периодичная задача, которая завершает заказы, которые закончились."""
     hour = int(datetime.datetime.now().time().isoformat('hours'))
-    Order.objects.filter(
+    orders = Order.objects.filter(
         date__lte=datetime.datetime.now().date(),
         end_time=datetime.time(hour),
         status=PAID
-    ).update(status=FINISH)
+    )
+    for order in orders:
+        order.status = FINISH
+        order.save()
+        order_finished_email(order)
     return "Статусы заказов, которые закончились изменены"
