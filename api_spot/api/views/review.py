@@ -40,7 +40,7 @@ class ReviewGetViewSet(RetrieveListViewSet):
     Представление для вывода отзывов по локациям.
     """
     queryset = Review.objects.select_related(
-        'booked_spot__user',
+        'booked_spot__user', 'booked_spot__user__avatar'
     ).all()
     serializer_class = ReviewGetSerializer
     permission_classes = (AllowAny,)
