@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 from phonenumber_field import modelfields
 
+from users.service import get_avatar_path
 from users.validators import NamesValidator, validate_birth_day
 
 
@@ -140,7 +141,7 @@ class Avatar(models.Model):
         'Аватар',
         blank=True,
         null=True,
-        upload_to='images/users/',
+        upload_to=get_avatar_path,
     )
 
     class Meta:

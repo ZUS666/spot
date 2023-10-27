@@ -42,11 +42,16 @@ class ReviewGetSerializer(serializers.ModelSerializer):
         source='booked_spot.user.last_name',
         read_only=True
     )
+    image = serializers.ImageField(
+        read_only=True,
+        source='booked_spot.user.avatar.image'
+    )
 
     class Meta:
         """Класс мета для модели Review."""
         model = Review
         fields = (
             'id', 'description', 'rating',
-            'first_name', 'last_name', 'pub_date'
+            'first_name', 'last_name', 'pub_date',
+            'image'
         )
