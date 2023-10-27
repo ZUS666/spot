@@ -34,3 +34,17 @@ class AddSpotsError(exceptions.ValidationError):
     default_detail = {
         'error': 'Название уже есть в локации'
     }
+
+
+class SubscribedUserError(exceptions.ValidationError):
+    default_code = 'subscribe exists'
+    default_detail = {
+        'error': 'Вы уже подписаны.'
+    }
+
+
+class NotSubscribedUserError(exceptions.ValidationError):
+    default_code = 'subscribe does not exists'
+    default_detail = {
+        'error': 'Вы не подписаны.'
+    }

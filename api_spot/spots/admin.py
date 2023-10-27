@@ -18,8 +18,19 @@ class SmallMainPhotoAdmin(admin.ModelAdmin):
         )
 
 
+@admin.register(PlanPhoto)
+class PlanPhotoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'location', 'preview')
+    readonly_fields = ('preview', )
+
+    def preview(self, obj):
+        return mark_safe(
+            f'<img src="{obj.image.url}" style="max-height: 300px;">'
+        )
+
+
 @admin.register(ExtraPhoto)
-class ImageAdmin(admin.ModelAdmin):
+class ExtraPhotoAdmin(admin.ModelAdmin):
     list_display = ('id', 'location', 'preview')
 
     def preview(self, obj):
