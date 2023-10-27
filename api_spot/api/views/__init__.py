@@ -12,6 +12,7 @@ from .question import QuestionViewSet
 from .review import ReviewCreateViewSet, ReviewGetViewSet
 from .rule import RuleViewSet
 from .spot import SpotViewSet
+from .subscribe import SubscireAPIView
 from .users import UserViewSet
 
 
@@ -31,4 +32,5 @@ ReviewCreateViewSet
 ReviewGetViewSet
 RuleViewSet
 SpotViewSet
+SubscireAPIView
 UserViewSet

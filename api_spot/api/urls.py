@@ -6,7 +6,7 @@ from api.views import (
     LocationMapListAPIView, LocationShortListAPIView, LocationViewSet,
     OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView, QuestionViewSet,
     ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet, SpotViewSet,
-    UserViewSet,
+    SubscireAPIView, UserViewSet,
 )
 
 
@@ -77,6 +77,9 @@ view_url = [
     ),
     path('short_locations/', LocationShortListAPIView.as_view()),
     path('map_locations/', LocationMapListAPIView.as_view()),
+    path('subscribe', SubscireAPIView.as_view(
+        {'post': 'post', 'delete': 'delete'}
+    )),
     re_path(
         r'locations/(?P<location_id>\d+)/plan_photo/',
         PlanPhotoAPIView.as_view()
