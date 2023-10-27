@@ -103,6 +103,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         default='',
     )
+    is_subscribed = models.BooleanField(
+        'Подписан на рассылку',
+        default=False,
+    )
+    have_orders = models.BooleanField(
+        'Имеет заказы',
+        default=False,
+    )
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'

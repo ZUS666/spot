@@ -16,4 +16,8 @@ app.conf.beat_schedule = {
         'task': 'spots.tasks.repeat_orders_finish',
         'schedule': crontab(hour='*/1', minute=1),
     },
+    'every_day_check_email': {
+        'task': 'promo.tasks.every_day_check_today_email_task',
+        'schedule': crontab(hour=15, minute=30),
+    },
 }
