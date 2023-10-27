@@ -17,13 +17,13 @@ class SubscireAPIView(APIView):
     """
     permission_classes = (IsAuthenticated,)
 
-    def post(self):
+    def post(self, request):
         subscribe_service(self, SubscribedUserError, True)
         return Response(
             {'message': 'Вы успешно подписались'}, status=status.HTTP_200_OK
         )
 
-    def delete(self):
+    def delete(self, request):
         subscribe_service(self, NotSubscribedUserError, False)
         return Response(
             {'message': 'Вы успешно отписались'}, status=status.HTTP_200_OK

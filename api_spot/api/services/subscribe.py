@@ -1,6 +1,6 @@
 def subscribe_service(self, error, bool):
     user = self.request.user
     if user.is_subscribed is bool:
-        return error
+        raise error
     user.is_subscribed = bool
-    user.save(update_fields='is_subscribed')
+    user.save(update_fields=['is_subscribed'])
