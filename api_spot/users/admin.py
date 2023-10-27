@@ -16,7 +16,7 @@ class UserAdmin(DjangoUserAdmin):
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'),
          {'fields': ('first_name', 'last_name', 'phone',
-                     'birth_date', 'occupation')}),
+                     'birth_date', 'occupation', 'is_subscribed')}),
         (
             _('Permissions'),
             {

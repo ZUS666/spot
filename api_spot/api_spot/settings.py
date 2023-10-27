@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'spots',
     'information',
     'api',
+    'promo',
 
     'django_cleanup.apps.CleanupConfig',
 ]
