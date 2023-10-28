@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'gmailapi_backend',
     'django_celery_beat',
+    'django_celery_results',
     'corsheaders',
     'ckeditor',
 
@@ -170,9 +171,11 @@ GMAIL_API_CLIENT_SECRET = os.getenv('GMAIL_API_CLIENT_SECRET')
 GMAIL_API_REFRESH_TOKEN = os.getenv('GMAIL_API_REFRESH_TOKEN')
 
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER')
+CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_TASK_TRACK_STARTED = True
+CELERY_CACHE_BACKEND = 'default'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 CACHES = {
     'default': {

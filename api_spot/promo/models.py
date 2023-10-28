@@ -1,4 +1,5 @@
-from django.db import models
+from django.db import models, transaction
+from django_celery_beat.models import PeriodicTask
 
 from promo.constants import MAX_PROMO_DISCOUNT
 from promo.validators import (
@@ -41,8 +42,8 @@ class EmailNews(models.Model):
     text_message = models.TextField(
         'Текст письма'
     )
-    send_date = models.DateField(
-        'Дата отправки',
+    send_datetime = models.DateTimeField(
+        'Дата и время отправки',
         validators=(validate_datetime_less_present,),
         unique=True,
     )
@@ -57,6 +58,12 @@ class EmailNews(models.Model):
         'Отправлен',
         default=False,
     )
+    task = models.OneToOneField(
+        PeriodicTask,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.subject_message[:20]
@@ -64,4 +71,19 @@ class EmailNews(models.Model):
     class Meta:
         verbose_name = 'Email'
         verbose_name_plural = 'Emails'
-        ordering = ('send_date',)
+        ordering = ('send_datetime',)
+
+    @transaction.atomic
+    def save(self, *args, **kwargs):
+        from promo.services import create_task_after_save_promo_email
+        if self.task:
+            self.task.delete()
+        self.is_sent = False
+        self.task = create_task_after_save_promo_email(self)
+        super().save(*args, **kwargs)
+
+    @transaction.atomic
+    def delete(self, *args, **kwargs):
+        if self.task:
+            self.task.delete()
+        super().delete(*args, **kwargs)
