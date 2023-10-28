@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from api.exceptions import OrderStatusError
 from api.permissions import IsOwnerOrReadOnly
 # from api.serializers.pay import PaySerializer
-from api.services.orders import order_finished_email
+from api.services.orders import order_confirmation_email
 from spots.constants import PAID, WAIT_PAY
 from spots.models import Order
 
@@ -47,7 +47,7 @@ class PayView(APIView):
             raise OrderStatusError
         order.status = PAID
         order.save()
-        order_finished_email(order)
+        order_confirmation_email(order)
         return Response(
             # serializer.data,
             {'message': 'Заказ оплачен'},
