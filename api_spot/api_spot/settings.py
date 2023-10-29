@@ -212,7 +212,7 @@ if not DEBUG:
             }
         },
         'staticfiles': {
-            'BACKEND': 'storages.backends.s3.S3StaticStorage',
+            'BACKEND': 'storages.backends.s3.S3Storage',
             'OPTIONS': {
                 'bucket_name': 'static',
                 'access_key': AWS_ACCESS_KEY_ID,
@@ -220,6 +220,7 @@ if not DEBUG:
                 'region_name': AWS_S3_REGION_NAME,
                 'use_ssl': AWS_S3_USE_SSL,
                 'endpoint_url': AWS_S3_ENDPOINT_URL,
+                'querystring_expire': 5 * 24 * 60 * 60,
             }
         },
     }
