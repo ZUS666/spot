@@ -3,7 +3,8 @@ from django_celery_beat.models import PeriodicTask
 
 from promo.constants import MAX_PROMO_DISCOUNT
 from promo.validators import (
-    MaxDiscountValidator, validate_datetime_less_present,
+    MaxDiscountValidator, validate_date_less_present,
+    validate_datetime_less_present,
 )
 
 
@@ -19,7 +20,7 @@ class Promocode(models.Model):
     )
     expiry_date = models.DateField(
         'Дата истечения',
-        validators=(validate_datetime_less_present,),
+        validators=(validate_date_less_present,),
     )
     balance = models.PositiveIntegerField(
         'Количество использований',
