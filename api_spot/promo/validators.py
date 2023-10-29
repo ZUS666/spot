@@ -12,3 +12,8 @@ def validate_datetime_less_present(value):
 
 class MaxDiscountValidator(MaxValueValidator):
     message = MAX_PROMO_DISCOUNT_MESSAGE
+
+
+def validate_date_less_present(value):
+    if value < timezone.now().date():
+        raise ValidationError('Значение даты не должно быть в прошлом')
