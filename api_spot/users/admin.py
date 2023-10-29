@@ -44,7 +44,9 @@ class UserAdmin(DjangoUserAdmin):
         'id', 'email', 'first_name', 'last_name',
         'phone', 'birth_date', 'occupation',
     )
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_filter = (
+        'is_staff', 'is_superuser', 'is_active', 'groups', 'is_subscribed'
+    )
     search_fields = (
         'phone', 'first_name', 'last_name',
         'email', 'birth_date', 'occupation',
