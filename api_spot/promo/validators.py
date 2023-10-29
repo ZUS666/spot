@@ -1,5 +1,3 @@
-import datetime as dt
-
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 from django.utils import timezone
@@ -17,5 +15,5 @@ class MaxDiscountValidator(MaxValueValidator):
 
 
 def validate_date_less_present(value):
-    if value <= timezone.now().date() - dt.timedelta(days=1):
+    if value < timezone.now().date():
         raise ValidationError('Значение даты не должно быть в прошлом')
