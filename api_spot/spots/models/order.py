@@ -103,7 +103,7 @@ class Order(models.Model):
         """Класс Meta для Order описание метаданных."""
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-        ordering = ('date', 'start_time')
+        ordering = ('-date', 'start_time')
 
     def __str__(self) -> str:
         return f'Локация id = {self.spot.location.id}, спот={self.spot.id}'

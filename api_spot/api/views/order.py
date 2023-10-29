@@ -12,7 +12,7 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers.order import (
     OrderGetSerializer, OrderSerializer, OrderUpdateSerializer,
 )
-from api.services.orders import order_cancel_email, order_confirmation_email
+from api.services.orders import order_cancel_email
 from spots.constants import CANCEL, PAID, WAIT_PAY
 from spots.models import Order
 
@@ -33,10 +33,6 @@ class OrderViewSet(CreateUpdateViewSet):
         if self.action == 'update':
             return OrderUpdateSerializer
         return super().get_serializer_class()
-
-    def perform_create(self, serializer):
-        instance = serializer.save()
-        order_confirmation_email(instance)
 
     def update(self, request, location_id, spot_id, pk, *args, **kwargs):
         instance = get_object_or_404(
