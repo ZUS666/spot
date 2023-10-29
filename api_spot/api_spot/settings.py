@@ -207,6 +207,8 @@ if not DEBUG:
                 'region_name': AWS_S3_REGION_NAME,
                 'use_ssl': AWS_S3_USE_SSL,
                 'endpoint_url': AWS_S3_ENDPOINT_URL,
+                'file_overwrite': False,
+                'querystring_expire': 24 * 60 * 60,
             }
         },
         'staticfiles': {
