@@ -46,10 +46,8 @@ END_CHOICES: tuple[datetime.time, datetime.time] = tuple([
 MAX_COUNT_DAYS: int = 60
 # Price
 MIN_VALUE = 1
-ZERO = 0
 MAX_DISCOUNT = 70
-MAX_DISCOUNT_MESSAGE = f'Скидка не может превышать {MAX_DISCOUNT}%'
-DISCOUNT_NEGATIVE_MESSAGE = 'Скидка не может быть меньше нуля.'
+MAX_DISCOUNT_MESSAGE = f'Скидка не может превышать {MAX_DISCOUNT}%%'
 PRICE_NEGATIVE_OR_ZERO_MESSAGE = 'Цена не может быть меньше или равна нулю.'
 
 # Location
