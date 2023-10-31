@@ -6,6 +6,7 @@ from .locations import (
     LocationGetSerializer, LocationGetShortSerializer, LocationMapSerializer,
 )
 from .plan_photo import PlanPhotoGetSerializer
+from .promocode_check import PromocodeCheckSerializer
 from .question import QuestionSerializer
 from .rule import RuleSerializer
 from .spot import SpotDetailSerializer, SpotQuerySerializer, SpotSerializer
@@ -19,6 +20,7 @@ LocationGetSerializer
 LocationGetShortSerializer
 LocationMapSerializer
 PlanPhotoGetSerializer
+PromocodeCheckSerializer
 QuestionSerializer
 RuleSerializer
 SpotDetailSerializer

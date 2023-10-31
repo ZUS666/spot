@@ -6,7 +6,7 @@ from api.views import (
     FavoriteViewSet, LocationMapListAPIView, LocationShortListAPIView,
     LocationViewSet, OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView,
     QuestionViewSet, ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet,
-    SpotViewSet, SubscireAPIView, UserViewSet,
+    SpotViewSet, SubscireAPIView, UserViewSet, PromocodeCheckAPIView,
 )
 
 
@@ -77,7 +77,8 @@ view_url = [
     ),
     path('short_locations/', LocationShortListAPIView.as_view()),
     path('map_locations/', LocationMapListAPIView.as_view()),
-    path('subscribe/', SubscireAPIView.as_view(),),
+    path('subscribe/', SubscireAPIView.as_view()),
+    path('promocode_check/', PromocodeCheckAPIView.as_view()),
     re_path(
         r'locations/(?P<location_id>\d+)/plan_photo/',
         PlanPhotoAPIView.as_view()
