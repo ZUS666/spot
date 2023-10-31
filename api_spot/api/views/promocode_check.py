@@ -12,7 +12,7 @@ from api.serializers.promocode_check import PromocodeCheckSerializer
 )
 class PromocodeCheckAPIView(CreateAPIView):
     """
-    Представление доступности проверки промокода.
+    Представление проверки доступности промокода.
     """
     serializer_class = PromocodeCheckSerializer
     permission_classes = (IsAuthenticated,)
