@@ -12,4 +12,4 @@ def promocode_available_check(value):
         if promocode.expiry_date < timezone.now().date():
             raise ValidationError('Срок годности промокода истек.')
     else:
-        ValidationError('Промокода не существует')
+        raise ValidationError('Промокода не существует')
