@@ -59,7 +59,3 @@ class Spot(models.Model):
     def save(self, *args, **kwargs):
         delete_location_cache_in_spot(self.location_id)
         return super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        delete_location_cache_in_spot(self.location_id)
-        return super().delete(*args, **kwargs)
