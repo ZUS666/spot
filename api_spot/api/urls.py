@@ -5,8 +5,8 @@ from api.views import (
     AddSpotsAPIView, AvatarViewSet, EquipmentViewSet, EventViewSet,
     FavoriteViewSet, LocationMapListAPIView, LocationShortListAPIView,
     LocationViewSet, OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView,
-    QuestionViewSet, ReviewCreateViewSet, ReviewGetViewSet, RuleViewSet,
-    SpotViewSet, SubscireAPIView, UserViewSet, PromocodeCheckAPIView,
+    PromocodeCheckAPIView, QuestionViewSet, ReviewCreateViewSet,
+    ReviewGetViewSet, RuleViewSet, SpotViewSet, SubscireAPIView, UserViewSet,
 )
 
 
