@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from api.exceptions import AddSpotsError
 from api.serializers import AddSpotsSerializer
 from spots.models import Location, Spot, SpotEquipment
+from spots.services import delete_location_cache_in_spot
 
 
 @extend_schema(
@@ -56,6 +57,7 @@ class AddSpotsAPIView(CreateAPIView):
             ) for sp in new_spots for eq in equipments
         ]
         SpotEquipment.objects.bulk_create(bulk2)
+        delete_location_cache_in_spot(location_id)
         return Response(
             {'count_created_spots': len(new_spots)},
             status=status.HTTP_201_CREATED
