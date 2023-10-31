@@ -212,7 +212,7 @@ if not DEBUG:
             }
         },
         'staticfiles': {
-            'BACKEND': 'storages.backends.s3.S3Storage',
+            'BACKEND': 'storages.backends.s3.S3StaticStorage',
             'OPTIONS': {
                 'bucket_name': 'static',
                 'access_key': AWS_ACCESS_KEY_ID,
