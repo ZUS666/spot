@@ -75,10 +75,14 @@ view_url = [
         r'/order/(?P<order_id>\d+)/pay/',
         PayView.as_view(), name='pay'
     ),
+    re_path(
+        r'locations/(?P<location_id>\d+)/spots/(?P<spot_id>\d+)'
+        r'/order/(?P<order_id>\d+)/check_promocode/',
+        PromocodeCheckAPIView.as_view(), name='check_promocode'
+    ),
     path('short_locations/', LocationShortListAPIView.as_view()),
     path('map_locations/', LocationMapListAPIView.as_view()),
     path('subscribe/', SubscireAPIView.as_view()),
-    path('promocode_check/', PromocodeCheckAPIView.as_view()),
     re_path(
         r'locations/(?P<location_id>\d+)/plan_photo/',
         PlanPhotoAPIView.as_view()

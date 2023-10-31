@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from promo.models import EmailNews, Promocode
+from promo.models import EmailNews, Promocode, PromocodeUser
 
 
 @admin.register(Promocode)
@@ -11,7 +11,19 @@ class PromcodeAdmin(admin.ModelAdmin):
         'percent_discount',
         'expiry_date',
         'balance',
+        'only_category',
+        'one_off',
     )
+
+
+@admin.register(PromocodeUser)
+class PromocodeUserAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'user',
+        'promocode',
+    )
+    list_filter = ('promocode',)
 
 
 @admin.register(EmailNews)
