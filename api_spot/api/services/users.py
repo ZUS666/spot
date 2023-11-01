@@ -138,7 +138,7 @@ def reset_password_service(validated_data):
         raise ConfirmationCodeInvalidError
     user.set_password(password)
     user.save(update_fields=['password'])
-    token = Token.objects.filter(user=user).exists()
+    token = Token.objects.filter(user=user).first()
     if token:
         token.delete()
     cache.delete(user.id)
