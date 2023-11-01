@@ -115,9 +115,10 @@ class ReviewAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
         'pk', 'spot', 'user', 'date',
-        'start_time', 'end_time', 'status'
+        'start_time', 'end_time', 'status',
+        'bill'
     )
-    exclude = ('bill',)
+    readonly_fields = ('bill',)
     list_filter = ('spot__location', 'date',)
     search_fields = ('date',)
     search_help_text = 'Поиск по дате в формате гггг-мм-дд'
