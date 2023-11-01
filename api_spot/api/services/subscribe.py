@@ -1,5 +1,4 @@
-def subscribe_service(self, error, bool):
-    user = self.request.user
+def subscribe_service(user, error, bool):
     if user.is_subscribed is bool:
         raise error
     user.is_subscribed = bool
