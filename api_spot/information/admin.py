@@ -22,6 +22,7 @@ class QuestionAdmin(admin.ModelAdmin):
         'question',
     )
     list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(Rule)
@@ -32,3 +33,4 @@ class RuleAdmin(admin.ModelAdmin):
         'text'
     )
     list_per_page = 15
+    list_max_show_all = 30

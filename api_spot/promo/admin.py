@@ -15,6 +15,7 @@ class PromcodeAdmin(admin.ModelAdmin):
         'one_off',
     )
     list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(PromocodeUser)
@@ -26,6 +27,7 @@ class PromocodeUserAdmin(admin.ModelAdmin):
     )
     list_filter = ('promocode',)
     list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(EmailNews)
@@ -41,6 +43,7 @@ class EmailNewsAdmin(admin.ModelAdmin):
     exclude = ('is_sent',)
     readonly_fields = ('task',)
     list_per_page = 15
+    list_max_show_all = 30
 
     def delete_queryset(self, request, queryset):
         for obj in queryset:

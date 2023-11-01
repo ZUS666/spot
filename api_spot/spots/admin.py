@@ -103,6 +103,7 @@ class SpotAdmin(admin.ModelAdmin):
     list_filter = ('location', 'category',)
     inlines = (SpotEquipmentInline,)
     list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(Review)
@@ -117,6 +118,7 @@ class ReviewAdmin(admin.ModelAdmin):
     search_help_text = 'Поиск по дате публикации в формате гггг-мм-дд'
     readonly_fields = ('pub_date',)
     list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(Order)
@@ -131,9 +133,11 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ('date',)
     search_help_text = 'Поиск по дате в формате гггг-мм-дд'
     list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', )
     list_per_page = 15
+    list_max_show_all = 30
