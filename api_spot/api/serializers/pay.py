@@ -3,7 +3,7 @@ from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 
 from api.serializers import PromocodeCheckSerializer
-from api.fields import GetOrderPay
+from api.fields import GetOrder, GetOrderPay
 
 
 class PaySerializer(serializers.Serializer):
@@ -26,9 +26,11 @@ class PaySerializer(serializers.Serializer):
     )
     email = serializers.EmailField()
     phone = PhoneNumberField(region='RU')
-    promo = PromocodeCheckSerializer(required=False)
 
 
 class PaySimpleSerializer(serializers.Serializer):
-    """Сериадизатор для оплаты."""
-    promo = PromocodeCheckSerializer(required=False,)
+    """Сериадизатор для оплаты с промокодом."""
+    promocode = PromocodeCheckSerializer(required=False,)
+    order = serializers.HiddenField(
+        default=GetOrder()
+    )

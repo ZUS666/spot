@@ -1,6 +1,5 @@
 import decimal
 
-from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
@@ -12,7 +11,6 @@ from api.serializers.pay import PaySimpleSerializer
 # from api.serializers.pay import PaySerializer
 from api.services.orders import order_confirmation_email
 from spots.constants import PAID, WAIT_PAY
-from spots.models import Order
 
 
 @extend_schema(
@@ -32,24 +30,28 @@ class PayView(UpdateAPIView):
         """Метод patch, для оплачивания заказа."""
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        # order = serializer.validated_data.get('order')
-        order = get_object_or_404(
-            Order,
-            id=int(kwargs['order_id']),
-            spot=int(kwargs['spot_id']),
-            spot__location=int(kwargs['location_id'])
-        )
+        order = serializer.validated_data.get('order')
+        # order = get_object_or_404(
+        #     Order,
+        #     id=int(kwargs['order_id']),
+        #     spot=int(kwargs['spot_id']),
+        #     spot__location=int(kwargs['location_id'])
+        # )
         self.check_object_permissions(request, order)
         if order.status != WAIT_PAY:
             raise OrderStatusError
-        print(order.bill)
+
         if serializer.validated_data:
-            promocode = serializer.validated_data.get('promo').get('promocode')
+            promocode = serializer.validated_data.get(
+                'promocode'
+            ).get('promocode')
             order.bill *= decimal.Decimal(
                 ((100 - promocode.percent_discount) / 100),
             )
             order.bill = order.bill.quantize(decimal.Decimal("1.00"))
-        print(order.bill)
+            promocode.balance -= 1
+            promocode.save()
+
         order.status = PAID
         order.save()
         order_confirmation_email(order)
