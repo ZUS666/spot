@@ -9,6 +9,7 @@ from .locations import (
 from .order import OrderGetViewSet, OrderViewSet
 from .pay import PayView
 from .plan_photo import PlanPhotoAPIView
+from .promocode_check import PromocodeCheckAPIView
 from .question import QuestionViewSet
 from .review import ReviewCreateViewSet, ReviewGetViewSet
 from .rule import RuleViewSet
@@ -29,6 +30,7 @@ OrderGetViewSet
 OrderViewSet
 PayView
 PlanPhotoAPIView
+PromocodeCheckAPIView
 QuestionViewSet
 ReviewCreateViewSet
 ReviewGetViewSet

@@ -108,10 +108,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         'Подписан на рассылку',
         default=False,
     )
-    have_orders = models.BooleanField(
-        'Имеет заказы',
-        default=False,
-    )
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
