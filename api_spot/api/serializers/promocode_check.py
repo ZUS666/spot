@@ -6,7 +6,7 @@ from api.fields import GetSpot
 
 class PromocodeCheckSerializer(serializers.Serializer):
     promocode = serializers.CharField(max_length=64)
-    order = serializers.HiddenField(
+    spot = serializers.HiddenField(
         default=GetSpot()
     )
     user = serializers.HiddenField(
@@ -15,7 +15,7 @@ class PromocodeCheckSerializer(serializers.Serializer):
 
     def validate(self, data, *args, **kwargs):
         promocode_name = data.get('promocode')
-        spot = data.get('order')
+        spot = data.get('spot')
         user = data.get('user')
         promocode = promocode_available_check(promocode_name, spot, user)
         data['promocode'] = promocode
