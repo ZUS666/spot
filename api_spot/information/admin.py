@@ -12,6 +12,7 @@ class EventAdmin(admin.ModelAdmin):
         'meeting_quantity',
         'url',
     )
+    list_per_page = 15
 
 
 @admin.register(Question)
@@ -20,6 +21,7 @@ class QuestionAdmin(admin.ModelAdmin):
         'id',
         'question',
     )
+    list_per_page = 15
 
 
 @admin.register(Rule)
@@ -29,3 +31,4 @@ class RuleAdmin(admin.ModelAdmin):
         'title',
         'text'
     )
+    list_per_page = 15

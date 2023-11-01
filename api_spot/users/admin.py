@@ -52,12 +52,14 @@ class UserAdmin(DjangoUserAdmin):
         'email', 'birth_date', 'occupation',
     )
     ordering = ('last_name', 'first_name')
+    list_per_page = 15
 
 
 @admin.register(Avatar)
 class AvatarAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'preview')
     readonly_fields = ('preview', )
+    list_per_page = 15
 
     def preview(self, obj):
         if obj.image:
