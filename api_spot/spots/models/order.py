@@ -89,9 +89,8 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs) -> None:
         from ..tasks import change_status_task
-
-        self.get_bill()
         if not self.pk:
+            self.get_bill()
             super().save(*args, **kwargs)
             transaction.on_commit(lambda: change_status_task.apply_async(
                 args=[self.pk], countdown=settings.TIME_CHANGE_STATUS

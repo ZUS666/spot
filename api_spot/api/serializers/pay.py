@@ -2,6 +2,8 @@ from django.core.validators import RegexValidator
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 
+from api.serializers import PromocodeCheckSerializer
+from api.services.promocode_check import promocode_available_check
 from api.fields import GetOrderPay
 
 
@@ -25,3 +27,18 @@ class PaySerializer(serializers.Serializer):
     )
     email = serializers.EmailField()
     phone = PhoneNumberField(region='RU')
+
+
+class PaySimpleSerializer(PromocodeCheckSerializer):
+    """Сериадизатор для оплаты с промокодом."""
+    promocode = serializers.CharField(max_length=64, required=False,)
+
+    def validate(self, data, *args, **kwargs):
+        promocode_name = data.get('promocode')
+        if not promocode_name:
+            return data
+        order = data.get('order')
+        user = data.get('user')
+        promocode = promocode_available_check(promocode_name, order.spot, user)
+        data['promocode'] = promocode
+        return data

@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
 from api.services.promocode_check import promocode_available_check
-from api.fields import GetSpot
+from api.fields import GetOrder
 
 
 class PromocodeCheckSerializer(serializers.Serializer):
     promocode = serializers.CharField(max_length=64)
     order = serializers.HiddenField(
-        default=GetSpot()
+        default=GetOrder()
     )
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
@@ -15,8 +15,8 @@ class PromocodeCheckSerializer(serializers.Serializer):
 
     def validate(self, data, *args, **kwargs):
         promocode_name = data.get('promocode')
-        spot = data.get('order')
+        order = data.get('order')
         user = data.get('user')
-        promocode = promocode_available_check(promocode_name, spot, user)
+        promocode = promocode_available_check(promocode_name, order.spot, user)
         data['promocode'] = promocode
         return data
