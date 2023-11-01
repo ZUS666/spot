@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models, transaction
 from django_celery_beat.models import PeriodicTask
 
@@ -6,6 +7,10 @@ from promo.validators import (
     MaxDiscountValidator, validate_date_less_present,
     validate_datetime_less_present,
 )
+from spots.constants import CATEGORY_CHOICES
+
+
+User = get_user_model()
 
 
 class Promocode(models.Model):
@@ -25,6 +30,22 @@ class Promocode(models.Model):
     balance = models.PositiveIntegerField(
         'Количество использований',
     )
+    only_category = models.CharField(
+        'Только для категории',
+        choices=CATEGORY_CHOICES,
+        blank=True,
+        null=True,
+    )
+    one_off = models.BooleanField(
+        'Однократное использование пользователем',
+        default=True,
+    )
+    used_user = models.ManyToManyField(
+        User,
+        related_name='promocode',
+        verbose_name='Оборудование',
+        through='PromocodeUser',
+    )
 
     def __str__(self):
         return self.name
@@ -33,6 +54,29 @@ class Promocode(models.Model):
         verbose_name = 'Промокод'
         verbose_name_plural = 'Промокоды'
         ordering = ('expiry_date',)
+
+
+class PromocodeUser(models.Model):
+    user = models.ForeignKey(
+        User,
+        related_name='promocode_user',
+        on_delete=models.CASCADE,
+    )
+    promocode = models.ForeignKey(
+        Promocode,
+        related_name='promocode_user',
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = 'Пользователь-промокод'
+        verbose_name_plural = 'Пользователи-промокоды'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('user', 'promocode'),
+                name='unique_user_promocode',
+            ),
+        )
 
 
 class EmailNews(models.Model):
