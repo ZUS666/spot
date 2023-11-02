@@ -130,7 +130,7 @@ $ pip install --user pipenv
 * Проверить установку
 ```
 $ pipenv --version
-pipenv, version 2018.11.26
+pipenv, version 2023.10.24
 ```
 * Перейти в папку api_spot и активировать pipenv
 ```
