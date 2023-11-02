@@ -11,6 +11,7 @@ from spots.models import (
 class SmallMainPhotoAdmin(admin.ModelAdmin):
     list_display = ('id', 'location', 'preview')
     readonly_fields = ('preview', )
+    list_per_page = 5
 
     def preview(self, obj):
         return mark_safe(
@@ -22,6 +23,7 @@ class SmallMainPhotoAdmin(admin.ModelAdmin):
 class PlanPhotoAdmin(admin.ModelAdmin):
     list_display = ('id', 'location', 'preview')
     readonly_fields = ('preview', )
+    list_per_page = 5
 
     def preview(self, obj):
         return mark_safe(
@@ -32,6 +34,7 @@ class PlanPhotoAdmin(admin.ModelAdmin):
 @admin.register(ExtraPhoto)
 class ExtraPhotoAdmin(admin.ModelAdmin):
     list_display = ('id', 'location', 'preview')
+    list_per_page = 10
 
     def preview(self, obj):
         return mark_safe(
@@ -70,6 +73,7 @@ class LocationAdmin(admin.ModelAdmin):
     )
     list_filter = ('street', 'metro', 'city',)
     inlines = (ImageInline, PlanPhotoInline, SmallMainPhotoInline)
+    list_per_page = 10
 
 
 @admin.register(Price)
@@ -78,11 +82,13 @@ class PriceAdmin(admin.ModelAdmin):
     exclude = ('total_price',)
     list_filter = ('spots__location',)
     search_fields = ('spot', )
+    list_per_page = 10
 
 
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'location')
+    list_per_page = 10
 
 
 class SpotEquipmentInline(admin.TabularInline):
@@ -96,6 +102,8 @@ class SpotAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'location', 'category', 'price')
     list_filter = ('location', 'category',)
     inlines = (SpotEquipmentInline,)
+    list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(Review)
@@ -109,6 +117,8 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ('pub_date',)
     search_help_text = 'Поиск по дате публикации в формате гггг-мм-дд'
     readonly_fields = ('pub_date',)
+    list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(Order)
@@ -122,8 +132,12 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ('spot__location', 'date',)
     search_fields = ('date',)
     search_help_text = 'Поиск по дате в формате гггг-мм-дд'
+    list_per_page = 15
+    list_max_show_all = 30
 
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', )
+    list_per_page = 15
+    list_max_show_all = 30
