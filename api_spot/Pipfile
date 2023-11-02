@@ -1,0 +1,34 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+boto3 = "==1.28.66"
+celery = {extras = ["redis"], version = "==5.3.4"}
+django = "==4.2.5"
+django-celery-beat = "==2.5.0"
+django-cors-headers = "==3.8.0"
+django-filter = "==23.2"
+django-gmailapi-backend = "==0.3.2"
+django-phonenumber-field = {extras = ["phonenumberslite"], version = "==7.1.0"}
+django-cleanup = "==8.0.0"
+django-ckeditor = "==6.7.0"
+djangorestframework = "==3.14.0"
+django-storages = "==1.14.2"
+djoser = "==2.2.0"
+drf-api-logger = "==1.1.14"
+drf-spectacular = "==0.26.4"
+flower = "==2.0.1"
+gunicorn = "==21.2.0"
+phonenumbers = "==8.13.20"
+pillow = "==10.0.1"
+psycopg2-binary = "==2.9.7"
+python-dotenv = "==1.0.0"
+django-celery-results = "==2.5.1"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
+python_full_version = "3.11.0"
