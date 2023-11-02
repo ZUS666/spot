@@ -75,7 +75,7 @@
 
 Создать файл .env
 ```
-sudo nano .env
+touch .env
 ```
 Заполнить по аналогии с .env.example
 
