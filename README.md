@@ -2,6 +2,36 @@
 
 [![api_spot](https://github.com/ZUS666/spot/actions/workflows/api_spot.yml/badge.svg)](https://github.com/ZUS666/spot/actions/workflows/api_spot.yml)
 
+
+<details>
+  <summary>Оглавление</summary>
+  <ol>
+    <li>
+      <a href="#Описание">Описание</a>
+      <ul>
+        <li><a href="#Используемые-технологии">Используемые технологии</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#API-документация">API-документация</a>
+    </li>
+    <li>
+      <a href="#API-документация">Переменные окружения (.env)</a>
+    </li>
+    <li>
+      <a href="#Запуск-проекта">Запуск проекта</a>
+    </li>
+    <li>
+      <a href="#Запуск-проекта-на-локальной машине-Linux">Запуск проекта на локальной машине Linux</a>
+    </li>
+    <li>
+      <a href="#Авторы">Авторы</a>
+    </li>
+  </ol>
+</details>
+
+
+
 ## Описание
 
 [Cайт](https://spotit.acceleratorpracticum.ru/)
@@ -27,8 +57,27 @@
 * users: модель пользователя;
 * information: модели вопросов, ивентов, правил;
 
+
+## Используемые технологии
+
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
+![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Celery](https://a11ybadges.com/badge?logo=celery)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+
+
 ## [API-документация](https://spotit.acceleratorpracticum.ru/api/docs/)
 
+## Переменные окружения (.env)
+
+Создать файл .env
+```
+touch .env
+```
+Заполнить по аналогии с .env.example
 
 ## Запуск проекта
 * Установите docker
@@ -80,12 +129,19 @@ pip install -r requirements.txt
 sudo apt update
 sudo apt install redis
 ```
-* Запустить сервер терминале `redis-server`
+* Запустить сервер в терминале `redis-server`
 * В другом терминале(2) перейти в папку `api_spot` и запустить celery
 ```
 cd api_spot
 python -m celery -A api_spot worker
 ```
+
+* В другом терминале(3) перейти в папку `api_spot` и запустить celery_beat
+```
+cd api_spot
+python -m celery -A api_spot beat
+```
+
 * В первом терминале запустить сервер Django + cделать миграции
 ```
 python manage.py createsuperuser
@@ -103,16 +159,7 @@ celery -A api_spot flower --port=5001
 * в Postman тестировать api
 
 
-## Используемые технологии
 
-- ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-- ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
-- ![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)
-- ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-- ![Celery](https://a11ybadges.com/badge?logo=celery)
-- ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-- ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-- flower
 
 ## Авторы:
 
