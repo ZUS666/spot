@@ -116,7 +116,7 @@ docker compose exec web python manage.py collectstatic --noinput
 ## Запуск проекта на локальной машине Linux
 
 * Создать виртуальное окружение и активировать его
-* Установить зависимости 
+* Установить зависимости
 ```
 sudo apt install python3.10-venv
 python3 -m vevn venv
@@ -171,7 +171,7 @@ python manage.py runserver
 celery -A api_spot flower --port=5001
 ```
 
-* Для заполнения или обновления базы данных исползовать https://localhost/admin 
+* Для заполнения или обновления базы данных исползовать https://localhost/admin
 * в Postman тестировать api
 
 
