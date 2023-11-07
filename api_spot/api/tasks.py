@@ -9,7 +9,10 @@ def send_mail_task(user_email, subject, template, add_dict=None):
     """
     Формирует и отправляет эл. письмо.
     """
-    data = {'company_name': settings.COMPANY_NAME}
+    data = {
+        'site_url': settings.SITE_URL,
+        'logo_url': settings.LOGO_URL,
+    }
     if add_dict:
         data = {**add_dict, **data}
     html_body = render_to_string(template, data)
