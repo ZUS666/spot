@@ -116,13 +116,29 @@ docker compose exec web python manage.py collectstatic --noinput
 ## Запуск проекта на локальной машине Linux
 
 * Создать виртуальное окружение и активировать его
-* Установить зависимости 
+* Установить зависимости
 ```
 sudo apt install python3.10-venv
 python3 -m vevn venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+* Или установить [pipenv](https://pipenv.pypa.io/en/latest/) и работать в нем
+```
+$ pip install --user pipenv
+```
+* Проверить установку
+```
+$ pipenv --version
+pipenv, version 2023.10.24
+```
+* Перейти в папку api_spot и активировать pipenv
+```
+cd api_spot
+pipenv sync
+pipenv shell
+```
+
 
 * Установите Redis в качестве брокера Celery и серверной части базы данных
 ```
@@ -155,7 +171,7 @@ python manage.py runserver
 celery -A api_spot flower --port=5001
 ```
 
-* Для заполнения или обновления базы данных исползовать https://localhost/admin 
+* Для заполнения или обновления базы данных исползовать https://localhost/admin
 * в Postman тестировать api
 
 
