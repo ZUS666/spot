@@ -162,7 +162,8 @@ TIMEOUT_CACHED_COUNTER = 24 * 60 * 60
 TIME_CHANGE_STATUS = 60 * 10
 LEN_CONFIRMATION_CODE = 6
 
-COMPANY_NAME = os.getenv('COMPANY_NAME')
+SITE_URL = os.getenv('SITE_URL')
+LOGO_URL = os.getenv('AWS_S3_ENDPOINT_URL')
 
 EMAIL_BACKEND = 'gmailapi_backend.mail.GmailBackend'
 

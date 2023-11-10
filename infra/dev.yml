@@ -19,6 +19,7 @@ services:
     volumes:
       - static_value:/app/static
       - media_value:/app/media
+      - app_value:/app
     depends_on:
       - db
     env_file:
@@ -34,6 +35,8 @@ services:
       context: ../api_spot
     command: celery -A api_spot worker --loglevel=info
     restart: always
+    volumes:
+      - app_value:/app
     depends_on:
       - backend
       - redis
@@ -45,6 +48,8 @@ services:
         context: ../api_spot
       command: celery -A api_spot beat --loglevel=info
       restart: always
+      volumes:
+      - app_value:/app
       depends_on:
         - backend
         - redis
@@ -86,3 +91,4 @@ volumes:
   media_value:
   postgres_data:
   frontend:
+  app_value:
