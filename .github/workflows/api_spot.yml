@@ -100,7 +100,7 @@ jobs:
             echo GMAIL_API_CLIENT_ID=${{ secrets.GMAIL_API_CLIENT_ID }} >> .env
             echo GMAIL_API_CLIENT_SECRET=${{ secrets.GMAIL_API_CLIENT_SECRET }} >> .env
             echo GMAIL_API_REFRESH_TOKEN=${{ secrets.GMAIL_API_REFRESH_TOKEN }} >> .env
-            echo COMPANY_NAME=${{ secrets.COMPANY_NAME }} >> .env
+            echo SITE_URL=${{ secrets.SITE_URL }} >> .env
 
             echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> .env
             echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env

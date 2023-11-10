@@ -1,24 +1,7 @@
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-
+from api.tasks import send_mail_task
 from api_spot.celery import app
 from promo.models import EmailNews
 from promo.services import get_list_emails
-
-
-@app.task
-def send_mail_news(user_email, subject, template, context):
-    """
-    Формирует и отправляет эл. письмо.
-    """
-    html_body = render_to_string(template, context)
-    msg = EmailMultiAlternatives(
-        subject=subject,
-        to=[user_email]
-    )
-    msg.attach_alternative(html_body, 'text/html')
-    msg.send()
-    return f'email {subject} sent to {user_email}'
 
 
 @app.task
@@ -28,7 +11,7 @@ def create_chunk_task_send_mail(subject_message, template, context):
     """
     emails = get_list_emails()
     chunk = [(email, subject_message, template, context) for email in emails]
-    task = send_mail_news.chunks((chunk), 5).apply_async()
+    task = send_mail_task.chunks((chunk), 5).apply_async()
     change_email_status.delay(subject_message)
     return task.ready()
 
