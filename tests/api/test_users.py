@@ -5,7 +5,7 @@ from django.core.cache import cache
 from rest_framework import status
 
 
-@pytest.mark.django_db(transaction=True)
+@pytest.mark.django_db
 class TestUserRegistration:
     """
     Тесты регистрации пользователя.
@@ -94,10 +94,13 @@ class TestUserRegistration:
         assert first_user.is_active is True
 
 
-@pytest.mark.django_db(transaction=True)
+@pytest.mark.django_db
 class TestUserActions:
     url_change_password = '/api/v1/users/change_password/'
     url_me = '/api/v1/users/me/'
+    url_reset_password_code = '/api/v1/users/reset_password_confirmation_code/'
+    url_resend_password_code = '/api/v1/users/resend_confirmation_code/'
+    url_reset_password = '/api/v1/users/reset_password/'
 
     def test_user_change_password(
         self,
@@ -229,3 +232,42 @@ class TestUserActions:
                 f'{self.url_me} {response.status_code}'
                 f'{response.json()[key]} != {value}'
             )
+
+    def test_reset_password(self, unauthed_client, full_data_user):
+        data = {'email': full_data_user.email}
+        response = unauthed_client.post(
+            self.url_reset_password_code, data=data
+        )
+        assert response.status_code == status.HTTP_200_OK, (
+            f'{self.url_reset_password_code} {response.status_code}'
+            f'with exists user.email'
+        )
+        code = cache.get(full_data_user.id)
+        valid_data = {
+            'email': full_data_user.email,
+            'confirmation_code': code,
+            'password': 'string!!!',
+            're_password': 'string!!!'
+        }
+        invalid_data_fields = (
+            ('email', 'invalid@fake.com', status.HTTP_400_BAD_REQUEST),
+            ('confirmation_code', '123321', status.HTTP_400_BAD_REQUEST),
+            ('password', 'string!!!!', status.HTTP_400_BAD_REQUEST),
+        )
+        for field, value, status_code in invalid_data_fields:
+            invalid_data = valid_data.copy()
+            invalid_data[field] = value
+            response = unauthed_client.post(
+                self.url_reset_password, data=invalid_data
+            )
+            assert response.status_code == status_code, (
+                f'{self.url_reset_password} {response.status_code}'
+                f'{field}:{value} expected {status_code}'
+            )
+        response = unauthed_client.post(
+            self.url_reset_password, data=valid_data
+        )
+        assert response.status_code == status.HTTP_200_OK, (
+            f'{self.url_reset_password} {response.status_code} '
+            f'with valid data {valid_data}'
+        )

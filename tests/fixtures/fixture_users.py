@@ -28,6 +28,7 @@ def full_data_user(django_user_model):
         phone='+79220011223',
         birth_date=datetime.date(2000, 2, 2),
         occupation='string',
+        is_active=True,
     )
 
 
