@@ -7,6 +7,9 @@ from rest_framework import status
 
 @pytest.mark.django_db(transaction=True)
 class TestUserRegistration:
+    """
+    Тесты регистрации пользователя.
+    """
     url_signup = '/api/v1/users/'
     url_activation = '/api/v1/users/activation/'
     url_resend_confirmation_code = '/api/v1/users/resend_confirmation_code/'
@@ -19,6 +22,9 @@ class TestUserRegistration:
     }
 
     def test_invalid_data_signup(self, unauthed_client):
+        """
+        Тесты регистрации с невалидными данными.
+        """
         invalid_data_fields = (
             ('email', 'asd',),
             ('first_name', 'a1',),
@@ -32,7 +38,8 @@ class TestUserRegistration:
             invalid_data[field] = value
             response = unauthed_client.post(self.url_signup, data=invalid_data)
             assert response.status_code == status.HTTP_400_BAD_REQUEST, (
-                'status 400 for invalid data'
+                f'{self.url_signup} {response.status_code}'
+                f'with {field} {value}'
             )
 
     def test_valid_data_signup(self, unauthed_client, django_user_model):
@@ -42,14 +49,16 @@ class TestUserRegistration:
         assert django_user_model.objects.count() == 0
         response = unauthed_client.post(self.url_signup, data=self.data)
         assert response.status_code == status.HTTP_201_CREATED, (
-            'status 201 registration user'
+            f'{self.url_signup} {response.status_code}'
+            f'with data:{self.data}'
         )
         assert django_user_model.objects.count() == 1
         first_user = django_user_model.objects.get(id=1)
         assert first_user.is_active is False
         response = unauthed_client.post(self.url_signup, data=self.data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST, (
-            'status 400 user exists'
+            f'{self.url_signup} {response.status_code}'
+            'with exists email'
         )
         data_resend = {
             'email': self.data['email']
@@ -59,7 +68,8 @@ class TestUserRegistration:
             data=data_resend,
         )
         assert response.status_code == status.HTTP_200_OK, (
-            'status 200 on resend code'
+            f'{self.url_signup} {response.status_code}'
+            'resend code to user.is_active=False'
         )
         confirmation_code = cache.get(first_user.id)
         activation_data = (
@@ -76,8 +86,9 @@ class TestUserRegistration:
             }
             response = unauthed_client.post(self.url_activation, data=data)
             assert response.status_code == status_code, (
-                f'activation with data {email} {confirmation_code}'
-                f'{status_code}'
+                f'{self.url_signup} {response.status_code}'
+                f'{email} {confirmation_code}'
+                f'expected status code = {status_code}'
             )
         first_user.refresh_from_db()
         assert first_user.is_active is True
@@ -95,7 +106,8 @@ class TestUserActions:
     ):
         response = unauthed_client.post(self.url_change_password)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, (
-            f'{self.url_change_password} only for authed user'
+            f'{self.url_change_password} {response.status_code}'
+            f'unauthed_client expected status = 401'
         )
         response = authed_user_client.post(self.url_change_password)
         assert response.status_code == status.HTTP_400_BAD_REQUEST, (
@@ -214,5 +226,6 @@ class TestUserActions:
         response = authed_user_client.get(self.url_me)
         for key, value in data.items():
             assert response.json()[key] == value, (
+                f'{self.url_me} {response.status_code}'
                 f'{response.json()[key]} != {value}'
             )
