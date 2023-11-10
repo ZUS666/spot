@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from django.core.cache import cache
 from rest_framework import status
@@ -124,7 +126,6 @@ class TestUserActions:
     def test_users_get_me(
         self,
         full_data_user_client,
-        full_data_user,
         unauthed_client
     ):
         response = unauthed_client.get(self.url_me)
@@ -146,4 +147,72 @@ class TestUserActions:
         for key, value in expected_data.items():
             assert response_data[key] == value, (
                 f'{key} {response_data[key]} not equal {value}'
+            )
+
+    def test_users_patch_me(
+        self,
+        authed_user_client,
+        unauthed_client
+    ):
+        response = unauthed_client.patch(self.url_me)
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED, (
+            f'{self.url_me} only for auth user {response.status_code}'
+        )
+        data = {
+            'first_name': 'new-first-name',
+            'last_name': 'new-last-name',
+            'phone': '+79223344556',
+            'birth_date': '2002-02-02',
+            'occupation': 'string'
+        }
+        request_data = {
+            'first_name': data['first_name'],
+            'last_name': data['last_name'],
+        }
+        response = authed_user_client.patch(self.url_me, data=request_data)
+        assert response.status_code == status.HTTP_200_OK, (
+            f'{self.url_me} change names status {response.status_code}'
+        )
+        assert response.json()['first_name'] == data['first_name'], (
+            'updated first_name not equal'
+        )
+        assert response.json()['last_name'] == data['last_name'], (
+            'updated last_name not equal'
+        )
+        phones_change_data = (
+            (data['phone'], status.HTTP_200_OK),
+            ('string', status.HTTP_400_BAD_REQUEST),
+            ('+79221100111123', status.HTTP_400_BAD_REQUEST),
+            ('79221100111', status.HTTP_400_BAD_REQUEST),
+            ('3125151', status.HTTP_400_BAD_REQUEST),
+        )
+        for phone, status_code in phones_change_data:
+            request_data = {'phone': phone}
+            response = authed_user_client.patch(self.url_me, data=request_data)
+            assert response.status_code == status_code, (
+                f'patch{self.url_me} with {phone} {response.status_code}'
+            )
+        future_date = datetime.date.today() + datetime.timedelta(days=1)
+        birth_day_change_data = (
+            (data['birth_date'], status.HTTP_200_OK),
+            (future_date, status.HTTP_400_BAD_REQUEST),
+            ('2000-13-02', status.HTTP_400_BAD_REQUEST),
+            ('2000-01-32', status.HTTP_400_BAD_REQUEST),
+            ('2000.01.01', status.HTTP_400_BAD_REQUEST),
+            ('2000', status.HTTP_400_BAD_REQUEST),
+            ('01.2000.01', status.HTTP_400_BAD_REQUEST),
+        )
+        for birth_date, status_code in birth_day_change_data:
+            request_data = {'birth_date': birth_date}
+            response = authed_user_client.patch(self.url_me, data=request_data)
+            assert response.status_code == status_code, (
+                f'patch{self.url_me} with {birth_date} {response.status_code}'
+            )
+        request_data = {'occupation': 'string'}
+        response = authed_user_client.patch(self.url_me, data=request_data)
+        assert response.status_code == status.HTTP_200_OK
+        response = authed_user_client.get(self.url_me)
+        for key, value in data.items():
+            assert response.json()[key] == value, (
+                f'{response.json()[key]} != {value}'
             )
