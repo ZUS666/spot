@@ -5,7 +5,7 @@ from django.core.cache import cache
 from rest_framework import status
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 class TestUserRegistration:
     """
     Тесты регистрации пользователя.
@@ -42,7 +42,13 @@ class TestUserRegistration:
                 f'with {field} {value}'
             )
 
-    def test_valid_data_signup(self, unauthed_client, django_user_model):
+    def test_valid_data_signup(
+        self,
+        unauthed_client,
+        django_user_model,
+        celery_worker,
+        mailoutbox,
+    ):
         """
         Тестирование регистрации пользователя.
         """
@@ -53,7 +59,7 @@ class TestUserRegistration:
             f'with data:{self.data}'
         )
         assert django_user_model.objects.count() == 1
-        first_user = django_user_model.objects.get(id=1)
+        first_user = django_user_model.objects.first()
         assert first_user.is_active is False
         response = unauthed_client.post(self.url_signup, data=self.data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST, (
@@ -72,6 +78,10 @@ class TestUserRegistration:
             'resend code to user.is_active=False'
         )
         confirmation_code = cache.get(first_user.id)
+        email_text = mailoutbox[-1].alternatives[0][0]
+        assert str(confirmation_code) in email_text, (
+            'confirmation_code not found in email'
+        )
         activation_data = (
             ('example@mail.com', confirmation_code,
              status.HTTP_400_BAD_REQUEST),
@@ -233,7 +243,11 @@ class TestUserActions:
                 f'{response.json()[key]} != {value}'
             )
 
-    def test_reset_password(self, unauthed_client, full_data_user):
+    def test_reset_password(
+        self,
+        unauthed_client,
+        full_data_user,
+    ):
         data = {'email': full_data_user.email}
         response = unauthed_client.post(
             self.url_reset_password_code, data=data
