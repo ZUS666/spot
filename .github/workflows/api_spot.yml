@@ -109,10 +109,10 @@ jobs:
 
             cd infra
 
-            sudo docker-compose stop
-            sudo docker-compose rm backend
-            sudo docker-compose rm celery
-            sudo docker-compose rm celery_beat
+            sudo docker compose stop
+            sudo docker compose rm backend
+            sudo docker compose rm celery
+            sudo docker compose rm celery_beat
 
-            sudo docker-compose up -d
-            sudo docker-compose exec -d backend python manage.py migrate
+            sudo docker compose up -d
+            sudo docker compose exec -d backend python manage.py migrate
