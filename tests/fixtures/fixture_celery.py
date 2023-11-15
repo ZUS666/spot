@@ -2,7 +2,7 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
-def use_dummy_cache_backend(settings, redis_proc):
+def use_redis_cache_backend(settings, redis_proc):
     settings.CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.redis.RedisCache',
