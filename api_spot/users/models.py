@@ -13,6 +13,7 @@ class MyUserManager(BaseUserManager):
     """
     Кастомный менеджер для модели User
     """
+
     def _create_user(self, email, password, **extra_fields):
         """
         Создает и сохраняет юзера с почтой, телефоном, и паролем
@@ -111,7 +112,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
 
     objects = MyUserManager()
 
