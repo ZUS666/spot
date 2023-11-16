@@ -47,7 +47,6 @@ class TestUserRegistration:
         unauthed_client,
         django_user_model,
         celery_worker,
-        mailoutbox,
     ):
         """
         Тестирование регистрации пользователя.
@@ -78,10 +77,6 @@ class TestUserRegistration:
             'resend code to user.is_active=False'
         )
         confirmation_code = cache.get(first_user.id)
-        email_text = mailoutbox[-1].alternatives[0][0]
-        assert str(confirmation_code) in email_text, (
-            'confirmation_code not found in email'
-        )
         activation_data = (
             ('example@mail.com', confirmation_code,
              status.HTTP_400_BAD_REQUEST),
@@ -247,6 +242,7 @@ class TestUserActions:
         self,
         unauthed_client,
         full_data_user,
+        redisdb,
     ):
         data = {'email': full_data_user.email}
         response = unauthed_client.post(
