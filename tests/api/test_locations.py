@@ -11,7 +11,14 @@ class TestLocations:
     url_map_locations = '/api/v1/map_locations/'
     url_short_locations = '/api/v1/short_locations/'
 
-    def test_get_locations(self, unauthed_client, location, spots, prices):
+    def test_get_locations(
+        self,
+        redisdb,
+        unauthed_client,
+        location,
+        spots,
+        prices
+    ):
         response = unauthed_client.get(self.url_locations)
         print(response.json())
         assert response.status_code == status.HTTP_200_OK
