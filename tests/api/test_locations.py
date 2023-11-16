@@ -20,7 +20,6 @@ class TestLocations:
         prices
     ):
         response = unauthed_client.get(self.url_locations)
-        print(response.json())
         assert response.status_code == status.HTTP_200_OK
         low_price = min(prices, key=lambda i: i.total_price).total_price
         address = (f'г. {location.city}, {location.street}, '
