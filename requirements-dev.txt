@@ -27,3 +27,11 @@ pytest-redis==3.0.2
 pytest-celery==0.0.0
 python-dotenv==1.0.0
 model-bakery==1.17.0
+# pre-commit
+pre-commit==3.5.0
+# api analyze
+kolo==2.15.1
+# codestyle
+flake8==6.1.0
+flake8-isort==6.1.0
+isort==5.12.0
