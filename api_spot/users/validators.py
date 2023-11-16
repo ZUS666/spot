@@ -5,7 +5,7 @@ from django.core.validators import RegexValidator
 from django.utils.deconstruct import deconstructible
 
 
-def validate_birth_day(value):
+def validate_birth_day(value: date) -> None:
     if date.today() < value:
         raise ValidationError('Не валидная дата рождения')
 
