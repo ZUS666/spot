@@ -10,7 +10,7 @@ django-phonenumber-field[phonenumberslite]==7.1.0
 django-cleanup==8.0.0
 django-ckeditor==6.7.0
 djangorestframework==3.14.0
-django-storages==1.14.2
+django-storages[s3]==1.14.2
 djoser==2.2.0
 drf-api-logger==1.1.14
 drf-spectacular==0.26.4
