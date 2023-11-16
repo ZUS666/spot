@@ -17,7 +17,9 @@ class MyUserManager(BaseUserManager):
     """
 
     def _create_user(
-        self, email: str, password: str,
+        self,
+        email: str,
+        password: str,
         **extra_fields: Any
     ) -> AbstractBaseUser:
         """

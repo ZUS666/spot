@@ -12,8 +12,9 @@ def validate_birth_day(value: date) -> None:
 
 @deconstructible
 class NamesValidator(RegexValidator):
-    regex = r'^[\bА-яа-яёЁA-Za-z][А-яа-яёЁA-Za-z .\'-]*[\bА-яа-яёЁA-Za-z]$'
-    message = (
+    regex: str = (
+        r'^[\bА-яа-яёЁA-Za-z][А-яа-яёЁA-Za-z .\'-]*[\bА-яа-яёЁA-Za-z]$'
+    )
+    message: str = (
         'Может содержать только буквы, дефисы, точки.'
     )
-    flags = 0
