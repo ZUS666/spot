@@ -1,10 +1,6 @@
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
-
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -129,7 +125,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CSRF_TRUSTED_ORIGINS = (
     'http://localhost',
-    'https://' + os.getenv('ALLOWED_HOSTS')
+    'https://' + os.getenv('ALLOWED_HOSTS', 'host')
 )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
