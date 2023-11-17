@@ -68,14 +68,14 @@ class Order(models.Model):
         return self.bill
 
     @property
-    def date_finish(self) -> datetime:
+    def date_finish(self) -> datetime.datetime:
         """Свойство , возращает datetime конца брони."""
         return datetime.datetime.strptime(
             f'{self.date} {self.end_time}', '%Y-%m-%d %H:%M:%S'
         )
 
     def validate_unique(self, *args, **kwargs):
-        super(Order, self).validate_unique(*args, **kwargs)
+        super().validate_unique(*args, **kwargs)
         check_spot_order(self)
 
     def clean(self) -> None:

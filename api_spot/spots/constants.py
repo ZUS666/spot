@@ -17,7 +17,7 @@ PAID: str = 'Оплачено'
 FINISH: str = 'Завершен'
 CANCEL: str = 'Отменен'
 NOT_PAID: str = 'Не оплачено'
-ORDER_STATUS_CHOICES: tuple[str, str] = (
+ORDER_STATUS_CHOICES: tuple[tuple[str, str], ...] = (
     (WAIT_PAY, WAIT_PAY),
     (NOT_PAID, NOT_PAID),
     (PAID, PAID),
@@ -25,14 +25,14 @@ ORDER_STATUS_CHOICES: tuple[str, str] = (
     (CANCEL, CANCEL)
 )
 MINUTES: str = 'minutes'
-START_CHOICES: tuple[datetime.time, datetime.time] = tuple([
+START_CHOICES: tuple[tuple[datetime.time, str], ...] = tuple(
     (
         datetime.time(x),
         datetime.time(x).isoformat(MINUTES)
     )
     for x in range(0, 24)
-])
-END_CHOICES: tuple[datetime.time, datetime.time] = tuple([
+)
+END_CHOICES: tuple[tuple[datetime.time, str], ...] = tuple(
     (
         datetime.time(x),
         datetime.time(x - 1, 55).isoformat(MINUTES)
@@ -42,7 +42,7 @@ END_CHOICES: tuple[datetime.time, datetime.time] = tuple([
         datetime.time(23, 55).isoformat(MINUTES)
     )
     for x in range(1, 25)
-])
+)
 MAX_COUNT_DAYS: int = 60
 # Price
 MIN_VALUE = 1
@@ -59,7 +59,7 @@ LONG_MIN = -180
 LONG_MSG_ERROR = 'Долгота должна быть в диапазоне от -180 до 180'
 NAME_CACHE_WORKSPACE = 'workspace'
 NAME_CACHE_MEETING_ROOM = 'meeting_room'
-DAYS_CHOICES: tuple[str, str] = (
+DAYS_CHOICES: tuple[tuple[str, str], ...] = (
     ('Пн-Вс', 'Пн-Вс'),
     ('Пн-Сб', 'Пн-Сб'),
     ('Пн-Пт', 'Пн-Пт'),
