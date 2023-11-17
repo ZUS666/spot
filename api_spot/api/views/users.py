@@ -118,9 +118,7 @@ class UserViewSet(CreateDestroyViewSet):
         """
         Получение пользователем информации информацию о себе.
         """
-        email = request.user.email
-        user = User.objects.get(email=email)
-        serializer = self.get_serializer(user)
+        serializer = self.get_serializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @me.mapping.patch

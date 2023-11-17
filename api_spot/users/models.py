@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
@@ -13,7 +15,13 @@ class MyUserManager(BaseUserManager):
     """
     Кастомный менеджер для модели User
     """
-    def _create_user(self, email, password, **extra_fields):
+
+    def _create_user(
+        self,
+        email: str,
+        password: str,
+        **extra_fields: Any
+    ) -> AbstractBaseUser:
         """
         Создает и сохраняет юзера с почтой, телефоном, и паролем
         """
@@ -25,7 +33,12 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password, **extra_fields):
+    def create_user(
+        self,
+        email: str,
+        password: str,
+        **extra_fields: Any
+    ) -> AbstractBaseUser:
         """
         Создает юзера
         """
@@ -37,7 +50,12 @@ class MyUserManager(BaseUserManager):
             **extra_fields
         )
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(
+        self,
+        email: str,
+        password: str,
+        **extra_fields: Any
+    ) -> AbstractBaseUser:
         """
         Создает суперюзера
         """
@@ -111,18 +129,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
 
     objects = MyUserManager()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.email
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
-    def clean(self):
+    def clean(self) -> None:
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
