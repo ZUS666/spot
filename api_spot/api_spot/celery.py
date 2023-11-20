@@ -4,10 +4,13 @@ from celery import Celery
 from celery.schedules import crontab
 
 
-app_name = "api_spot"
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"{app_name}.settings")
+app_name = 'api_spot'
 app = Celery(app_name, broker=os.getenv('CELERY_BROKER'))
-app.config_from_object("django.conf:settings", namespace="CELERY")
+if os.getenv('DEBUG'):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{app_name}.locconf')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{app_name}.settings')
+app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 
