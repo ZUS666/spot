@@ -17,6 +17,9 @@ from users.models import Avatar
     tags=('avatar',)
 )
 class UserAvatarViewSet(CreateDestroyViewSet):
+    """
+    Представление добавления/изменения и удаления аватара пользователя.
+    """
     queryset = Avatar.objects.all()
     serializer_class = UserAvatarInputSerializer
     parser_classes = (FormParser, MultiPartParser)

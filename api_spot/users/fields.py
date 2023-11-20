@@ -9,6 +9,11 @@ from PIL import Image, ImageOps
 
 
 class CompressedImageFieldFile(ImageFieldFile):
+    """
+    Кастомное сохрание для поля изображения с сжатием
+    до определенного качества.
+    """
+
     def save(self, name: str, content: File, save: bool = True) -> None:
         image = Image.open(content)
         image = image.convert('RGB')
@@ -22,6 +27,10 @@ class CompressedImageFieldFile(ImageFieldFile):
 
 
 class CompressedImageField(models.ImageField):
+    """
+    Класс кастомного поля изображения, с указанием до какого
+    значение сжимать изображение.
+    """
     attr_class = CompressedImageFieldFile
 
     def __init__(

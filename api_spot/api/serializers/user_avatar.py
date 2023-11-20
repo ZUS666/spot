@@ -4,6 +4,9 @@ from users.models import Avatar
 
 
 class UserAvatarInputSerializer(serializers.Serializer):
+    """
+    Сериализатор добавления/изменения аватара пользователя.
+    """
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
@@ -11,6 +14,9 @@ class UserAvatarInputSerializer(serializers.Serializer):
 
 
 class UserAvatarOutputSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор вывода аватара при сохранении.
+    """
     image = serializers.ImageField()
 
     class Meta:
