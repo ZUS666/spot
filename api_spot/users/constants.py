@@ -1,0 +1,1 @@
+AVATAR_QUALITY: int = 70

@@ -6,7 +6,8 @@ from api.views import (
     FavoriteViewSet, LocationMapListAPIView, LocationShortListAPIView,
     LocationViewSet, OrderGetViewSet, OrderViewSet, PayView, PlanPhotoAPIView,
     PromocodeCheckAPIView, QuestionViewSet, ReviewCreateViewSet,
-    ReviewGetViewSet, RuleViewSet, SpotViewSet, SubscireAPIView, UserViewSet,
+    ReviewGetViewSet, RuleViewSet, SpotViewSet, SubscireAPIView,
+    UserAvatarViewSet, UserViewSet,
 )
 
 
@@ -66,7 +67,7 @@ router_api_v1.register(
 router_api_v1.register(
     r'rules',
     RuleViewSet,
-    basename='rules'
+    basename='rules',
 )
 
 view_url = [
@@ -94,13 +95,18 @@ view_url = [
     re_path(
         r'locations/(?P<location_id>\d+)/add_spots/',
         AddSpotsAPIView.as_view()),
-
     path(
         'avatar',
         AvatarViewSet.as_view(
             {'put': 'update', 'delete': 'delete'}
         ),
-    )
+    ),
+    path(
+        'user_avatar/',
+        UserAvatarViewSet.as_view(
+            {'post': 'post', 'delete': 'delete'}
+        ),
+    ),
 ]
 
 urlpatterns = [
