@@ -7,6 +7,8 @@ from django.db import models
 from django.utils import timezone
 from phonenumber_field import modelfields
 
+from users.constants import AVATAR_QUALITY
+from users.fields import CompressedImageField
 from users.service import get_avatar_path
 from users.validators import NamesValidator, validate_birth_day
 
@@ -150,10 +152,11 @@ class Avatar(models.Model):
         related_name='avatar',
         on_delete=models.CASCADE,
     )
-    image = models.ImageField(
+    image = CompressedImageField(
         'Аватар',
         blank=True,
         null=True,
+        quality=AVATAR_QUALITY,
         upload_to=get_avatar_path,
     )
 

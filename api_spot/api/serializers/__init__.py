@@ -10,6 +10,7 @@ from .promocode_check import PromocodeCheckSerializer
 from .question import QuestionSerializer
 from .rule import RuleSerializer
 from .spot import SpotDetailSerializer, SpotQuerySerializer, SpotSerializer
+from .user_avatar import UserAvatarInputSerializer, UserAvatarOutputSerializer
 
 
 AddSpotsSerializer
@@ -26,3 +27,5 @@ RuleSerializer
 SpotDetailSerializer
 SpotQuerySerializer
 SpotSerializer
+UserAvatarInputSerializer
+UserAvatarOutputSerializer

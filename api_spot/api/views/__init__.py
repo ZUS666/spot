@@ -15,6 +15,7 @@ from .review import ReviewCreateViewSet, ReviewGetViewSet
 from .rule import RuleViewSet
 from .spot import SpotViewSet
 from .subscribe import SubscireAPIView
+from .user_avatar import UserAvatarViewSet
 from .users import UserViewSet
 
 
@@ -37,4 +38,5 @@ ReviewGetViewSet
 RuleViewSet
 SpotViewSet
 SubscireAPIView
+UserAvatarViewSet
 UserViewSet
