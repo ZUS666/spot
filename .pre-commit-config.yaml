@@ -38,8 +38,8 @@ repos:
     rev: 6.0.0
     hooks:
     -   id: flake8
-        exclude: "__init__.py"
-        args: ["--ignore=F821,F403,F405"]
+        exclude: 'migrations'
+        args: [--config, setup.cfg]
 
 # Проверка статических типов с помощью mypy
 -   repo: https://github.com/pre-commit/mirrors-mypy
